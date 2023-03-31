@@ -7,42 +7,36 @@ import { useNavigate } from "react-router-dom";
 import { CurrentUserContext } from "../CurrentUserContext";
 import { useContext } from "react";
 import { useEffect } from "react";
+import EmailSignUp from "./EmailSignUp";
+import PhoneSignUp from "./PhoneSignUp";
 
 const SignUp = () => {
-  const [emailStatus, setEmailStatus] = useState(true);
-  const [mobileStatus, setMobileStatus] = useState(false);
-  const [emailFormData, setemailFormData] = useState("");
-  const [mobileFormData, setMobileFormData] = useState("");
-  const [checkEmail, setCheckEmail] = useState(true);
-  const [checkPassword, setCheckPassword] = useState(true);
+  const [emailStatus, setEmailStatus] = useState(true);//control the panel to switch signup method;
+  const [mobileStatus, setMobileStatus] = useState(false);//control the panel to switch signup method;
+  const [emailFormData, setemailFormData] = useState("");// collect data from email form
+  const [mobileFormData, setMobileFormData] = useState("");// collect data from phone form
+  const [checkEmail, setCheckEmail] = useState(true);// check email input is filled or not
+  const [checkPassword, setCheckPassword] = useState(true);//same as above
   const [checkPasswordConfirmation, setCheckPasswordConfirmation] =
-    useState(true);
-  const [checkmobileNumber, setCheckmobileNumber] = useState(true);
-  const [checkUserExist, setCheckUserExist]=useState("");
-  const {currentUser}=useContext(CurrentUserContext);
+    useState(true);//same as above
+  const [checkmobileNumber, setCheckmobileNumber] = useState(true);//same as above
+  const [checkUserExist, setCheckUserExist] = useState("");//check the whether user is already in database
+  const { currentUser } = useContext(CurrentUserContext); //get user info
 
   const location = useLocation();
-  const userId = location.pathname.slice(8);
-  const UserReferralCode = location.pathname.slice(8, 16);
-  const navigate=useNavigate();
-  
+  const userId = location.pathname.slice(8);//set userId that generate from uuid in Header page
+  const UserReferralCode = location.pathname.slice(8, 16);//set refferal code of the user
+  const navigate = useNavigate();
+
   const handleEmail = () => {
     setEmailStatus(true);
     setMobileStatus(false);
-  };
+  };//switch between email signup and phone signup
 
   const handleMobile = () => {
     setEmailStatus(false);
     setMobileStatus(true);
-  };
-
-  const handleCheckEmail = () => {
-    if (emailFormData.email && emailFormData.email.indexOf("@") > -1) {
-      setCheckEmail(true);
-    } else {
-      setCheckEmail(false);
-    }
-  };
+  };//switch between email signup and phone signup
 
   const handleCheckPassword = (password) => {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/;
@@ -52,7 +46,7 @@ const SignUp = () => {
     } else {
       setCheckPassword(false);
     }
-  };
+  };//check password meets requirement
 
   const handleConfirmPassword = (password, passwordConfirmation) => {
     if (password && passwordConfirmation && password === passwordConfirmation) {
@@ -60,17 +54,7 @@ const SignUp = () => {
     } else {
       setCheckPasswordConfirmation(false);
     }
-  };
-
-  const handleCheckMobile = (mobileNumber) => {
-    const regex = /^\d{8,16}$/;
-    const mobileNumberFlag = regex.test(mobileNumber);
-    if (mobileNumber && mobileNumberFlag) {
-      setCheckmobileNumber(true);
-    } else {
-      setCheckmobileNumber(false);
-    }
-  };
+  };//confirm two password inputs are the same
 
   const handleChange = (key, value) => {
     if (emailStatus) {
@@ -85,7 +69,7 @@ const SignUp = () => {
         [key]: value,
       });
     }
-  };
+  };//collect user input data
 
   const submitEnable =
     (checkEmail &&
@@ -95,7 +79,7 @@ const SignUp = () => {
     (checkmobileNumber &&
       checkPassword &&
       checkPasswordConfirmation &&
-      mobileFormData.agreeTerms);
+      mobileFormData.agreeTerms);//submit button will disabled unless these requirement fits
 
   const userData = {
     _id: userId,
@@ -105,10 +89,10 @@ const SignUp = () => {
     password: emailFormData.password
       ? emailFormData.password
       : mobileFormData.password,
-      referralCodeUsed: emailFormData.referralCodeUsed
+    referralCodeUsed: emailFormData.referralCodeUsed
       ? emailFormData.referralCodeUsed
       : mobileFormData.referralCodeUsed,
-  };
+  };//prepare user's data and send to backend
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -122,23 +106,22 @@ const SignUp = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status==200) {
-        sessionStorage.setItem("userId",data.data.insertedId);
-        navigate(`/userverify/${data.data.insertedId}`)}
-        if (data.status==403) {
-          setCheckUserExist(data.status)
+        if (data.status == 200) {
+          sessionStorage.setItem("userId", data.data.insertedId);
+          navigate(`/userverify/${data.data.insertedId}`);
         }
-       })
+        if (data.status == 403) {
+          setCheckUserExist(data.status);
+        }
+      })
       .catch((err) => console.log(err));
-  };
+  };//post user's data to the backend. If get 200 code, store userId to the session and navigate to verify page. If get 403, remind user that this user already exist
 
-  useEffect(()=>{
-    if (currentUser){
-    navigate(`/`)}
-  })
-
-  
-  
+  useEffect(() => {
+    if (currentUser) {
+      navigate(`/`);
+    }
+  });// if get 200 code, let this new signup user login, and this signup page won't show again(navigate to home page)
 
   return (
     <>
@@ -175,7 +158,7 @@ const SignUp = () => {
               onClick={() => {
                 handleEmail();
                 setMobileFormData("");
-              }}
+              }} /*switch to email signup */
               className={emailStatus && "active"}
             >
               Email
@@ -184,7 +167,7 @@ const SignUp = () => {
               onClick={() => {
                 handleMobile();
                 setemailFormData("");
-              }}
+              }}/*switch to phone signup */
               className={mobileStatus && "active"}
             >
               Mobile Number
@@ -192,129 +175,32 @@ const SignUp = () => {
           </ButtonWapper>
           <Form onSubmit={handleSubmit}>
             {emailStatus && (
-              <InputWapper>
-                <Input
-                  type={"text"}
-                  id="email"
-                  placeholder="Email"
-                  required
-                  onChange={(e) => handleChange(e.target.id, e.target.value)}
-                  onBlur={handleCheckEmail}
-                  onFocus={()=>setCheckEmail(true)}
-                />
-                {!checkEmail && emailFormData.email && (
-                  <Warning>Please check your email format</Warning>
-                )}
-                <Input
-                  type={"password"}
-                  id="password"
-                  placeholder="Password"
-                  required
-                  onChange={(e) => handleChange(e.target.id, e.target.value)}
-                  onBlur={() => handleCheckPassword(emailFormData.password)}
-                  onFocus={()=>setCheckPassword(true)}
-                />
-                {!checkPassword && emailFormData.password && (
-                  <Warning>
-                    Password should contains 8-16 characters, at least 1
-                    uppercase and 1 lowercase character!
-                  </Warning>
-                )}
-                <Input
-                  type={"password"}
-                  id="passwordConfirmation"
-                  placeholder="Confirm Password"
-                  required
-                  onChange={(e) => handleChange(e.target.id, e.target.value)}
-                  onBlur={() =>
-                    handleConfirmPassword(
-                      emailFormData.password,
-                      emailFormData.passwordConfirmation
-                    )
-                  }
-                  onFocus={()=>setCheckPasswordConfirmation(true)}
-                />
-                {!checkPasswordConfirmation &&
-                  emailFormData.passwordConfirmation && (
-                    <Warning>
-                      Two passwords do not match, please re-enter!
-                    </Warning>
-                  )}
-                <Input
-                  type={"text"}
-                  id="referralCodeUsed"
-                  placeholder="Referral Code (Optional)"
-                  onChange={(e) => handleChange(e.target.id, e.target.value)}
-                />
-              </InputWapper>
+              <EmailSignUp
+                handleChange={handleChange}
+                setCheckEmail={setCheckEmail}
+                checkEmail={checkEmail}
+                emailFormData={emailFormData}
+                handleCheckPassword={handleCheckPassword}
+                checkPassword={checkPassword}
+                setCheckPassword={setCheckPassword}
+                handleConfirmPassword={handleConfirmPassword}
+                checkPasswordConfirmation={checkPasswordConfirmation}
+                setCheckPasswordConfirmation={setCheckPasswordConfirmation}
+              />/*link to email component */
             )}
             {mobileStatus && (
-              <InputWapper>
-                <div>
-                  <CountryCodeInput
-                    id="countryCode"
-                    type={"text"}
-                    placeholder="+1"
-                    required
-                    onChange={(e) => handleChange(e.target.id, e.target.value)}
-                  />
-                  <MobileNumberInput
-                    id="mobileNumber"
-                    type={"text"}
-                    placeholder="Mobile Number"
-                    required
-                    onChange={(e) => handleChange(e.target.id, e.target.value)}
-                    onBlur={() =>
-                      handleCheckMobile(mobileFormData.mobileNumber)
-                    }
-                    onFocus={()=>setCheckmobileNumber(true)}
-                  />
-                </div>
-                {!checkmobileNumber && mobileFormData.mobileNumber && (
-                  <Warning>Mobile number should contains 8-16 numbers!</Warning>
-                )}
-                <Input
-                  type={"password"}
-                  id="password"
-                  placeholder="Password"
-                  required
-                  onChange={(e) => handleChange(e.target.id, e.target.value)}
-                  onBlur={() => handleCheckPassword(mobileFormData.password)}
-                  onFocus={()=>setCheckPassword(true)}
-                />
-                {!checkPassword && mobileFormData.password && (
-                  <Warning>
-                    Password should contains 8-16 characters, at least 1
-                    uppercase and 1 lowercase character!
-                  </Warning>
-                )}
-                <Input
-                  type={"password"}
-                  id="passwordConfirmation"
-                  placeholder="Confirm Password"
-                  required
-                  onChange={(e) => handleChange(e.target.id, e.target.value)}
-                  onBlur={() =>
-                    handleConfirmPassword(
-                      mobileFormData.password,
-                      mobileFormData.passwordConfirmation
-                    )
-                  }
-                  onFocus={()=>setCheckPasswordConfirmation(true)}
-                />
-                {!checkPasswordConfirmation &&
-                  mobileFormData.passwordConfirmation && (
-                    <Warning>
-                      Two passwords do not match, please re-enter!
-                    </Warning>
-                  )}
-                <Input
-                  type={"text"}
-                  id="referralCodeUsed"
-                  placeholder="Referral Code (Optional)"
-                  onChange={(e) => handleChange(e.target.id, e.target.value)}
-                />
-              </InputWapper>
+              <PhoneSignUp
+                handleChange={handleChange}
+                checkmobileNumber={checkmobileNumber}
+                setCheckmobileNumber={setCheckmobileNumber}
+                mobileFormData={mobileFormData}
+                handleCheckPassword={handleCheckPassword}
+                checkPassword={checkPassword}
+                setCheckPassword={setCheckPassword}
+                handleConfirmPassword={handleConfirmPassword}
+                checkPasswordConfirmation={checkPasswordConfirmation}
+                setCheckPasswordConfirmation={setCheckPasswordConfirmation}
+              />/*link to phone component */
             )}
             <AgreeDiv>
               <input
@@ -332,9 +218,9 @@ const SignUp = () => {
               Create Account
             </Submit>
           </Form>
-          {checkUserExist==403 && <UserWarning>
-                      User already exist!
-                    </UserWarning>}
+          {checkUserExist == 403 && (
+            <UserWarning>User already exist!</UserWarning>
+          )}
         </CreateAccuntWapper>
       </Wapper>
     </>
@@ -347,19 +233,8 @@ const Form = styled.form`
   gap: 20px;
 `;
 
-const Input = styled.input`
-  height: 45px;
-  border-radius: 15px;
-`;
-
 const Wapper = styled.div`
   display: flex;
-`;
-
-const InputWapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
 `;
 
 const WelcomeWapper = styled.div`
@@ -453,33 +328,11 @@ const SelectButton = styled.button`
   }
 `;
 
-const CountryCodeInput = styled.input`
-  width: 60px;
-  height: 45px;
-  border-radius: 15px;
-  margin-right: 20px;
-`;
-
-const MobileNumberInput = styled.input`
-  width: 317px;
-  height: 45px;
-  border-radius: 15px;
-`;
-
-const Warning = styled.p`
-  font-size: 12px;
-  color: red;
-  margin-top: -15px;
-  margin-left: 10px;
-`;
-
 const UserWarning = styled.p`
   font-size: 20px;
   color: red;
   margin-top: 20px;
   margin-left: 10px;
 `;
-
-
 
 export default SignUp;

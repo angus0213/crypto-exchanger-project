@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { COLORS } from "../Constants";
+import { COLORS } from "../../Constants";
 import Terms from "./Terms";
 import Policy from "./Policy";
 import Disclosure from "./Disclosure";
@@ -9,6 +9,7 @@ const TermsandConditions=()=>{
    const [terms, setTerms]= useState(true)
    const [policy, setPolicy]= useState(false)
    const [disclosure, setDisclosure]= useState(false)
+    /*switch from terms page, policy page and disclosure page */
 
     const handleClickTerms=()=>{
         setTerms(true)

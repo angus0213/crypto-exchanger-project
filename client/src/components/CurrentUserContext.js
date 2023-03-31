@@ -17,6 +17,7 @@ export const CurrentUserProvider = ({ children }) => {
         .catch((err) => console.log(err));
     }
   }, [currentUserId]);
+  /*fetch current user from backend */
 
   return (
     <CurrentUserContext.Provider

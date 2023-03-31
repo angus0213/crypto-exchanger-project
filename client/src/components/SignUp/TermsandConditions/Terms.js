@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { COLORS } from "../Constants";
+import { COLORS } from "../../Constants";
 
 const Terms = () => {
   return (

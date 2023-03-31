@@ -2,17 +2,14 @@ import { useState } from "react";
 import styled from "styled-components";
 import { COLORS } from "../../Constants";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
-import { CurrentUserContext } from "../../CurrentUserContext";
 import VerifyModal from "./VerifyModal";
 
 const UserVerify = () => {
   const [formData, setFormData] = useState("");
   const navigate = useNavigate();
-  const {currentUser}=useContext(CurrentUserContext);
   const [modalopen, setModalOpen] = useState(false);
-  
-  const userId=sessionStorage.getItem("userId")
+
+  const userId = sessionStorage.getItem("userId");
 
   const handleChange = (key, value) => {
     setFormData({
@@ -20,24 +17,27 @@ const UserVerify = () => {
       [key]: value,
     });
   };
- 
-  const handleSubmit=(e)=>{
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    fetch(`/user/${userId}`,{
-        method: 'PATCH',
-    headers: { 
-        "Accept": "application/json",
-        'Content-Type': 'application/json' },
-    body: JSON.stringify({userId, ...formData})})
-    .then(res=>res.json())
-    .then((data)=>
-      {
-        if(data.data.modifiedCount>=1){
-          setModalOpen(true)
+    fetch(`/user/${userId}`, {
+      method: "PATCH",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userId, ...formData }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.data.modifiedCount >= 1) {
+          setModalOpen(true);
         }
       })
-    .catch(err=>console.log(err))
-  }
+      .catch((err) => console.log(err));
+  };
+  /*verify page, let user input ID info and store in database */
+
   const handleModalClose = () => setModalOpen(false);
 
   return (
@@ -55,7 +55,10 @@ const UserVerify = () => {
         </NoticeWapper>
 
         <KYCWapper>
-            <CongratulationsWapper>Congratulations! <Congratulations src="/webImages/congratulations.png" /></CongratulationsWapper>
+          <CongratulationsWapper>
+            Congratulations!{" "}
+            <Congratulations src="/webImages/congratulations.png" />
+          </CongratulationsWapper>
           <h1>Please Verify Your Information</h1>
           <hr />
           <Form onSubmit={handleSubmit}>
@@ -68,7 +71,7 @@ const UserVerify = () => {
                 onChange={(e) => handleChange(e.target.id, e.target.value)}
               />
 
-<Input
+              <Input
                 type={"text"}
                 id="fullName"
                 placeholder="Full Name"
@@ -104,7 +107,7 @@ const UserVerify = () => {
           <Cancel onClick={() => navigate("/")}>Skip</Cancel>
         </KYCWapper>
       </Wapper>
-      <VerifyModal modalopen={modalopen} handleModalClose={handleModalClose}/>
+      <VerifyModal modalopen={modalopen} handleModalClose={handleModalClose} />
     </>
   );
 };
@@ -154,7 +157,7 @@ const CongratulationsWapper = styled.h1`
   color: ${COLORS.blue};
   font-size: 30px;
   position: relative;
-  left:50px;
+  left: 50px;
   margin-bottom: 50px;
 `;
 
@@ -179,7 +182,7 @@ const Highlight = styled.span`
 const Submit = styled.button`
   background-color: ${COLORS.blue};
   height: 50px;
-margin-top: 40px;
+  margin-top: 40px;
   border-radius: 15px;
   font-size: 20px;
   color: ${COLORS.white};

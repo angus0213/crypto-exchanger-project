@@ -3,7 +3,7 @@ import Header from "./header and footer/Header";
 import GlobalStyles from "./GlobalStyles";
 import Home from "./Home/Home";
 import SignUp from "./SignUp/SignUp";
-import TermsandConditions from "./SignUp/TermsandConditions";
+import TermsandConditions from "./SignUp/TermsandConditions/TermsandConditions"
 import styled from "styled-components";
 import UserVerify from "./SignUp/UserVerify/UserVerify";
 

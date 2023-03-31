@@ -9,7 +9,7 @@ import { CurrentUserContext } from "../../CurrentUserContext";
 import { useContext } from "react";
 
 const VerifyModal = ({ modalopen, handleModalClose }) => {
-  const navigate = useNavigate();
+const navigate = useNavigate();
 const {refetch, setRefetch}=useContext(CurrentUserContext)
   useEffect(() => {
     setTimeout(() => {
@@ -17,13 +17,14 @@ const {refetch, setRefetch}=useContext(CurrentUserContext)
       navigate("/");
       setRefetch(!refetch)
     }, 15000);
-  }, []);
+  }, []);/*set modal exist 15 seconds, refetch will let header change from signup to logout status (the user is login now) */
 
   const handleClick = () => {
     handleModalClose();
     navigate("/");
     setRefetch(!refetch);
-  };
+  };/*close modal manually */
+
   return (
     <MyModal isOpen={modalopen} shouldCloseOnOverlayClick={false}>
       <Congratulations src="/webImages/congratulations.png" />
