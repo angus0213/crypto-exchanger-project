@@ -8,28 +8,35 @@ import "rsuite/dist/rsuite.css";
 import {FiDownload} from "react-icons/fi";
 import {TfiWorld} from "react-icons/tfi";
 import {AiFillGift} from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import {v4 as uuidv4} from "uuid";
+import { useContext } from "react";
+import { CurrentUserContext } from "../CurrentUserContext";
+import {HiOutlineUserCircle} from "react-icons/hi";
 
 const Header=()=>{
   const navigate=useNavigate();
-  const [SignupStatus, setSignupStatus]=useState(false)
   const location=useLocation();
   const handleSignup=()=>{
-    navigate("/signup");
+    navigate(`/signup/${uuidv4()}`);
   }
-  const path=["/termsandconditions", "/signup"]
+  const {currentUser, setcurrentUser}=useContext(CurrentUserContext);
+  const path=["/termsandconditions", "/signup", "/userverify"]
   
   const pathFlag=path.some((item)=>{
-    return item===location.pathname
+    return location.pathname.indexOf(item)>-1;
   })
- 
+
+  const handleLogOut=()=>{
+    setcurrentUser("")
+    sessionStorage.clear();
+  }
     return (
 <>
 <HeaderWapper>
     <NavbarLeftWapper>
-    <Navbar.Brand href="/"><Logo src=".\favicon\favicon.png"/></Navbar.Brand>
+    <Navbar.Brand><Link to={"/"}><Logo src="/favicon/favicon.png"/></Link></Navbar.Brand>
     {!pathFlag&&
     <Nav>
       <Nav.Item onClick={()=>navigate("/")} icon={<HomeIcon />}>Home</Nav.Item>
@@ -66,8 +73,16 @@ const Header=()=>{
     {!pathFlag &&
       <SearchWapper>
       <Searchbar/>
+      {currentUser?
+      <>
+    <button onClick={handleLogOut}>LogOut</button>
+    <button><HiOutlineUserCircle/></button>
+      </>:
+      <>
     <button>LogIn</button>
-    <SignupBtn onClick={handleSignup}><AiFillGift/> SignUp</SignupBtn>
+    <SignupBtn onClick={handleSignup}><AiFillGift/> SignUp</SignupBtn></>
+    }
+
     <DownloadBtn><FiDownload/></DownloadBtn>
     </SearchWapper>}
     <LanguageBtn><TfiWorld/></LanguageBtn>
@@ -79,7 +94,7 @@ const Header=()=>{
 }
 
 const NavbarLeftWapper=styled.div`
-position: fixed;
+position: fixed;;
 left:30px
 `;
 
@@ -99,13 +114,15 @@ height: 80px;
 font-size: 15px;
 display: flex;
 align-items: center;
+position: fixed;
+width: 100%;
 `;
 
 const HeaderRightWapper=styled.div`
 display: flex;
 gap:25px;
 position: fixed;
-right: 50px;
+right: 100px;
 `;
 
 const SignupBtn=styled.button`

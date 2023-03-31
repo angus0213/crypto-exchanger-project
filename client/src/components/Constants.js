@@ -14,5 +14,7 @@ export const COLORS = {
   //black
   black:"#575858",
   //blue
-  blue:"#3EB6C7"
+  blue:"#3EB6C7",
+  //dark gray
+  darkgray:"#c1c6c8"
 };

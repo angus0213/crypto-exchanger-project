@@ -2,6 +2,11 @@ import styled from "styled-components";
 import { COLORS } from "../Constants";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { CurrentUserContext } from "../CurrentUserContext";
+import { useContext } from "react";
+import { useEffect } from "react";
 
 const SignUp = () => {
   const [emailStatus, setEmailStatus] = useState(true);
@@ -13,7 +18,14 @@ const SignUp = () => {
   const [checkPasswordConfirmation, setCheckPasswordConfirmation] =
     useState(true);
   const [checkmobileNumber, setCheckmobileNumber] = useState(true);
+  const [checkUserExist, setCheckUserExist]=useState("");
+  const {currentUser}=useContext(CurrentUserContext);
 
+  const location = useLocation();
+  const userId = location.pathname.slice(8);
+  const UserReferralCode = location.pathname.slice(8, 16);
+  const navigate=useNavigate();
+  
   const handleEmail = () => {
     setEmailStatus(true);
     setMobileStatus(false);
@@ -75,22 +87,72 @@ const SignUp = () => {
     }
   };
 
-  console.log(emailFormData);
-  console.log(mobileFormData);
+  const submitEnable =
+    (checkEmail &&
+      checkPassword &&
+      checkPasswordConfirmation &&
+      emailFormData.agreeTerms) ||
+    (checkmobileNumber &&
+      checkPassword &&
+      checkPasswordConfirmation &&
+      mobileFormData.agreeTerms);
+
+  const userData = {
+    _id: userId,
+    email: emailFormData.email,
+    countryCode: mobileFormData.countryCode,
+    mobileNumber: mobileFormData.mobileNumber,
+    password: emailFormData.password
+      ? emailFormData.password
+      : mobileFormData.password,
+      referralCodeUsed: emailFormData.referralCodeUsed
+      ? emailFormData.referralCodeUsed
+      : mobileFormData.referralCodeUsed,
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetch("/users", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status==200) {
+        sessionStorage.setItem("userId",data.data.insertedId);
+        navigate(`/userverify/${data.data.insertedId}`)}
+        if (data.status==403) {
+          setCheckUserExist(data.status)
+        }
+       })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(()=>{
+    if (currentUser){
+    navigate(`/`)}
+  })
+
+  
+  
 
   return (
     <>
       <Wapper>
         <div>
           <WelcomeWapper>
-            <ImgLogo src="./favicon/favicon.png" />
+            <ImgLogo src="/favicon/favicon.png" />
             <WelcomeDiv>
               <h1>
                 <span>Welcome to Crypto</span>
                 <Highlight>Beats</Highlight>
                 <span>!</span>
               </h1>
-              <P>Referral Code:</P>
+              <P>Your Referral Code: {UserReferralCode}</P>
             </WelcomeDiv>
           </WelcomeWapper>
           <BounsWapper>
@@ -102,7 +164,7 @@ const SignUp = () => {
               <span>!</span>
             </h1>
             <h2>Another $30,000 Deposite Rewards</h2>
-            <ImgBouns src="./webImages/signinBouns.png" />
+            <ImgBouns src="/webImages/signinBouns.png" />
           </BounsWapper>
         </div>
         <CreateAccuntWapper>
@@ -128,7 +190,7 @@ const SignUp = () => {
               Mobile Number
             </SelectButton>
           </ButtonWapper>
-          <Form>
+          <Form onSubmit={handleSubmit}>
             {emailStatus && (
               <InputWapper>
                 <Input
@@ -138,6 +200,7 @@ const SignUp = () => {
                   required
                   onChange={(e) => handleChange(e.target.id, e.target.value)}
                   onBlur={handleCheckEmail}
+                  onFocus={()=>setCheckEmail(true)}
                 />
                 {!checkEmail && emailFormData.email && (
                   <Warning>Please check your email format</Warning>
@@ -149,6 +212,7 @@ const SignUp = () => {
                   required
                   onChange={(e) => handleChange(e.target.id, e.target.value)}
                   onBlur={() => handleCheckPassword(emailFormData.password)}
+                  onFocus={()=>setCheckPassword(true)}
                 />
                 {!checkPassword && emailFormData.password && (
                   <Warning>
@@ -168,6 +232,7 @@ const SignUp = () => {
                       emailFormData.passwordConfirmation
                     )
                   }
+                  onFocus={()=>setCheckPasswordConfirmation(true)}
                 />
                 {!checkPasswordConfirmation &&
                   emailFormData.passwordConfirmation && (
@@ -175,6 +240,12 @@ const SignUp = () => {
                       Two passwords do not match, please re-enter!
                     </Warning>
                   )}
+                <Input
+                  type={"text"}
+                  id="referralCodeUsed"
+                  placeholder="Referral Code (Optional)"
+                  onChange={(e) => handleChange(e.target.id, e.target.value)}
+                />
               </InputWapper>
             )}
             {mobileStatus && (
@@ -196,6 +267,7 @@ const SignUp = () => {
                     onBlur={() =>
                       handleCheckMobile(mobileFormData.mobileNumber)
                     }
+                    onFocus={()=>setCheckmobileNumber(true)}
                   />
                 </div>
                 {!checkmobileNumber && mobileFormData.mobileNumber && (
@@ -208,6 +280,7 @@ const SignUp = () => {
                   required
                   onChange={(e) => handleChange(e.target.id, e.target.value)}
                   onBlur={() => handleCheckPassword(mobileFormData.password)}
+                  onFocus={()=>setCheckPassword(true)}
                 />
                 {!checkPassword && mobileFormData.password && (
                   <Warning>
@@ -227,6 +300,7 @@ const SignUp = () => {
                       mobileFormData.passwordConfirmation
                     )
                   }
+                  onFocus={()=>setCheckPasswordConfirmation(true)}
                 />
                 {!checkPasswordConfirmation &&
                   mobileFormData.passwordConfirmation && (
@@ -234,6 +308,12 @@ const SignUp = () => {
                       Two passwords do not match, please re-enter!
                     </Warning>
                   )}
+                <Input
+                  type={"text"}
+                  id="referralCodeUsed"
+                  placeholder="Referral Code (Optional)"
+                  onChange={(e) => handleChange(e.target.id, e.target.value)}
+                />
               </InputWapper>
             )}
             <AgreeDiv>
@@ -243,16 +323,18 @@ const SignUp = () => {
                 onClick={(e) => handleChange(e.target.id, e.target.checked)}
               />
               <AgreeTerm>
-                {" "}
-                By clicking “Create Account”, you agree to{" "}
-                <Link to={"/termsandconditions"}>
-                  Terms of Service
-                </Link> and{" "}
+                By clicking “Create Account”, you agree to
+                <Link to={"/termsandconditions"}>Terms of Service</Link> and
                 <Link to={"/termsandconditions"}>Privacy Policy</Link>
               </AgreeTerm>
             </AgreeDiv>
-            <Submit type={"submit"}>Create Account</Submit>
+            <Submit type={"submit"} disabled={!submitEnable}>
+              Create Account
+            </Submit>
           </Form>
+          {checkUserExist==403 && <UserWarning>
+                      User already exist!
+                    </UserWarning>}
         </CreateAccuntWapper>
       </Wapper>
     </>
@@ -287,7 +369,7 @@ const WelcomeWapper = styled.div`
   justify-content: center;
   width: 700px;
   margin-left: 200px;
-  margin-top: 40px;
+  margin-top: 150px;
   padding: 50px;
   border-radius: 15px;
 `;
@@ -300,7 +382,7 @@ const CreateAccuntWapper = styled.div`
   justify-content: center;
   width: 500px;
   margin-left: 150px;
-  margin-top: 40px;
+  margin-top: 150px;
   padding: 50px;
   border-radius: 15px;
 `;
@@ -390,5 +472,14 @@ const Warning = styled.p`
   margin-top: -15px;
   margin-left: 10px;
 `;
+
+const UserWarning = styled.p`
+  font-size: 20px;
+  color: red;
+  margin-top: 20px;
+  margin-left: 10px;
+`;
+
+
 
 export default SignUp;
