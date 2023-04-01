@@ -28,8 +28,8 @@
     <td>{_id, firstName, imageSrc, isAdmin, cartItems, checkoutIds}</td>
   </tr>
   <tr>
-    <td>GET</td>
-    <td> /checkout/:checkoutId </td>
+    <td>POST</td>
+    <td> /userlogin </td>
     <td></td>
     <td>{email, cardNumber, cardExpiration, cvc, country, zip, address}</td>
   </tr>

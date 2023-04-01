@@ -16,6 +16,7 @@ app.use(express.static(__dirname + "/"));
 const {postUsers}=require("./controllers/postUsers");
 const {getUser}=require("./controllers/getUser");
 const {patchUsers}=require("./controllers/patchUsers");
+const {postLogin}=require("./controllers/postLogin");
 
 app.use((req, res, next) => {
   res.header(
@@ -31,6 +32,7 @@ app.use((req, res, next) => {
 connectMongoDB();
 /* POST */
 app.post("/users", postUsers);
+app.post("/userlogin", postLogin);
 
 /* GET */
 app.get("/user/:userId", getUser);

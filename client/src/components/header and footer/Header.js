@@ -14,10 +14,13 @@ import { v4 as uuidv4 } from "uuid";
 import { useContext } from "react";
 import { CurrentUserContext } from "../CurrentUserContext";
 import { HiOutlineUserCircle } from "react-icons/hi";
+import LogInModal from "./LogIn/LogIn";
+import { useState } from "react";
 
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [modalOpen, setModalOpen]=useState(false);
 
   const handleSignup = () => {
     navigate(`/signup/${uuidv4()}`);
@@ -95,7 +98,7 @@ const Header = () => {
                 </>
               ) : (
                 <>
-                  <button>LogIn</button>
+                  <button onClick={()=>setModalOpen(true)}>LogIn</button>
                   <SignupBtn onClick={handleSignup}>
                     <AiFillGift /> SignUp
                   </SignupBtn>
@@ -112,6 +115,7 @@ const Header = () => {
           </LanguageBtn>
         </HeaderRightWapper>
       </HeaderWapper>
+      <LogInModal modalOpen={modalOpen} setModalOpen={setModalOpen}/>
     </>
   );
 };

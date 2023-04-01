@@ -38,6 +38,8 @@ const UserVerify = () => {
   };
   /*verify page, let user input ID info and store in database */
 
+  const UserReferralCode = userId.slice(0, 8).toUpperCase();//set refferal code of the user
+
   const handleModalClose = () => setModalOpen(false);
 
   return (
@@ -58,8 +60,10 @@ const UserVerify = () => {
           <CongratulationsWapper>
             Congratulations!{" "}
             <Congratulations src="/webImages/congratulations.png" />
+           
           </CongratulationsWapper>
-          <h1>Please Verify Your Information</h1>
+          <P>Your Referral Code: {UserReferralCode}</P>
+          <h1>Please Verify Your Identity</h1>
           <hr />
           <Form onSubmit={handleSubmit}>
             <InputWapper>
@@ -195,6 +199,10 @@ const Cancel = styled.button`
   border-radius: 15px;
   font-size: 20px;
   color: ${COLORS.white};
+`;
+
+const P = styled.p`
+  font-size: 15px;
 `;
 
 export default UserVerify;

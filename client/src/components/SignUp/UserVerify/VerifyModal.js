@@ -9,21 +9,24 @@ import { CurrentUserContext } from "../../CurrentUserContext";
 import { useContext } from "react";
 
 const VerifyModal = ({ modalopen, handleModalClose }) => {
-const navigate = useNavigate();
-const {refetch, setRefetch}=useContext(CurrentUserContext)
+  const navigate = useNavigate();
+  const { refetch, setRefetch } = useContext(CurrentUserContext);
+
   useEffect(() => {
-    setTimeout(() => {
-      handleModalClose();
-      navigate("/");
-      setRefetch(!refetch)
-    }, 15000);
-  }, []);/*set modal exist 15 seconds, refetch will let header change from signup to logout status (the user is login now) */
+    if (modalopen) {
+      setTimeout(() => {
+        handleModalClose();
+        navigate("/");
+        setRefetch(!refetch);
+      }, 10000);
+    }
+  }, [modalopen]); /*set modal exist 15 seconds, refetch will let header change from signup to logout status (the user is login now) */
 
   const handleClick = () => {
     handleModalClose();
     navigate("/");
     setRefetch(!refetch);
-  };/*close modal manually */
+  }; /*close modal manually */
 
   return (
     <MyModal isOpen={modalopen} shouldCloseOnOverlayClick={false}>

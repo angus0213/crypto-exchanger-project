@@ -25,7 +25,6 @@ const SignUp = () => {
 
   const location = useLocation();
   const userId = location.pathname.slice(8);//set userId that generate from uuid in Header page
-  const UserReferralCode = location.pathname.slice(8, 16);//set refferal code of the user
   const navigate = useNavigate();
 
   const handleEmail = () => {
@@ -135,7 +134,6 @@ const SignUp = () => {
                 <Highlight>Beats</Highlight>
                 <span>!</span>
               </h1>
-              <P>Your Referral Code: {UserReferralCode}</P>
             </WelcomeDiv>
           </WelcomeWapper>
           <BounsWapper>
