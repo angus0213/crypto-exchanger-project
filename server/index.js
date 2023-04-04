@@ -17,6 +17,8 @@ const {postUsers}=require("./controllers/postUsers");
 const {getUser}=require("./controllers/getUser");
 const {patchUsers}=require("./controllers/patchUsers");
 const {postLogin}=require("./controllers/postLogin");
+const { getPrices } = require("./controllers/getPrices");
+const {patchWallet}=require("./controllers/patchWallet");
 
 app.use((req, res, next) => {
   res.header(
@@ -36,9 +38,11 @@ app.post("/userlogin", postLogin);
 
 /* GET */
 app.get("/user/:userId", getUser);
+app.get("/quoteprices", getPrices)
 
 /* PATCH */
 app.patch("/user/:userId", patchUsers);
+app.patch("/wallet/:userId", patchWallet);
 
 app.get("*", (req, res) => {
   res.status(404).json({

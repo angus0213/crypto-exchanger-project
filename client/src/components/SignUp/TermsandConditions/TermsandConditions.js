@@ -89,7 +89,6 @@ align-items: center;
 const Hr=styled.hr`
 width: 80%;
 margin-top: -1px;
-
 `;
 
 export default TermsandConditions;

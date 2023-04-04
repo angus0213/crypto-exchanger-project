@@ -1,6 +1,6 @@
+const wallet =require("../data/wallet.json")
 const { getCollections } = require("../configs/MongoDB");
 const patchUsers = async (req, res) => {
-  console.log(123);
     const {users}=getCollections();
   const {userId, ID, fullName,  age,address, country } = req.body;
   try{
@@ -10,7 +10,8 @@ const patchUsers = async (req, res) => {
         fullName:fullName,
         age:age,
         address:address,
-        country:country
+        country:country,
+        wallet:wallet
     }})
     return res.status(200).json({ status: 200, data: patchResult });
   }

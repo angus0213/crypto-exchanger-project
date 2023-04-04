@@ -16,9 +16,10 @@ export const CurrentUserProvider = ({ children }) => {
         .then((data) => setcurrentUser(data.data))
         .catch((err) => console.log(err));
     }
-  }, [currentUserId]);
+  }, [refetch]);
   /*fetch current user from backend */
-
+  if(currentUser){
+    console.log(currentUser);}
   return (
     <CurrentUserContext.Provider
       value={{ currentUser, setcurrentUser, refetch, setRefetch }}

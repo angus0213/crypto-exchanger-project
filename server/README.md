@@ -34,14 +34,14 @@
     <td>{email, cardNumber, cardExpiration, cvc, country, zip, address}</td>
   </tr>
    <tr>
-    <td>POST</td>
-    <td> /checkout/:userId </td>
+    <td>get</td>
+    <td> /quoteprices </td>
     <td><strong>Body</strong><br/> userId: string (required) <br/> email: string (required) <br/>cardNumber: number, 12 length (required)<br /> cardExpiration : MM/YY (required)<br />cvc: number, 3 length (required)<br /> country: string (required)<br />zip: string (required)<br /> address: string (required)              </td>
     <td>{checkoutId}</td>
   </tr>
   <tr>
     <td>Patch</td>
-    <td> /user/:userId </td>
+    <td> /wallet/:userId </td>
     <td><strong>Body</strong><br/>itemId: number (required)<br/>quantity: number (required) </td>
     <td>{cartItems}</td>
   </tr>

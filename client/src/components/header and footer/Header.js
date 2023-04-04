@@ -13,9 +13,9 @@ import { useLocation } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { useContext } from "react";
 import { CurrentUserContext } from "../CurrentUserContext";
-import { HiOutlineUserCircle } from "react-icons/hi";
 import LogInModal from "./LogIn/LogIn";
 import { useState } from "react";
+import UserMenu from "./LogIn/UserMenu";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -92,9 +92,10 @@ const Header = () => {
               {currentUser ? (
                 <>
                   <button onClick={handleLogOut}>LogOut</button>
-                  <button>
-                    <HiOutlineUserCircle />
-                  </button>
+                  <UserMenu/>
+                    
+                    
+                 
                 </>
               ) : (
                 <>
@@ -143,6 +144,7 @@ const HeaderWapper = styled(Navbar)`
   align-items: center;
   position: fixed;
   width: 100%;
+  z-index: 99;
 `;
 
 const HeaderRightWapper = styled.div`
