@@ -15,9 +15,6 @@ export const CurrentPriceProvider=({children})=>{
         .catch(err=>console.log(err))
     },[priceRefetch])
 
-    if (currentPrice){
-        console.log(currentPrice);
-    }
     return(
         <CurrentPriceContext.Provider
         value={{currentPrice,priceRefetch, setPriceRefetch}}

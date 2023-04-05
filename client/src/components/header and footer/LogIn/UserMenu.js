@@ -10,7 +10,7 @@ import { CurrentUserContext } from "../../CurrentUserContext";
 import { useContext } from "react";
 
 const UserMenu = () => {
-    const { currentUser, setcurrentUser } = useContext(CurrentUserContext);
+    const { currentUser} = useContext(CurrentUserContext);
   return (
     <>
       <Wrapper>
@@ -46,7 +46,6 @@ padding: 10px 60px 10px 10px;
 text-align: left;
 
 color: ${COLORS.black};
-/* background-color: gray; */
   &:hover{
     color:  ${COLORS.white};
     text-decoration: none;

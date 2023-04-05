@@ -6,17 +6,18 @@ import styled from "styled-components";
 import { COLORS } from "../Constants";
 import { CurrentUserContext } from "../CurrentUserContext";
 import { useContext } from "react";
-import { Content } from "antd/es/layout/layout";
 import { CurrentPriceContext } from "../CurrentPricesContext";
+
+
 
 
 
 const Wallet=()=>{
     const { currentUser } = useContext(CurrentUserContext);
-    const { currentPrice } = useContext(CurrentPriceContext);
     const [walletSpot, setWalletSpot]= useState(true)
    const [walletNFT, setwalletNFT]= useState(false)
    const [walletTermDeposit, setwalletTermDeposit]= useState(false)
+   
 
     /*switch from spot page, NFT page and termDeposit page */
 
@@ -41,7 +42,6 @@ const Wallet=()=>{
 
     return (       
         currentUser&&
-        // currentPrice&&
     <Wapper>
         <TitleWapper>
         <Img src="../webImages/web3.jpg"/>

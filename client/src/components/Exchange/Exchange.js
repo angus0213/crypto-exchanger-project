@@ -7,68 +7,83 @@ import { MdCurrencyExchange } from "react-icons/md";
 import styled from "styled-components";
 import Modal from "react-modal";
 import { GrClose } from "react-icons/gr";
+import { useNavigate } from "react-router-dom";
 
 const Exchange = () => {
-  const { currentUser } = useContext(CurrentUserContext);
-  const [formDataFrom, setFormDataFrom] = useState("");
-  const [formDataTo, setFormDataTo] = useState("");
-  const [maxAmount, setMaxAmount] = useState(false);
-  const [inputFromFlag, setInputFromFlag] = useState(false);
-  const [inputToFlag, setInputToFlag] = useState(false);
-  const [modalOpen, setModalOpen]=useState(false);
-  const [exchangeRate, setExchangeRate]=useState("");
-
+  const { currentUser, refetch, setRefetch } = useContext(CurrentUserContext);//refetch currentUser
+  const [formDataFrom, setFormDataFrom] = useState("");//record user the crypto name and amount that user wish to spend
+  const [formDataTo, setFormDataTo] = useState("");//record user the crypto name and amount that user wish to buy
+  const [maxAmount, setMaxAmount] = useState(false);// if the user press max amount button, the whole amount in the wallet will be shown in input area automaticlly
+  const [inputFromFlag, setInputFromFlag] = useState(false);// used to switch the input value between sell and buy
+  const [inputToFlag, setInputToFlag] = useState(false);//same as above
+  const [modalOpen, setModalOpen] = useState(false);//set confirmation modal open or close
+  const [exchangeRate, setExchangeRate] = useState("");//set exchange rate between selected cryptos
+  const navigate = useNavigate();
 
   const handleChangeFrom = (key, value) => {
     setFormDataFrom({
       ...formDataFrom,
       [key]: value,
     });
-  };
+  };//record the inputs of sell
 
   const handleChangeTo = (key, value) => {
     setFormDataTo({
       ...formDataTo,
       [key]: value,
     });
-  };
+  };//record the inputs of buy
 
   let walletAmount = 0;
   if (currentUser && formDataFrom) {
     walletAmount = currentUser.wallet.find(
       (crypto) => crypto.name === formDataFrom.cryptoFrom
     ).amount;
-  }
+  }//get the wallet amount that user want to sell
 
-  if(formDataFrom.amount>walletAmount) {
-    formDataFrom.amount=walletAmount
-  }
-  if(formDataTo.amount/exchangeRate>walletAmount) {
-    formDataFrom.amount=walletAmount;
-    formDataTo.amount=formDataFrom.amount*exchangeRate
-  }
+  if (formDataFrom.amount > walletAmount) {
+    formDataFrom.amount = walletAmount;
+  }//set the user sell input amount no high than wallet amount
 
-  let balanceMinus
-  let balancePlus
-  console.log(formDataFrom.amount);
-  console.log(exchangeRate);
-  if(formDataFrom.amount &&exchangeRate){
-    balanceMinus=formDataFrom.amount
-    balancePlus=formDataFrom.amount*exchangeRate
-    console.log(formDataFrom.amount);
-  }else{
-    balanceMinus=formDataTo.amount/exchangeRate
-    balancePlus=formDataTo.amount
-  }
+  if (formDataTo.amount / exchangeRate > walletAmount) {
+    formDataFrom.amount = walletAmount;
+    formDataTo.amount = formDataFrom.amount * exchangeRate;
+  }//set the user buy input amount no high than wallet amount
 
-  
-  const handleConfirm=()=>{
+  let balanceMinus;
+  let balancePlus;
+  if (formDataFrom.amount && exchangeRate) {
+    balanceMinus = formDataFrom.amount;
+    balancePlus = formDataFrom.amount * exchangeRate;
+  } else {
+    balanceMinus = formDataTo.amount / exchangeRate;
+    balancePlus = formDataTo.amount;
+  }//if input data in sell input text area, will use "if" statement will set the changed amount; if input data in buy input text area, will use "else" statement will set the changed amount
 
+  const handleConfirm = () => {
     fetch(`/wallet/${currentUser._id}`, {
-
-    })}
-
-
+      method: "PATCH",
+      headers: {
+        Accept: "application/json",
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: currentUser._id,
+        updateInfo: [
+          { _id: formDataFrom.cryptoFrom, balanceChange: -balanceMinus },
+          { _id: formDataTo.cryptoTo, balanceChange: balancePlus },
+        ],
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.data.modifiedCount >= 1) {
+          setRefetch(!refetch);
+          navigate(`/wallet/${currentUser._id}`);
+        }
+      })
+      .catch((err) => console.log(err));
+  };// set changed info to backend
 
   return (
     <>
@@ -85,9 +100,8 @@ const Exchange = () => {
         setInputToFlag={setInputToFlag}
         walletAmount={walletAmount}
         exchangeRate={exchangeRate}
-   
       />
-     <MyMdCurrencyExchange/>
+      <MyMdCurrencyExchange />
 
       <ExchangeTo
         formDataTo={formDataTo}
@@ -104,43 +118,44 @@ const Exchange = () => {
         setModalOpen={setModalOpen}
         exchangeRate={exchangeRate}
         setExchangeRate={setExchangeRate}
-    
       />
-      <Modal isOpen={modalOpen}
-      shouldCloseOnOverlayClick={true}
-      shouldCloseOnEsc={true}>
-                <CloseButton onClick={() => setModalOpen(false)}>
+      <Modal
+        isOpen={modalOpen}
+        shouldCloseOnOverlayClick={true}
+        shouldCloseOnEsc={true}
+      >
+        <CloseButton onClick={() => setModalOpen(false)}>
           {" "}
           <GrClose />
         </CloseButton>
         <div>
-          <h1>Thanks for using Crypto<span>Beats</span></h1>
-          <h1><span>You will get</span><span>{balancePlus}</span><span>{formDataTo.cryptoTo}</span></h1>
-          <h1><span>Your</span><span>{formDataFrom.cryptoFrom}</span><span>balance will be reduced to</span> <span>{walletAmount- balanceMinus}</span></h1>
-            <button onClick={handleConfirm}>Confirm</button>
+          <h1>
+            Thanks for using Crypto<span>Beats</span>
+          </h1>
+          <h1>
+            <span>You will get</span>
+            <span>{balancePlus}</span>
+            <span>{formDataTo.cryptoTo}</span>
+          </h1>
+          <h1>
+            <span>Your</span>
+            <span>{formDataFrom.cryptoFrom}</span>
+            <span>balance will be reduced to</span>{" "}
+            <span>{walletAmount - balanceMinus}</span>
+          </h1>
+          <button onClick={handleConfirm}>Confirm</button>
         </div>
       </Modal>
     </>
   );
 };
 
-const MyMdCurrencyExchange=styled(MdCurrencyExchange)`
+const MyMdCurrencyExchange = styled(MdCurrencyExchange)`
   font-size: 120px;
-  color: white; 
+  color: white;
   position: relative;
   left: 300px;
-  top:200px
-  /* background-color:red; */
-`;
-
-const Div = styled.div`
-  
-  font-size: 20px;
-  color: white;
-  z-index:99;
-  position: relative;
-  left: 800px;
-  background-color:red;
+  top: 200px;
 `;
 
 const CloseButton = styled.button`

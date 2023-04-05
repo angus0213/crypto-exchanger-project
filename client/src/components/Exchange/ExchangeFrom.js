@@ -21,7 +21,7 @@ const ExchangeFrom = ({
 
   const handleClickMaxAmountFlag = () => {
     setMaxAmount(true);
-  };
+  };// when user click, will let the max amount be showed in the sell text area
 
   const handleFocus = () => {
     setMaxAmount(false);
@@ -31,13 +31,11 @@ const ExchangeFrom = ({
       formDataFrom.amount = "";
       formDataTo.amount = "";
     }
-  };
-console.log(walletAmount);
-console.log(formDataFrom.amount);
-console.log(formDataFrom.amount>walletAmount);
+  };//if user type amount in sell text area, but changed to input in buy text area later(same as reverse), this function will reset the value of two input areas
+
   useEffect(() => {
     setMaxAmount(false);
-  }, [formDataFrom.cryptoFrom]);
+  }, [formDataFrom.cryptoFrom]);// if the user choose to type in the sell text area manually, the max amount button in sell form will be disabled
 
 
   return (
@@ -64,13 +62,12 @@ console.log(formDataFrom.amount>walletAmount);
           required
           onChange={(e) => handleChangeFrom(e.target.id, e.target.value)}
           value={
-         
             (maxAmount ? walletAmount : formDataFrom.amount) ||
             (inputFromFlag
               ? formDataFrom.amount
               : formDataTo.amount/exchangeRate
               ? formDataTo.amount/exchangeRate
-              : "")
+              : "")/*this part of code will work with exchangeTo.js's same part, and let the input value be showed correctly whenever user typed in sell text area or buy text area*/
           }
           onFocus={handleFocus}
           disabled={!formDataFrom.cryptoFrom}

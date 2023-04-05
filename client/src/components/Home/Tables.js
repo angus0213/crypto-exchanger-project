@@ -1,5 +1,5 @@
 import React from "react";
-import {COLORS} from "../Constants"
+import { COLORS } from "../Constants";
 import { useContext } from "react";
 import { CurrentPriceContext } from "../CurrentPricesContext";
 import styled from "styled-components";
@@ -7,18 +7,18 @@ import cryptos from "../../data/cryptos.json";
 import { Table, Avatar } from "antd";
 
 const Tables = () => {
+  //based on the info fetched from API, set the table to display the price and trade volume data in Homepage
   const { currentPrice } = useContext(CurrentPriceContext);
-  console.log(1234);
   const data = currentPrice.map((item) => {
     const crypto = cryptos.find(
       (singleCrypto) => item.asset_id_base === singleCrypto.name
     );
-    const tradingPairs=`${item.asset_id_base}/${item.asset_id_quote}`
+    const tradingPairs = `${item.asset_id_base}/${item.asset_id_quote}`;
 
     return {
       cryptoImgSrc: crypto.imageSrc,
       "Trading Pairs": tradingPairs,
-      "Price": item.price,
+      Price: item.price,
       "1H Trade Volume": item.volume_1hrs.toFixed(2),
       "24H Trade Volume": item.volume_1day.toFixed(2),
       "1M Trade Volume": `${(item.volume_1mth / 1000000).toFixed(2)}M`,
@@ -38,7 +38,8 @@ const Tables = () => {
       title: "Trading Pairs",
       dataIndex: "Trading Pairs",
       key: "pairs",
-      sorter: (a,b)=>a["Trading Pairs"].charCodeAt(0)-b["Trading Pairs"].charCodeAt(0),
+      sorter: (a, b) =>
+        a["Trading Pairs"].charCodeAt(0) - b["Trading Pairs"].charCodeAt(0),
     },
     {
       title: "Price",
@@ -63,7 +64,13 @@ const Tables = () => {
       title: "1M Trade Volume",
       dataIndex: "1M Trade Volume",
       key: "1M Trade Volume",
-      sorter: (a, b) => Number(a["1M Trade Volume"].slice(0, a["1M Trade Volume"].indexOf("M"))) - Number(b["1M Trade Volume"].slice(0, b["1M Trade Volume"].indexOf("M"))),
+      sorter: (a, b) =>
+        Number(
+          a["1M Trade Volume"].slice(0, a["1M Trade Volume"].indexOf("M"))
+        ) -
+        Number(
+          b["1M Trade Volume"].slice(0, b["1M Trade Volume"].indexOf("M"))
+        ),
     },
     {
       title: "1H Trade Volume(USD)",
@@ -83,7 +90,19 @@ const Tables = () => {
       title: "1M Trade Volume(USD)",
       dataIndex: "1M Trade Volume(USD)",
       key: "1M Trade Volume(USD)",
-      sorter: (a, b) => Number(a["1M Trade Volume(USD)"].slice(0, a["1M Trade Volume(USD)"].indexOf("M"))) - Number(b["1M Trade Volume(USD)"].slice(0, b["1M Trade Volume(USD)"].indexOf("M"))),
+      sorter: (a, b) =>
+        Number(
+          a["1M Trade Volume(USD)"].slice(
+            0,
+            a["1M Trade Volume(USD)"].indexOf("M")
+          )
+        ) -
+        Number(
+          b["1M Trade Volume(USD)"].slice(
+            0,
+            b["1M Trade Volume(USD)"].indexOf("M")
+          )
+        ),
     },
   ];
 
@@ -91,7 +110,7 @@ const Tables = () => {
 };
 
 const MyTable = styled(Table)`
-width: 80%;
+  width: 80%;
   position: relative;
   top: 100px;
   left: 200px;

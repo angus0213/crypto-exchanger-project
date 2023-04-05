@@ -92,10 +92,7 @@ const Header = () => {
               {currentUser ? (
                 <>
                   <button onClick={handleLogOut}>LogOut</button>
-                  <UserMenu/>
-                    
-                    
-                 
+                  <UserMenu/> 
                 </>
               ) : (
                 <>
@@ -105,7 +102,6 @@ const Header = () => {
                   </SignupBtn>
                 </>
               )}
-
               <DownloadBtn>
                 <FiDownload />
               </DownloadBtn>
