@@ -11,7 +11,8 @@ const patchUsers = async (req, res) => {
         age:age,
         address:address,
         country:country,
-        wallet:wallet
+        wallet:wallet,
+        NFT:[]
     }})
     return res.status(200).json({ status: 200, data: patchResult });
   }

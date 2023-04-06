@@ -17,6 +17,7 @@ const Wallet=()=>{
     const [walletSpot, setWalletSpot]= useState(true)
    const [walletNFT, setwalletNFT]= useState(false)
    const [walletTermDeposit, setwalletTermDeposit]= useState(false)
+   const { currentPrice} = useContext(CurrentPriceContext);
    
 
     /*switch from spot page, NFT page and termDeposit page */
@@ -41,7 +42,7 @@ const Wallet=()=>{
     }
 
     return (       
-        currentUser&&
+        currentUser&& currentPrice&&
     <Wapper>
         <TitleWapper>
         <Img src="../webImages/web3.jpg"/>

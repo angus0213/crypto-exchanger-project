@@ -45,4 +45,28 @@
     <td><strong>Body</strong><br/>itemId: number (required)<br/>quantity: number (required) </td>
     <td>{cartItems}</td>
   </tr>
+    <tr>
+    <td>get</td>
+    <td> /nftcollections</td>
+    <td><strong>Body</strong><br/>itemId: number (required)<br/>quantity: number (required) </td>
+    <td>{cartItems}</td>
+  </tr>
+   <tr>
+    <td>patch</td>
+    <td> /patchnft/:userId</td>
+    <td><strong>Body</strong><br/>itemId: number (required)<br/>quantity: number (required) </td>
+    <td>{cartItems}</td>
+  </tr>
+    <tr>
+    <td>patch</td>
+    <td> /patchnftwallet/:userId</td>
+    <td><strong>Body</strong><br/>itemId: number (required)<br/>quantity: number (required) </td>
+    <td>{cartItems}</td>
+  </tr>
+     <tr>
+    <td>patch</td>
+    <td> /cancelnftlisting/:userId</td>
+    <td><strong>Body</strong><br/>itemId: number (required)<br/>quantity: number (required) </td>
+    <td>{cartItems}</td>
+  </tr>
 </table>

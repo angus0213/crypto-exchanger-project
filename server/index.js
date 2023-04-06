@@ -19,6 +19,10 @@ const {patchUsers}=require("./controllers/patchUsers");
 const {postLogin}=require("./controllers/postLogin");
 const { getPrices } = require("./controllers/getPrices");
 const {patchWallet}=require("./controllers/patchWallet");
+const {getNFTcollections}=require("./controllers/getNFTcollections")
+const {patchNFT}=require("./controllers/patchNFT")
+const {patchNFTWallet}=require("./controllers/patchNFTWallet")
+const {patchCancelListing}=require("./controllers/patchCancelListing")
 
 app.use((req, res, next) => {
   res.header(
@@ -38,11 +42,15 @@ app.post("/userlogin", postLogin);
 
 /* GET */
 app.get("/user/:userId", getUser);
-app.get("/quoteprices", getPrices)
+app.get("/quoteprices", getPrices);
+app.get("/nftcollections", getNFTcollections)
 
 /* PATCH */
 app.patch("/user/:userId", patchUsers);
 app.patch("/wallet/:userId", patchWallet);
+app.patch("/patchnft/:userId", patchNFT);
+app.patch("/patchnftwallet/:userId", patchNFTWallet);
+app.patch("/cancelnftlisting/:userId", patchCancelListing)
 
 app.get("*", (req, res) => {
   res.status(404).json({

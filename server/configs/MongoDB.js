@@ -30,7 +30,8 @@ try{
 // get all the collections of this MongoDB project
 const getCollections=()=>{
     const users=db.collection("users"); //user collection
-    return {users};
+    const NFTStockData=db.collection("NFTStockData"); //NFTStockData collection
+    return {users, NFTStockData};
 }
 
 // close MongoDB client

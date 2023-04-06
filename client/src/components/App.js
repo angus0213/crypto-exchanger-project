@@ -7,6 +7,7 @@ import TermsandConditions from "./SignUp/TermsandConditions/TermsandConditions";
 import UserVerify from "./SignUp/UserVerify/UserVerify";
 import Wallet from "./Wallet/Wallet";
 import Exchange from "./Exchange/Exchange";
+import NFTHome from "./NFT/NFTHome";
 
 
 const App=()=> {
@@ -21,7 +22,8 @@ const App=()=> {
     <Route path="/termsandconditions" element={<TermsandConditions/>}/>
     <Route path="/userverify/:userId" element={<UserVerify/>}/>
     <Route path="/wallet/:userId" element={<Wallet/>}/>
-    <Route path="/exchange/:userId" element={<Exchange/>}/>
+    <Route path="/exchange" element={<Exchange/>}/>
+    <Route path="/nft" element={<NFTHome/>}/>
    </Routes>
    </BrowserRouter>
    </>

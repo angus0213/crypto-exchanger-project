@@ -7,7 +7,7 @@ const getPrices = async (req, res) => {
       "https://rest.coinapi.io/v1/symbols?filter_symbol_id=BINANCE_SPOT_XRP_BTC;BINANCE_SPOT_ETH_USDT;BINANCE_SPOT_BNB_ETH;BINANCE_SPOT_BNB_BTC;BINANCE_SPOT_BNB_USDT;BINANCE_SPOT_BTC_USDT;BINANCE_SPOT_ADA_ETH;BINANCE_SPOT_LTC_USDT;BINANCE_SPOT_ADA_BTC;BINANCE_SPOT_ETH_BTC;BINANCE_SPOT_XRP_ETH;BINANCE_SPOT_LTC_BTC;BINANCE_SPOT_LTC_ETH;BINANCE_SPOT_ADA_USDT;BINANCE_SPOT_XRP_USDT;BINANCE_SPOT_MATIC_BTC;BINANCE_SPOT_MATIC_USDT;BINANCE_SPOT_DOGE_BTC;BINANCE_SPOT_DOGE_USDT;BINANCE_SPOT_SOL_BTC;BINANCE_SPOT_SOL_USDT;BINANCE_SPOT_DOT_BTC;BINANCE_SPOT_DOT_USDT;BINANCE_SPOT_SOL_ETH;BINANCE_SPOT_DOT_ETH;BINANCE_SPOT_MATIC_ETH",
       {
         method: "GET",
-        headers: { "X-CoinAPI-Key": process.env.CRYPTO_API_TWO },
+        headers: { "X-CoinAPI-Key": process.env.CRYPTO_API_ONE },
       }
     );
     const tradeInfo = JSON.parse(tradeInfoResponse);
@@ -41,7 +41,7 @@ const getPrices = async (req, res) => {
         .json({ status: 404, message: "prices do not exist" });
     }
   } catch (err) {
-    res.status(500).json({ status: 500, message: err.message });
+    return res.status(500).json({ status: 500, message: err.message });
   }
 };
 

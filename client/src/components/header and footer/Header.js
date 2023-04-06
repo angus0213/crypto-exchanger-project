@@ -55,13 +55,13 @@ const Header = () => {
               <Nav.Item onClick={() => navigate("/")} icon={<HomeIcon />}>
                 Home
               </Nav.Item>
-              <Nav.Item>Buy Crypto</Nav.Item>
+              <Nav.Item href="/exchange">Buy Crypto</Nav.Item>
               <Nav.Menu title="Markets">
                 <Nav.Item>Market Overview</Nav.Item>
                 <Nav.Item>Market Data</Nav.Item>
               </Nav.Menu>
               <Nav.Menu title="Trade">
-                <Nav.Item>CryptoBeats Convert</Nav.Item>
+                <Nav.Item href="/exchange">CryptoBeats Convert</Nav.Item>
                 <Nav.Item>CryptoBeats Spot</Nav.Item>
                 <Nav.Item>CryptoBeats P2P</Nav.Item>
                 <Nav.Item>CryptoBeats OTC</Nav.Item>
@@ -79,7 +79,7 @@ const Header = () => {
                 </Nav.Menu>
               </Nav.Menu>
               <Nav.Item>News</Nav.Item>
-              <Nav.Item>NFT</Nav.Item>
+              <Nav.Item href="/nft" >NFT</Nav.Item>
               <Nav.Item>Feed</Nav.Item>
             </Nav>
           )}

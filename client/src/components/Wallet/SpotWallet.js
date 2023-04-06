@@ -14,10 +14,10 @@ const SpotWallet=()=>{
     const navigate=useNavigate();
 
     const handleClick=()=>{
-      navigate(`/exchange/${currentUser._id}`)
+      navigate(`/exchange`)
     }
  
- 
+
   const btcPrice=currentPrice.find((item)=>item.symbol_id_exchange==="BTCUSDT").price//get BTC price
     const data=currentUser.wallet.map((item)=>{
         const crypto = cryptos.find(
@@ -94,7 +94,7 @@ const SpotWallet=()=>{
       },
   
     ];
-  
+ 
     return <MyTable dataSource={data} columns={columns} rowClassName={"row"} pagination={{ pageSize: 15}}/>;
   };// setup wallet table
   
