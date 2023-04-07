@@ -1,13 +1,14 @@
 import { useContext, useEffect, useState } from "react";
-import styled from "styled-components";
+import HomeSwiper from "./HomeSwiper"
 import { CurrentPriceContext } from "../CurrentPricesContext";
-import cryptos from "../../data/cryptos.json";
-import Tables from "./Tables";
+import TradeTable from "./TradeTable";
 import UserPanel from "./UserPanel";
 import NewsHome from "./NewsHome";
 
 
+
 const Home = () => {
+
   const { currentPrice, priceRefetch, setPriceRefetch } = useContext(CurrentPriceContext);
   
 
@@ -19,7 +20,8 @@ const Home = () => {
     currentPrice &&
     <>
     <UserPanel currentPrice={currentPrice}/>
-    <Tables/>
+    <HomeSwiper/>
+    <TradeTable/>
     <NewsHome/>
     </>
  

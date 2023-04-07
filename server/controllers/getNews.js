@@ -5,10 +5,10 @@ const getNews = async (req, res) => {
   try {
 
     const newsResponse = await request(
-      "https://newsapi.org/v2/everything?q=crypto&pageSize=15",
+      "https://newsapi.org/v2/everything?q=crypto&pageSize=15&sortBy=publishedAt",
       {
         method: "GET",
-        headers: { "X-Api-Key": "825ce449f8494dcba0c821eac3f357ce"},
+        headers: { "X-Api-Key": "48597346c17d47ea8b4524f9bc3c94b2"},
       }
     );
     const newsInfo = JSON.parse(newsResponse);

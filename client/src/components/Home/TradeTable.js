@@ -10,7 +10,7 @@ import Modal from "react-modal";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-const Tables = () => {
+const TradeTable = () => {
   //based on the info fetched from API, set the table to display the price and trade volume data in Homepage
   const { currentPrice } = useContext(CurrentPriceContext);
   const { currentUser } = useContext(CurrentUserContext);
@@ -197,4 +197,4 @@ border-radius:15px;
 margin-top:60px;
 `;
 
-export default Tables;
+export default TradeTable;
