@@ -8,9 +8,13 @@ import UserVerify from "./SignUp/UserVerify/UserVerify";
 import Wallet from "./Wallet/Wallet";
 import Exchange from "./Exchange/Exchange";
 import NFTHome from "./NFT/NFTHome";
-
+import SpotWalletHistory from "./Wallet/SpotWalletHistory";
+import { CurrentUserContext } from "./CurrentUserContext";
+import { useContext } from "react";
+import NewsHome from "./Home/NewsHome";
 
 const App=()=> {
+  const { currentUser} = useContext(CurrentUserContext);
   return (
    <>
    <BrowserRouter>
@@ -24,6 +28,8 @@ const App=()=> {
     <Route path="/wallet/:userId" element={<Wallet/>}/>
     <Route path="/exchange" element={<Exchange/>}/>
     <Route path="/nft" element={<NFTHome/>}/>
+    <Route path="/spotwallethistory/:userId" element={currentUser && <SpotWalletHistory/>}/>
+    <Route path="/news" element={<NewsHome/>}/>
    </Routes>
    </BrowserRouter>
    </>

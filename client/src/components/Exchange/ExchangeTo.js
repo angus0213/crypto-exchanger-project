@@ -2,6 +2,7 @@ import styled from "styled-components";
 import cryptos from "../../data/cryptos.json";
 import { useContext} from "react";
 import { CurrentPriceContext } from "../CurrentPricesContext";
+import {COLORS} from "../Constants";
 
 const ExchangeTo = ({
   formDataTo,
@@ -64,14 +65,14 @@ const ExchangeTo = ({
   }
 
   return (
-    <WrapperFrom>
-      <p>To</p>
+    <WrapperTo>
+      <Direction>To:</Direction>
       {formDataFrom.cryptoFrom &&
         formDataTo.cryptoTo &&
         (cryptoPair ? (
           <P>
             <span>Current Exchange Rate: </span>
-            <span>{currentExchangeRate}</span>
+            <Amount>{currentExchangeRate}</Amount>
           </P>
         ) : (
           <P>
@@ -117,42 +118,57 @@ const ExchangeTo = ({
           onFocus={handleFocus}
           disabled={!formDataTo.cryptoTo}
         />
-        <p>
-          <span>Based on Your Balance, The Maximum Amount you can get:</span>
-          <span>{walletAmount * exchangeRate}</span>
-        </p>
-      </Form>
-      <button onClick={() => setModalOpen(true)}>Convert</button>
-    </WrapperFrom>
+        </Form>
+        <Reminder>
+          
+          <span>Based on Your Balance, The Maximum Amount you can get: </span>
+          <Amount>{walletAmount * exchangeRate}</Amount>
+        </Reminder>
+    
+      <Convert onClick={() => setModalOpen(true)}>Convert</Convert>
+    </WrapperTo>
   );
 };
 
 const P = styled.p`
-  color: black;
+  width: 500px;
   position: relative;
-  top: 0px;
-  left: 500px;
+  top: -28px;
+  left: 320px;
+  font-size:15px;
 `;
 
-const WalletInfo = styled.div`
+const Reminder = styled.p`
+  width: 500px;
+  position: relative;
+  top: 65px;
+  left: 130px;
+  font-size:15px;
+  color: white;
+`;
+
+const Amount = styled.span`
+  color: ${COLORS.blue};
+`;
+
+const Direction = styled.h1`
   display: flex;
-  gap: 30px;
-  font-size: 20px;
-`;
-const Select = styled.select`
+  color: ${COLORS.blue};
+  font-size: 30px;
   position: relative;
-  margin-left: 15px;
-  width: 250px;
-  height: 40px;
-  font-size: 20px;
+  top:10px;
+  left: 80px;
 `;
 
-const WrapperFrom = styled.div`
-  background-color: white;
+
+const WrapperTo = styled.div`
+  background-color: ${COLORS.white}  ;
   position: relative;
   top: 200px;
-  width: 1000px;
+  width: 800px;
   height: 300px;
+  left:900px;
+  border-radius: 15px;
 `;
 
 const Img = styled.img`
@@ -161,13 +177,42 @@ const Img = styled.img`
 const Input = styled.input`
   width: 300px;
   height: 35px;
+  background-color: ${COLORS.white};
   margin-right: 50px;
-  margin-top: 40px;
-  margin-left: 50px;
 `;
 
-const Option = styled.option``;
+const Option = styled.option`
+color: ${COLORS.charcoal};
+background-color: ${COLORS.white};
+`;
 
-const Form = styled.form``;
+const Select = styled.select`
+  position: relative;
+  margin-left: 15px;
+margin-right: 50px;
+  width: 150px;
+  height: 35px;
+  font-size: 20px;
+`;
+
+const Form = styled.form`
+display: flex;
+align-items: center;
+justify-content: center;
+position: relative;
+top: 30px;
+`;
+
+const Convert = styled.button`
+  background-color: ${COLORS.blue};
+  height: 50px;
+  border-radius: 15px;
+  font-size: 20px;
+  color: ${COLORS.white};
+  position: relative;
+  left: 540px;
+  top:80px;
+  padding: 5px 30px 5px 30px;
+`;
 
 export default ExchangeTo;

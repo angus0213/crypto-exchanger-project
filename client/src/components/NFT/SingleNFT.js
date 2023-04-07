@@ -177,7 +177,6 @@ const MyModal = styled(Modal)`
 
 const Highlight = styled.span`
   color: ${COLORS.blue};
-
 `;
 
 const ConfirmButton=styled.button`

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import cryptos from "../../data/cryptos.json";
 import { CurrentUserContext } from "../CurrentUserContext";
 import { useContext } from "react";
+import {COLORS} from "../Constants";
 
 const ExchangeFrom = ({
   formDataFrom,
@@ -41,16 +42,16 @@ const ExchangeFrom = ({
   return (
     <WrapperFrom>
       <div>
-        <p>From</p>
+      <Direction>From</Direction>
         {currentUser && formDataFrom && (
           <WalletInfo>
+                 <MaxButton onClick={handleClickMaxAmountFlag}>
+            Max Amount
+            </MaxButton>
             <p>
-              <span>Your wallet Amount:</span>
-              <span>{walletAmount}</span>
+              <span>Your wallet Amount: </span>
+              <Amount>{walletAmount}</Amount>
             </p>
-            <button onClick={handleClickMaxAmountFlag}>
-              Trade Max Amount Click Here
-            </button>
           </WalletInfo>
         )}
       </div>
@@ -97,25 +98,56 @@ const ExchangeFrom = ({
   );
 };
 
+const Direction = styled.h1`
+  display: flex;
+  color: ${COLORS.blue};
+  font-size: 30px;
+  position: relative;
+  top:10px;
+  left: 80px;
+`;
+
+const Amount = styled.span`
+  color: ${COLORS.blue};
+`;
+
+const MaxButton = styled.button`
+  display: flex;
+  font-size: 20px;
+  position: relative;
+  left: -30px;
+  top:-5px;
+  background-color: ${COLORS.blue};
+  height: 40px;
+  border-radius: 15px;
+  color: ${COLORS.white};
+  padding: 5px 30px 5px 30px;
+`;
+
 const WalletInfo = styled.div`
   display: flex;
-  gap: 30px;
   font-size: 20px;
+  color: black;
+  position: relative;
+  left: 300px;
+  top:-35px;
 `;
 const Select = styled.select`
   position: relative;
   margin-left: 15px;
-  width: 250px;
-  height: 40px;
+  width: 150px;
+  height: 35px;
   font-size: 20px;
 `;
 
 const WrapperFrom = styled.div`
-  background-color: white;
+  background-color: ${COLORS.white}  ;
   position: relative;
-  top: 200px;
-  width: 1000px;
+  top: 150px;
+  width: 800px;
   height: 300px;
+  left:600px;
+  border-radius: 15px;
 `;
 
 const Img = styled.img`
@@ -124,13 +156,22 @@ const Img = styled.img`
 const Input = styled.input`
   width: 300px;
   height: 35px;
+  background-color: ${COLORS.white};
   margin-right: 50px;
-  margin-top: 40px;
-  margin-left: 50px;
 `;
 
-const Option = styled.option``;
+const Option = styled.option`
+color: ${COLORS.charcoal};
+background-color: ${COLORS.white};
+`;
 
-const Form = styled.form``;
+const Form = styled.form`
+display: flex;
+align-items: center;
+justify-content: center;
+position: relative;
+top: 30px;
+`;
+
 
 export default ExchangeFrom;

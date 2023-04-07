@@ -95,8 +95,12 @@ const SpotWallet=()=>{
   
     ];
  
-    return <MyTable dataSource={data} columns={columns} rowClassName={"row"} pagination={{ pageSize: 15}}/>;
-  };// setup wallet table
+    return (
+    <>
+    <ConfirmButton onClick={()=>navigate(`/spotwallethistory/${currentUser._id}`)}>History</ConfirmButton>
+    <MyTable dataSource={data} columns={columns} rowClassName={"row"} pagination={{ pageSize: 15}}/>;
+    </>
+  )};// setup wallet table
   
   const MyTable = styled(Table)`
   width: 80%;
@@ -117,7 +121,18 @@ const SpotWallet=()=>{
    background-color:${COLORS.blue};
    `;
 
-
+const ConfirmButton=styled.button`
+width: 150px;
+height:50px;
+color: ${COLORS.white};
+background-color: ${COLORS.blue};
+font-weight:600px;
+font-size:20px;
+border-radius:15px;
+margin-top:20px;
+position: relative;
+left:600px;
+`;
 
 
 

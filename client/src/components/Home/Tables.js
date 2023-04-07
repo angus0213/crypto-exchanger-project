@@ -5,10 +5,28 @@ import { CurrentPriceContext } from "../CurrentPricesContext";
 import styled from "styled-components";
 import cryptos from "../../data/cryptos.json";
 import { Table, Avatar } from "antd";
+import { CurrentUserContext } from "../CurrentUserContext";
+import Modal from "react-modal";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const Tables = () => {
   //based on the info fetched from API, set the table to display the price and trade volume data in Homepage
   const { currentPrice } = useContext(CurrentPriceContext);
+  const { currentUser } = useContext(CurrentUserContext);
+  const [modalOpen, setModalOpen] = useState(false);//set confirmation modal open or close
+  const navigate=useNavigate();
+
+
+  const handleClick=()=>{
+    if (!currentUser){
+      setModalOpen(true);
+    }
+    else{
+      navigate("/exchange")
+    }
+  }
+
   const data = currentPrice.map((item) => {
     const crypto = cryptos.find(
       (singleCrypto) => item.asset_id_base === singleCrypto.name
@@ -104,9 +122,29 @@ const Tables = () => {
           )
         ),
     },
+    {
+      dataIndex: "Trade",
+      key: "Trade",
+      width:"10%",
+      render: () => (
+        <Button onClick={handleClick}>
+          {"Trade"}
+        </Button>)
+    }
   ];
 
-  return <MyTable dataSource={data} columns={columns} rowClassName={"row"} />;
+  return (
+  <>
+  <MyTable dataSource={data} columns={columns} rowClassName={"row"} />
+  <MyModal isOpen={modalOpen}>
+     
+  <h1><Highlight>Please Log in First!</Highlight></h1>
+  
+    <ConfirmButton onClick={()=>{setModalOpen(false); navigate("/")}}>Confirm</ConfirmButton>
+  </MyModal>
+  </>
+  )
+  ;
 };
 
 const MyTable = styled(Table)`
@@ -121,4 +159,42 @@ const MyTable = styled(Table)`
     background-color: ${COLORS.grey};
   }
 `;
+
+const Button=styled.button`
+   border-radius: 15px;
+   width: 100px;
+   color: ${COLORS.grey};
+   padding: 3px;
+   background-color:${COLORS.blue};
+   `;
+
+const MyModal = styled(Modal)`
+  background-color: ${COLORS.black};
+  width: 550px;
+  height: 400px;
+  position: fixed;
+  left: 720px;
+  top: 120px;
+  border-radius: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Highlight = styled.span`
+  color: ${COLORS.blue};
+`;
+
+const ConfirmButton=styled.button`
+width: 300px;
+height:50px;
+color: ${COLORS.white};
+background-color: ${COLORS.blue};
+font-weight:600px;
+font-size:20px;
+border-radius:15px;
+margin-top:60px;
+`;
+
 export default Tables;

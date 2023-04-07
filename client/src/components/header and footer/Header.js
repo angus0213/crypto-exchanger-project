@@ -78,7 +78,7 @@ const Header = () => {
                   <Nav.Item>Via telephone</Nav.Item>
                 </Nav.Menu>
               </Nav.Menu>
-              <Nav.Item>News</Nav.Item>
+              <Nav.Item href="/news">News</Nav.Item>
               <Nav.Item href="/nft" >NFT</Nav.Item>
               <Nav.Item>Feed</Nav.Item>
             </Nav>

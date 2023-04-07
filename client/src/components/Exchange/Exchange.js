@@ -8,6 +8,8 @@ import styled from "styled-components";
 import Modal from "react-modal";
 import { GrClose } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
+import {COLORS} from "../Constants";
+
 
 const Exchange = () => {
   const { currentUser, refetch, setRefetch } = useContext(CurrentUserContext);//refetch currentUser
@@ -19,6 +21,10 @@ const Exchange = () => {
   const [modalOpen, setModalOpen] = useState(false);//set confirmation modal open or close
   const [exchangeRate, setExchangeRate] = useState("");//set exchange rate between selected cryptos
   const navigate = useNavigate();
+
+  if(!currentUser) {
+    navigate("/")
+  }//user must login first
 
   const handleChangeFrom = (key, value) => {
     setFormDataFrom({
@@ -78,6 +84,7 @@ const Exchange = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.data.modifiedCount >= 1) {
+          setModalOpen(false);
           setRefetch(!refetch);
           navigate(`/wallet/${currentUser._id}`);
         }
@@ -87,6 +94,7 @@ const Exchange = () => {
 
   return (
     <>
+  
       <ExchangeFrom
         formDataFrom={formDataFrom}
         setFormDataFrom={setFormDataFrom}
@@ -119,49 +127,74 @@ const Exchange = () => {
         exchangeRate={exchangeRate}
         setExchangeRate={setExchangeRate}
       />
-      <Modal
-        isOpen={modalOpen}
+      <MyModal isOpen={modalOpen}
         shouldCloseOnOverlayClick={true}
-        shouldCloseOnEsc={true}
-      >
-        <CloseButton onClick={() => setModalOpen(false)}>
+        shouldCloseOnEsc={true}>
+                  <CloseButton onClick={() => setModalOpen(false)}>
           {" "}
           <GrClose />
         </CloseButton>
-        <div>
-          <h1>
-            Thanks for using Crypto<span>Beats</span>
+        <h1><span>Thanks for using Crypto</span><Highlight>Beats!</Highlight></h1>
+        <h1>
+            <span>You will get </span>
+            <Highlight>{balancePlus} </Highlight>
+            <Highlight>{formDataTo.cryptoTo}</Highlight>
           </h1>
           <h1>
-            <span>You will get</span>
-            <span>{balancePlus}</span>
-            <span>{formDataTo.cryptoTo}</span>
+            <span>Your </span>
+            <Highlight>{formDataFrom.cryptoFrom} </Highlight>
+            <span>balance will be reduced to </span>{" "}
+            <Highlight>{walletAmount - balanceMinus}</Highlight>
           </h1>
-          <h1>
-            <span>Your</span>
-            <span>{formDataFrom.cryptoFrom}</span>
-            <span>balance will be reduced to</span>{" "}
-            <span>{walletAmount - balanceMinus}</span>
-          </h1>
-          <button onClick={handleConfirm}>Confirm</button>
-        </div>
-      </Modal>
+          <ConfirmButton onClick={handleConfirm}>Confirm</ConfirmButton>
+        </MyModal>
     </>
   );
 };
 
+const MyModal = styled(Modal)`
+  background-color: ${COLORS.darkgray};
+  width: 550px;
+  height: 500px;
+  position: fixed;
+  left: 720px;
+  top: 120px;
+  border-radius: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+
 const MyMdCurrencyExchange = styled(MdCurrencyExchange)`
-  font-size: 120px;
+  font-size: 80px;
   color: white;
   position: relative;
-  left: 300px;
-  top: 200px;
+  left: 1000px;
+  top: 180px;
 `;
 
 const CloseButton = styled.button`
   background-color: transparent;
   position: fixed;
   top: 160px;
-  right: 680px;
+  right: 630px;
 `;
+
+const Highlight = styled.span`
+  color: ${COLORS.blue};
+`;
+
+const ConfirmButton=styled.button`
+width: 300px;
+height:50px;
+color: ${COLORS.white};
+background-color: ${COLORS.blue};
+font-weight:600px;
+font-size:20px;
+border-radius:15px;
+margin-top:60px;
+`;
+
 export default Exchange;

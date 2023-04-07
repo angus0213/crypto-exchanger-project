@@ -69,4 +69,10 @@
     <td><strong>Body</strong><br/>itemId: number (required)<br/>quantity: number (required) </td>
     <td>{cartItems}</td>
   </tr>
+       <tr>
+    <td>get</td>
+    <td> /news</td>
+    <td><strong>Body</strong><br/>itemId: number (required)<br/>quantity: number (required) </td>
+    <td>{cartItems}</td>
+  </tr>
 </table>

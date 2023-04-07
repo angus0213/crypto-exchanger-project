@@ -23,6 +23,7 @@ const {getNFTcollections}=require("./controllers/getNFTcollections")
 const {patchNFT}=require("./controllers/patchNFT")
 const {patchNFTWallet}=require("./controllers/patchNFTWallet")
 const {patchCancelListing}=require("./controllers/patchCancelListing")
+const {getNews}=require("./controllers/getNews")
 
 app.use((req, res, next) => {
   res.header(
@@ -43,7 +44,8 @@ app.post("/userlogin", postLogin);
 /* GET */
 app.get("/user/:userId", getUser);
 app.get("/quoteprices", getPrices);
-app.get("/nftcollections", getNFTcollections)
+app.get("/nftcollections", getNFTcollections);
+app.get("/news", getNews)
 
 /* PATCH */
 app.patch("/user/:userId", patchUsers);
