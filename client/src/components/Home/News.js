@@ -53,7 +53,6 @@ const Content = styled.p`
 const ContentWrapper = styled.div`
   position: relative;
   left: 20px;
-  top:10px;
 `;
 
 const NewsImg = styled.img`

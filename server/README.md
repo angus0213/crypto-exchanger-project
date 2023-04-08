@@ -75,4 +75,11 @@
     <td><strong>Body</strong><br/>itemId: number (required)<br/>quantity: number (required) </td>
     <td>{cartItems}</td>
   </tr>
+    </tr>
+       <tr>
+    <td>patch</td>
+    <td> /depositwallet</td>
+    <td><strong>Body</strong><br/>itemId: number (required)<br/>quantity: number (required) </td>
+    <td>{cartItems}</td>
+  </tr>
 </table>

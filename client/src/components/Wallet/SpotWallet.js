@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {COLORS} from "../Constants"
 import { useContext } from "react";
 import styled from "styled-components";
@@ -7,26 +7,50 @@ import { Table, Avatar } from "antd";
 import { CurrentUserContext } from "../CurrentUserContext";
 import { CurrentPriceContext } from "../CurrentPricesContext";
 import { useNavigate } from "react-router-dom";
+import DepositModal from "./DepositModal";
 
 const SpotWallet=()=>{
     const { currentUser } = useContext(CurrentUserContext);
     const { currentPrice } = useContext(CurrentPriceContext);
     const navigate=useNavigate();
+    const [modalOpen, setModalOpen]=useState(false);
 
     const handleClick=()=>{
       navigate(`/exchange`)
     }
  
+const handleDeposit=()=>{
+  setModalOpen(true);
+}
+
+
+//  const depositWalletArray= currentUser.depositWallet;
+//  const walletArray= currentUser.wallet;
+// depositWalletArray.map((depositCrypto)=>{
+//   walletArray.forEach((walletCrypto)=>{
+//     if (depositCrypto._id===walletCrypto._id){
+//       totalCryptoAmount=depositCrypto.amount+walletCrypto.amount;
+//     }
+//   })
+//   return {de}
+// })
+
 
   const btcPrice=currentPrice.find((item)=>item.symbol_id_exchange==="BTCUSDT").price//get BTC price
     const data=currentUser.wallet.map((item)=>{
+      let totalCryptoAmount=0;
         const crypto = cryptos.find(
             (singleCrypto) => item.name === singleCrypto.name
           );
+        currentUser.depositWallet.forEach((depositCrypto)=>{
+          if (item._id===depositCrypto._id){
+            totalCryptoAmount=Number(item.amount)+Number(depositCrypto.amount);
+          }
+        })
       return {
         cryptoImgSrc: crypto.imageSrc,
         "Coin": crypto.name,
-        "Total": item.amount,
+        "Total": totalCryptoAmount,
         "Available": item.amount,
         "BTC Value":(item.amount/btcPrice)
       };
@@ -59,10 +83,10 @@ const SpotWallet=()=>{
       },
   
       {
-        title: "BTC Value",
-        dataIndex: "BTC Value",
-        key: "BTC Value",
-        sorter: (a, b) => a["BTC Value"] - b["BTC Value"],
+        title: "BTC Equivalent  Value",
+        dataIndex: "BTC Equivalent  Value",
+        key: "BTC Equivalent  Value",
+        sorter: (a, b) => a["BTC Equivalent  Value"] - b["BTC Equivalent  Value"],
       },
       {
         dataIndex: "Buy",
@@ -88,7 +112,7 @@ const SpotWallet=()=>{
         key: "Deposit",
         width:"10%",
         render: () => (
-          <Button onClick={handleClick}>
+          <Button onClick={handleDeposit}>
             {"Deposit"}
           </Button>)
       },
@@ -98,7 +122,8 @@ const SpotWallet=()=>{
     return (
     <>
     <ConfirmButton onClick={()=>navigate(`/spotwallethistory/${currentUser._id}`)}>History</ConfirmButton>
-    <MyTable dataSource={data} columns={columns} rowClassName={"row"} pagination={{ pageSize: 15}}/>;
+    <MyTable dataSource={data} columns={columns} rowClassName={"row"} pagination={{ pageSize: 15}}/>
+    {currentUser&&<DepositModal modalOpen={modalOpen} setModalOpen={setModalOpen}/>};
     </>
   )};// setup wallet table
   

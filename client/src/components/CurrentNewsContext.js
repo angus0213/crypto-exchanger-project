@@ -7,12 +7,12 @@ export const CurrentNewsContext=createContext(null);
 export const CurrentNewsProvider=({children})=>{
     const [currentNews, setCurrentNews]=useState("");
 
-    useEffect(()=>{
-        fetch("/news")
-        .then(res=>res.json())
-        .then(data=>setCurrentNews(data.data.articles))
-        .catch(err=>console.log(err))
-      },[])
+    // useEffect(()=>{
+    //     fetch("/news")
+    //     .then(res=>res.json())
+    //     .then(data=>setCurrentNews(data.data.articles))
+    //     .catch(err=>console.log(err))
+    //   },[])
 
     return(
         <CurrentNewsContext.Provider
