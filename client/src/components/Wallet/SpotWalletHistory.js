@@ -52,7 +52,7 @@ const SpotWalletHistory=()=>{
         })
         return singleTrade;
     })
-    console.log(dataWithImg);
+
 
     // const data=currentUser.wallet.map((item)=>{
     //     const crypto = cryptos.find(

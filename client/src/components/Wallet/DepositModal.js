@@ -33,7 +33,6 @@ let compareMaxAmountFlag=true;
   const submitEnable =
     formData.crypto && formData.amount &&formData.amount>0 &&compareMaxAmountFlag //enable submit button
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
     fetch(`/depositwallet/${currentUser._id}`, {
@@ -42,7 +41,7 @@ let compareMaxAmountFlag=true;
         Accept: "application/json",
         "content-Type": "application/json",
       },
-      body: JSON.stringify({...formData, id:currentUser._id}),
+      body: JSON.stringify({...formData, id:currentUser._id, imageSrc:currentCrypto.imageSrc, type:"deposit"}),
     })
       .then((res) => res.json())
       .then((data) => {

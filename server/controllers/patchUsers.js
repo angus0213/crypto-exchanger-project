@@ -15,7 +15,9 @@ const patchUsers = async (req, res) => {
         wallet:wallet,
         walletHistory:[],
         NFT:[],
-        depositWallet:depositWallet
+        depositWallet:depositWallet,
+        depositPrincipalData:depositWallet,
+        depositWalletHistory:[],
     }})
     return res.status(200).json({ status: 200, data: patchResult });
   }

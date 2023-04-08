@@ -15,6 +15,7 @@ import NewsHome from "./Home/NewsHome";
 import Footer from "./header and footer/Footer";
 import TradeTable from "./Home/TradeTable";
 import { CurrentPriceContext } from "./CurrentPricesContext";
+import TermDepositWalletHistory from "./Wallet/TermDepositWalletHistory";
 
 const App=()=> {
   const { currentUser} = useContext(CurrentUserContext);
@@ -35,6 +36,7 @@ const App=()=> {
     <Route path="/trade" element={currentPrice&& <TradeTable/>}/>
     <Route path="/spotwallethistory/:userId" element={currentUser && <SpotWalletHistory/>}/>
     <Route path="/news" element={<NewsHome/>}/>
+    <Route path="/termdepositwallethistory/:userId" element={currentUser && <TermDepositWalletHistory/>}/>
    </Routes>
    <Footer/>
    </BrowserRouter>

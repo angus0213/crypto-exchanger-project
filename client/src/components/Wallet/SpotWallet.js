@@ -23,19 +23,6 @@ const handleDeposit=()=>{
   setModalOpen(true);
 }
 
-
-//  const depositWalletArray= currentUser.depositWallet;
-//  const walletArray= currentUser.wallet;
-// depositWalletArray.map((depositCrypto)=>{
-//   walletArray.forEach((walletCrypto)=>{
-//     if (depositCrypto._id===walletCrypto._id){
-//       totalCryptoAmount=depositCrypto.amount+walletCrypto.amount;
-//     }
-//   })
-//   return {de}
-// })
-
-
   const btcPrice=currentPrice.find((item)=>item.symbol_id_exchange==="BTCUSDT").price//get BTC price
     const data=currentUser.wallet.map((item)=>{
       let totalCryptoAmount=0;
@@ -52,7 +39,7 @@ const handleDeposit=()=>{
         "Coin": crypto.name,
         "Total": totalCryptoAmount,
         "Available": item.amount,
-        "BTC Value":(item.amount/btcPrice)
+        "BTC Equivalent  Value":(item.amount/btcPrice)
       };
     }
     );// get the right data that need to input in the wallet table
@@ -121,7 +108,7 @@ const handleDeposit=()=>{
  
     return (
     <>
-    <ConfirmButton onClick={()=>navigate(`/spotwallethistory/${currentUser._id}`)}>History</ConfirmButton>
+    <History onClick={()=>navigate(`/spotwallethistory/${currentUser._id}`)}>History</History>
     <MyTable dataSource={data} columns={columns} rowClassName={"row"} pagination={{ pageSize: 15}}/>
     {currentUser&&<DepositModal modalOpen={modalOpen} setModalOpen={setModalOpen}/>};
     </>
@@ -146,7 +133,7 @@ const handleDeposit=()=>{
    background-color:${COLORS.blue};
    `;
 
-const ConfirmButton=styled.button`
+const History=styled.button`
 width: 150px;
 height:50px;
 color: ${COLORS.white};
