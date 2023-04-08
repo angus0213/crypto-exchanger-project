@@ -105,7 +105,7 @@ const LogInModal = ({ modalOpen, setModalOpen }) => {
           {" "}
           <GrClose />
         </CloseButton>
-
+        <SigninImg src="../webImages/atm.png"/>
         <h1>
           Welcome to Crypto<Highlight>Beats</Highlight>
         </h1>
@@ -169,6 +169,7 @@ const LogInModal = ({ modalOpen, setModalOpen }) => {
   );
 };
 
+
 const MyModal = styled(Modal)`
   background-color: ${COLORS.darkgray};
   width: 500px;
@@ -190,6 +191,12 @@ const CloseButton = styled.button`
   right: 680px;
 `;
 
+const SigninImg=styled.img`
+width: 40%;
+border-radius: 50%;
+margin-top: -150px;
+margin-bottom: 30px;
+`;
 const Form = styled.form`
   display: flex;
   flex-direction: column;

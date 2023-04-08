@@ -27,7 +27,7 @@ return(
     currentUser&&
     <Panel>
    
-   <MyAiTwotoneSound/> <Announce>Dear <Highlight>{currentUser._id.slice(0,5).concat("***")}</Highlight> customer: You have <Highlight>{sumValue.toFixed(4)} USDT</Highlight> equivalent  Asset at {new Date().toLocaleString()}</Announce>
+   <MyAiTwotoneSound/> <Announce>Dear <Highlight>{currentUser._id.slice(0,5).concat("***")}</Highlight> customer: You have <Highlight>{sumValue.toFixed(4)} USDT</Highlight> equivalent asset at {new Date().toLocaleString()}</Announce>
     </Panel>
 )
 }

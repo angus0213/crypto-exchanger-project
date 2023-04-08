@@ -7,7 +7,7 @@ const Searchbar=()=>{
         <form>
             <input placeholder="Search Coin"/>
             <SearchBtn>
-            <FiSearch/>
+            <MyFiSearch/>
             </SearchBtn>
         </form>
         </>
@@ -17,6 +17,11 @@ const Searchbar=()=>{
 const SearchBtn=styled.button`
 font-size: 20px;
 background-color: transparent;
+`;
+
+const MyFiSearch=styled(FiSearch)`
+position: relative;
+top: 5px;
 `;
 
 export default Searchbar;

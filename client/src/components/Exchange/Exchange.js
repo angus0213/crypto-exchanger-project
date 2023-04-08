@@ -94,7 +94,7 @@ const Exchange = () => {
 
   return (
     <>
-  
+      
       <ExchangeFrom
         formDataFrom={formDataFrom}
         setFormDataFrom={setFormDataFrom}
@@ -110,7 +110,8 @@ const Exchange = () => {
         exchangeRate={exchangeRate}
       />
       <MyMdCurrencyExchange />
-
+      <ToWrapper>
+      <ExchangeImg src="../webImages/chart.png"/>
       <ExchangeTo
         formDataTo={formDataTo}
         setFormDataTo={setFormDataTo}
@@ -148,9 +149,22 @@ const Exchange = () => {
           </h1>
           <ConfirmButton onClick={handleConfirm}>Confirm</ConfirmButton>
         </MyModal>
+        </ToWrapper>
     </>
   );
 };
+
+const ToWrapper=styled.div`
+  display: flex;
+`;
+
+const ExchangeImg=styled.img`
+  width: 25%;
+  border-radius: 50%;
+  position: relative;
+  top:50px;
+  left: 120px;
+`;
 
 const MyModal = styled(Modal)`
   background-color: ${COLORS.darkgray};
@@ -172,7 +186,7 @@ const MyMdCurrencyExchange = styled(MdCurrencyExchange)`
   color: white;
   position: relative;
   left: 1000px;
-  top: 180px;
+  top: 120px;
 `;
 
 const CloseButton = styled.button`

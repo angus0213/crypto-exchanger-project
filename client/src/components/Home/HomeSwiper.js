@@ -54,12 +54,12 @@ const SwiperWelcome = styled.p`
    display: flex;
   position: relative;
   top: 80px;
-  left: 100px;
+  left: 90px;
   font-size: 50px;
   color: ${COLORS.black};
   font-family: "IBM Plex Sans";
   font-weight: 550;
-  z-index: 99;
+  /* z-index: 2; */
 `;
 
 const WelcomeSpan = styled.span`
@@ -114,6 +114,7 @@ const Wrapper = styled.div`
   margin-bottom: 100px;
   width: 1480px;
   border-radius: 15px;
+  z-index: 0;
 `;
 
 const SwiperImg2 = styled.img`

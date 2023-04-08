@@ -16,6 +16,8 @@ import { CurrentUserContext } from "../CurrentUserContext";
 import LogInModal from "./LogIn/LogIn";
 import { useState } from "react";
 import UserMenu from "./LogIn/UserMenu";
+import LanguagePanel from "./LanguagePanel";
+import { TfiWallet } from "react-icons/tfi";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -56,31 +58,31 @@ const Header = () => {
                 Home
               </Nav.Item>
               <Nav.Item href="/exchange">Buy Crypto</Nav.Item>
-              <Nav.Menu title="Markets">
-                <Nav.Item>Market Overview</Nav.Item>
-                <Nav.Item>Market Data</Nav.Item>
-              </Nav.Menu>
-              <Nav.Menu title="Trade">
-                <Nav.Item href="/exchange">CryptoBeats Convert</Nav.Item>
-                <Nav.Item>CryptoBeats Spot</Nav.Item>
+              <Nav.Item href="/trade" title="Markets">Markets</Nav.Item>
+                {/* <Nav.Item href="/trade">Market Overview</Nav.Item>
+                <Nav.Item href="/trade">Market Data</Nav.Item>
+              </Nav.Menu> */}
+              {/* <Nav.Menu title="Trade"> */}
+                {/* <Nav.Item href="/exchange">CryptoBeats Convert</Nav.Item> */}
+                {/* <Nav.Item>CryptoBeats Spot</Nav.Item>
                 <Nav.Item>CryptoBeats P2P</Nav.Item>
                 <Nav.Item>CryptoBeats OTC</Nav.Item>
-              </Nav.Menu>
+              </Nav.Menu> */}
               <Nav.Menu title="Finance">
-                <Nav.Item>CryptoBeats Loan</Nav.Item>
-                <Nav.Item>CryptoBeats Earn</Nav.Item>
+                <Nav.Item>CryptoBeats Loan (N/A)</Nav.Item>
+                <Nav.Item>CryptoBeats Earn (N/A)</Nav.Item>
               </Nav.Menu>
               <Nav.Menu title="About">
-                <Nav.Item>Company</Nav.Item>
-                <Nav.Item>Team</Nav.Item>
+                <Nav.Item>Company (N/A)</Nav.Item>
+                <Nav.Item>Team (N/A)</Nav.Item>
                 <Nav.Menu title="Contact">
-                  <Nav.Item>Via email</Nav.Item>
-                  <Nav.Item>Via telephone</Nav.Item>
+                  <Nav.Item>Via email (N/A)</Nav.Item>
+                  <Nav.Item>Via telephone (N/A)</Nav.Item>
                 </Nav.Menu>
               </Nav.Menu>
               <Nav.Item href="/news">News</Nav.Item>
               <Nav.Item href="/nft" >NFT</Nav.Item>
-              <Nav.Item>Feed</Nav.Item>
+              {/* <Nav.Item>Feed</Nav.Item> */}
             </Nav>
           )}
         </NavbarLeftWapper>
@@ -91,12 +93,13 @@ const Header = () => {
               <Searchbar />
               {currentUser ? (
                 <>
-                  <button onClick={handleLogOut}>LogOut</button>
+                  <LogBtn onClick={handleLogOut}>LogOut</LogBtn>
+                  <MyLink to={`/wallet/${currentUser._id}`}><TfiWallet/> Wallet</MyLink>
                   <UserMenu/> 
                 </>
               ) : (
                 <>
-                  <button onClick={()=>setModalOpen(true)}>LogIn</button>
+                  <LogBtn onClick={()=>setModalOpen(true)}>LogIn</LogBtn>
                   <SignupBtn onClick={handleSignup}>
                     <AiFillGift /> SignUp
                   </SignupBtn>
@@ -104,11 +107,15 @@ const Header = () => {
               )}
               <DownloadBtn>
                 <FiDownload />
+                <BarCode src="../webImages/barcode.jpg"/>
               </DownloadBtn>
             </SearchWapper>
           )}
           <LanguageBtn>
             <TfiWorld />
+            <Display>
+            <LanguagePanel/>
+            </Display>
           </LanguageBtn>
         </HeaderRightWapper>
       </HeaderWapper>
@@ -120,6 +127,14 @@ const Header = () => {
 const NavbarLeftWapper = styled.div`
   position: fixed;
   left: 30px;
+`;
+
+const BarCode = styled.img`
+  display: none;
+  width: 7%;
+  position: fixed;
+  top:60px;
+  right:120px;
 `;
 
 const SearchWapper = styled.div`
@@ -163,14 +178,47 @@ const SignupBtn = styled.button`
   }
 `;
 
+const LogBtn = styled.button`
+background-color: transparent;
+font-size:17px;
+`;
+
 const DownloadBtn = styled.button`
   font-size: 20px;
   background-color: transparent;
+  &:hover ${BarCode}{
+    display: block;
+  }
+`;
+
+const Display = styled.div`
+ display:none;
+ position: fixed;
+ background-color: ${COLORS.grey};
+ top:60px;
+ left: 1330px;
 `;
 
 const LanguageBtn = styled.button`
   font-size: 20px;
   background-color: transparent;
+  &:hover ${Display}{
+    display: block;
+  }
 `;
+
+const MyLink = styled(Link)`
+text-decoration: none !important;
+  background-color: ${COLORS.green};
+  color: #575858;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 8px 20px;
+  border-radius: 15px;
+  &:hover {
+    color: #393a3a;
+  }
+`;
+
 
 export default Header;

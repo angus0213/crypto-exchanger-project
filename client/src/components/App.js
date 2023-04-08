@@ -12,9 +12,13 @@ import SpotWalletHistory from "./Wallet/SpotWalletHistory";
 import { CurrentUserContext } from "./CurrentUserContext";
 import { useContext } from "react";
 import NewsHome from "./Home/NewsHome";
+import Footer from "./header and footer/Footer";
+import TradeTable from "./Home/TradeTable";
+import { CurrentPriceContext } from "./CurrentPricesContext";
 
 const App=()=> {
   const { currentUser} = useContext(CurrentUserContext);
+  const {currentPrice}=useContext(CurrentPriceContext);
   return (
    <>
    <BrowserRouter>
@@ -28,9 +32,11 @@ const App=()=> {
     <Route path="/wallet/:userId" element={<Wallet/>}/>
     <Route path="/exchange" element={<Exchange/>}/>
     <Route path="/nft" element={<NFTHome/>}/>
+    <Route path="/trade" element={currentPrice&& <TradeTable/>}/>
     <Route path="/spotwallethistory/:userId" element={currentUser && <SpotWalletHistory/>}/>
     <Route path="/news" element={<NewsHome/>}/>
    </Routes>
+   <Footer/>
    </BrowserRouter>
    </>
   );

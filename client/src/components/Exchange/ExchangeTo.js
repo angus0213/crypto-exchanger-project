@@ -164,10 +164,10 @@ const Direction = styled.h1`
 const WrapperTo = styled.div`
   background-color: ${COLORS.white}  ;
   position: relative;
-  top: 200px;
+  top: 150px;
   width: 800px;
-  height: 300px;
-  left:900px;
+  height: 330px;
+  left:400px;
   border-radius: 15px;
 `;
 

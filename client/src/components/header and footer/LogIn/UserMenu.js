@@ -44,13 +44,13 @@ const MyHiOutlineUserCircle = styled(HiOutlineUserCircle)`
 const MyLink = styled(Link)`
 padding: 10px 60px 10px 10px;
 text-align: left;
-
 color: ${COLORS.black};
   &:hover{
     color:  ${COLORS.white};
     text-decoration: none;
     background-color: ${COLORS.darkgray};
   }
+width: 150px;
 `;
 
 const Display = styled.div`
@@ -61,6 +61,8 @@ const Wrapper = styled.div`
   &:hover ${Display} {
     display: block;
   }
+  position: relative;
+  top:3px;
 `;
 
 const ProfileBtn = styled.button`

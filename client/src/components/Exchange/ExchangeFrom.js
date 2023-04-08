@@ -143,10 +143,10 @@ const Select = styled.select`
 const WrapperFrom = styled.div`
   background-color: ${COLORS.white}  ;
   position: relative;
-  top: 150px;
+  top: 100px;
   width: 800px;
   height: 300px;
-  left:600px;
+  left:500px;
   border-radius: 15px;
 `;
 
