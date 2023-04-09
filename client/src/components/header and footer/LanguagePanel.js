@@ -1,12 +1,11 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-
-
-const LanguagePanel=()=>{
-
-    return (<>
-    <Wrapper>
+const LanguagePanel = () => {
+  // set fake language panel
+  return (
+    <>
+      <Wrapper>
         <Link to={"/"}>Deutsch (Schweiz)</Link>
         <Link to={"/"}>Bahasa Indonesia</Link>
         <Link to={"/"}>English</Link>
@@ -27,24 +26,24 @@ const LanguagePanel=()=>{
         <Link to={"/"}>繁體中文</Link>
         <Link to={"/"}>বাংলা</Link>
         <Link to={"/"}>ქართული</Link>
-    </Wrapper>
-    </>)
-}
+      </Wrapper>
+    </>
+  );
+};
 
-const Wrapper=styled.div`
-font-size: 10px;
-display:flex;
-flex-flow: row wrap;
-justify-content: space-evenly;
-flex: 0 1 calc(20% - 8px);
-width: 500px;
-height: 200px;
-font-size: 15px;
-gap:20px;
-justify-content:center;
-padding-bottom:20px;
-padding-top:20px;
-/* margin-left:50px; */
+const Wrapper = styled.div`
+  font-size: 10px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  flex: 0 1 calc(20% - 8px);
+  width: 500px;
+  height: 200px;
+  font-size: 15px;
+  gap: 20px;
+  justify-content: center;
+  padding-bottom: 20px;
+  padding-top: 20px;
 `;
 
 export default LanguagePanel;

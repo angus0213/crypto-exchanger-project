@@ -1,11 +1,10 @@
-const { log } = require("console");
 const { getCollections } = require("../configs/MongoDB");
-
+//user redeem their deposit
 const patchRedeem = async (req, res) => {
-  const { users } = getCollections();
+  const { users } = getCollections();//get mongodb collection
 
   try {
-    const userInfo = await users.findOne({ _id: req.body._id });
+    const userInfo = await users.findOne({ _id: req.body._id });//find user info
 
     if (userInfo) {
       let depositAmount;
@@ -17,14 +16,14 @@ const patchRedeem = async (req, res) => {
           crypto.amount = 0;
         }
         return crypto;
-      });
+      });//reduce depositWallet's amount to 0
 
       const newWallet = userInfo.wallet.map((crypto) => {
         if (crypto._id === req.body.redeemCoin) {
           crypto.amount = crypto.amount + depositAmount;
         }
         return crypto;
-      });
+      });//increase wallet's amount to redeem amount
 
       const newDepositPrincipalData = userInfo.depositPrincipalData.map(
         (crypto) => {
@@ -33,9 +32,9 @@ const patchRedeem = async (req, res) => {
           }
           return crypto;
         }
-      );
+      );//reduce principal account's amount to 0
 
-      const timestamp = Date.parse(new Date());
+      const timestamp = Date.parse(new Date());//set trading time
 
       const newDepositWalletHistoryObject = {
         crypto: req.body.redeemCoin,
@@ -44,12 +43,9 @@ const patchRedeem = async (req, res) => {
         imageSrc: imageSrc,
         type: "redeem",
         timestamp: timestamp,
-      };
+      };//set history info
 
-      userInfo.depositWalletHistory.push(
-        newDepositWalletHistoryObject)
-
-
+      userInfo.depositWalletHistory.push(newDepositWalletHistoryObject);//update history info
 
       const newWalletData = await users.updateOne(
         { _id: req.body._id },
@@ -58,11 +54,11 @@ const patchRedeem = async (req, res) => {
             depositWallet: newDepositWallet,
             wallet: newWallet,
             depositPrincipalData: newDepositPrincipalData,
-            depositWalletHistory: userInfo.depositWalletHistory
+            depositWalletHistory: userInfo.depositWalletHistory,
           },
         }
-      );
-
+      );//update user info
+ 
       return res.status(200).json({ status: 200, data: newWalletData });
     } else {
       return res

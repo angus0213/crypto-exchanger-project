@@ -138,14 +138,14 @@ const Exchange = () => {
         <h1><span>Thanks for using Crypto</span><Highlight>Beats!</Highlight></h1>
         <h1>
             <span>You will get </span>
-            <Highlight>{balancePlus} </Highlight>
+            <Highlight>{Number(balancePlus).toFixed(5)} </Highlight>
             <Highlight>{formDataTo.cryptoTo}</Highlight>
           </h1>
           <h1>
             <span>Your </span>
             <Highlight>{formDataFrom.cryptoFrom} </Highlight>
             <span>balance will be reduced to </span>{" "}
-            <Highlight>{walletAmount - balanceMinus}</Highlight>
+            <Highlight>{Number(walletAmount).toFixed(5) - Number(balanceMinus).toFixed(5)}</Highlight>
           </h1>
           <ConfirmButton onClick={handleConfirm}>Confirm</ConfirmButton>
         </MyModal>
@@ -168,7 +168,7 @@ const ExchangeImg=styled.img`
 
 const MyModal = styled(Modal)`
   background-color: ${COLORS.darkgray};
-  width: 550px;
+  width: 650px;
   height: 500px;
   position: fixed;
   left: 720px;
@@ -179,7 +179,6 @@ const MyModal = styled(Modal)`
   justify-content: center;
   align-items: center;
 `;
-
 
 const MyMdCurrencyExchange = styled(MdCurrencyExchange)`
   font-size: 80px;
@@ -193,7 +192,7 @@ const CloseButton = styled.button`
   background-color: transparent;
   position: fixed;
   top: 160px;
-  right: 630px;
+  right: 530px;
 `;
 
 const Highlight = styled.span`

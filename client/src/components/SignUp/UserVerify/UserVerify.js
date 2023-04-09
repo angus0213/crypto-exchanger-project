@@ -16,7 +16,7 @@ const UserVerify = () => {
       ...formData,
       [key]: value,
     });
-  };
+  };//get verify data
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -38,14 +38,14 @@ const UserVerify = () => {
   };
   /*verify page, let user input ID info and store in database */
 
-  const UserReferralCode = userId.slice(0, 8).toUpperCase();//set refferal code of the user
+  const UserReferralCode = userId.slice(0, 8).toUpperCase(); //set refferal code of the user
 
   const handleModalClose = () => setModalOpen(false);
 
   return (
     <>
-      <Wapper>
-        <NoticeWapper>
+      <Wrapper>
+        <NoticeWrapper>
           <h1>
             <Highlight> Notice:</Highlight> <span>You need to </span>
             <Highlight>Verify Identity </Highlight>
@@ -54,19 +54,17 @@ const UserVerify = () => {
           </h1>
           <h2>You will get $10,000 USDT immediately after KYC</h2>
           <Img src="/webImages/mobileapp.jpg" />
-        </NoticeWapper>
-
-        <KYCWapper>
-          <CongratulationsWapper>
+        </NoticeWrapper>
+        <KYCWrapper>
+          <CongratulationsWrapper>
             Congratulations!{" "}
             <Congratulations src="/webImages/congratulations.png" />
-           
-          </CongratulationsWapper>
+          </CongratulationsWrapper>
           <P>Your Referral Code: {UserReferralCode}</P>
           <h1>Please Verify Your Identity</h1>
           <hr />
           <Form onSubmit={handleSubmit}>
-            <InputWapper>
+            <InputWrapper>
               <Input
                 type={"text"}
                 id="ID"
@@ -74,7 +72,6 @@ const UserVerify = () => {
                 required
                 onChange={(e) => handleChange(e.target.id, e.target.value)}
               />
-
               <Input
                 type={"text"}
                 id="fullName"
@@ -82,7 +79,6 @@ const UserVerify = () => {
                 required
                 onChange={(e) => handleChange(e.target.id, e.target.value)}
               />
-
               <Input
                 type={"text"}
                 id="age"
@@ -97,7 +93,6 @@ const UserVerify = () => {
                 required
                 onChange={(e) => handleChange(e.target.id, e.target.value)}
               />
-
               <Input
                 type={"text"}
                 id="country"
@@ -105,12 +100,12 @@ const UserVerify = () => {
                 placeholder="Country"
                 onChange={(e) => handleChange(e.target.id, e.target.value)}
               />
-            </InputWapper>
+            </InputWrapper>
             <Submit type={"submit"}>Submit</Submit>
           </Form>
           <Cancel onClick={() => navigate("/")}>Skip</Cancel>
-        </KYCWapper>
-      </Wapper>
+        </KYCWrapper>
+      </Wrapper>
       <VerifyModal modalopen={modalopen} handleModalClose={handleModalClose} />
     </>
   );
@@ -127,17 +122,17 @@ const Input = styled.input`
   border-radius: 15px;
 `;
 
-const Wapper = styled.div`
+const Wrapper = styled.div`
   display: flex;
 `;
 
-const InputWapper = styled.div`
+const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
 `;
 
-const KYCWapper = styled.div`
+const KYCWrapper = styled.div`
   display: flex;
   flex-direction: column;
   background-color: ${COLORS.grey};
@@ -157,7 +152,7 @@ const Congratulations = styled.img`
   width: 50px;
 `;
 
-const CongratulationsWapper = styled.h1`
+const CongratulationsWrapper = styled.h1`
   color: ${COLORS.blue};
   font-size: 30px;
   position: relative;
@@ -165,7 +160,7 @@ const CongratulationsWapper = styled.h1`
   margin-bottom: 50px;
 `;
 
-const NoticeWapper = styled.div`
+const NoticeWrapper = styled.div`
   display: flex;
   flex-direction: column;
   background-color: ${COLORS.grey};

@@ -10,13 +10,13 @@ export const COLORS = {
   //white
   white: "#FFFFFF",
   //grey
-  grey:"#F7F7FA",
+  grey: "#F7F7FA",
   //black
-  black:"#575858",
+  black: "#575858",
   //blue
-  blue:"#3EB6C7",
+  blue: "#3EB6C7",
   //dark gray
-  darkgray:"#c1c6c8",
+  darkgray: "#c1c6c8",
   //light blue
-  lightblue:"#71D0E5"
+  lightblue: "#71D0E5",
 };

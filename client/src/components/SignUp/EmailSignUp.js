@@ -18,18 +18,18 @@ const EmailSignUp = ({
     } else {
       setCheckEmail(false);
     }
-  };/*check email whether contain "@" */
+  }; /*check email whether contain "@" */
 
   return (
-    <InputWapper>
+    <InputWrapper>
       <Input
         type={"text"}
         id="email"
         placeholder="Email"
         required
         onChange={(e) => handleChange(e.target.id, e.target.value)}
-        onBlur={handleCheckEmail}/* prepare for warning span*/
-        onFocus={() => setCheckEmail(true)}/* same as above*/
+        onBlur={handleCheckEmail} /* prepare for warning span*/
+        onFocus={() => setCheckEmail(true)} /* same as above*/
       />
       {!checkEmail && emailFormData.email && (
         <Warning>Please check your email format</Warning>
@@ -41,7 +41,7 @@ const EmailSignUp = ({
         required
         onChange={(e) => handleChange(e.target.id, e.target.value)}
         onBlur={() => handleCheckPassword(emailFormData.password)}
-        onFocus={() => setCheckPassword(true)}/* check password*/
+        onFocus={() => setCheckPassword(true)} /* check password*/
       />
       {!checkPassword && emailFormData.password && (
         <Warning>
@@ -55,11 +55,12 @@ const EmailSignUp = ({
         placeholder="Confirm Password"
         required
         onChange={(e) => handleChange(e.target.id, e.target.value)}
-        onBlur={() =>
-          handleConfirmPassword(
-            emailFormData.password,
-            emailFormData.passwordConfirmation
-          )/*check two passwords */
+        onBlur={
+          () =>
+            handleConfirmPassword(
+              emailFormData.password,
+              emailFormData.passwordConfirmation
+            ) /*check two passwords */
         }
         onFocus={() => setCheckPasswordConfirmation(true)}
       />
@@ -72,7 +73,7 @@ const EmailSignUp = ({
         placeholder="Referral Code (Optional)"
         onChange={(e) => handleChange(e.target.id, e.target.value)}
       />
-    </InputWapper>
+    </InputWrapper>
   );
 };
 
@@ -81,7 +82,7 @@ const Input = styled.input`
   border-radius: 15px;
 `;
 
-const InputWapper = styled.div`
+const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;

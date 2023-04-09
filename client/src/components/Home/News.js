@@ -4,6 +4,7 @@ import { COLORS } from "../Constants";
 
 const News = ({ article }) => {
   return (
+    //set News page
     <>
       <Wrapper>
         <NewsImg src={article.urlToImage} />
@@ -35,8 +36,8 @@ const News = ({ article }) => {
 };
 
 const MyLink = styled(Link)`
-font-size:20px;
-font-weight: bold;
+  font-size: 20px;
+  font-weight: bold;
 `;
 
 const Wrapper = styled.div`

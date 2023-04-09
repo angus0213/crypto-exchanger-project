@@ -7,12 +7,12 @@ import { useContext } from "react";
 
 const NFTWallet = () => {
     const {currentUser } = useContext(CurrentUserContext);
-
-
+    
   return (
    
     currentUser && (
       <Wrapper>
+          <Title>NFT Collections</Title>
         <InnerWrapper>
         {currentUser.NFT.map((nftItem) => {
           return <NFTWalletDetails nftItem={nftItem} />;
@@ -28,6 +28,7 @@ background-color:${COLORS.grey};
 position:relative;
 top:30px;
 width: 1400px;
+height: 600px;
 margin-bottom:50px;
 `;
 
@@ -40,7 +41,15 @@ gap:50px;
 justify-content:center;
 padding-bottom:50px;
 padding-top:50px;
+
 margin-left:50px;
+`;
+
+const Title = styled.h1`
+  color: ${COLORS.black};
+  position: relative;
+  left: 20px;
+  width: 200px;
 `;
 
 export default NFTWallet;

@@ -110,7 +110,7 @@ const LogInModal = ({ modalOpen, setModalOpen }) => {
           Welcome to Crypto<Highlight>Beats</Highlight>
         </h1>
         <hr />
-        <ButtonWapper>
+        <ButtonWrapper>
           <SelectButton
             onClick={() => {
               handleEmail();
@@ -129,7 +129,7 @@ const LogInModal = ({ modalOpen, setModalOpen }) => {
           >
             Mobile Number
           </SelectButton>
-        </ButtonWapper>
+        </ButtonWrapper>
         <Form onSubmit={handleSubmit}>
           {emailStatus && (
             <EmailLogIn
@@ -215,7 +215,7 @@ const Submit = styled.button`
   color: ${COLORS.white};
 `;
 
-const ButtonWapper = styled.div`
+const ButtonWrapper = styled.div`
   display: flex;
   gap: 60px;
   margin-bottom: 10px;

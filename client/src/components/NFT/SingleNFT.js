@@ -1,50 +1,50 @@
 import styled from "styled-components";
 import { COLORS } from "../Constants";
 import Modal from "react-modal";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { GrClose } from "react-icons/gr";
 import { CurrentUserContext } from "../CurrentUserContext";
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
 
-const SingleNFT = ({ nftItem }) => {
-  const [modalOpen, setModalOpen]=useState(false)
-  const {currentUser, refetch, setRefetch } = useContext(CurrentUserContext);
-  const [ethBalanceFlag, setEthBalanceFlag] =useState(false)
-  const navigate=useNavigate();
+const SingleNFT = ({ nftItem, reFetchNft, setReFetchNft }) => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const { currentUser} = useContext(CurrentUserContext);
+  const [ethBalanceFlag, setEthBalanceFlag] = useState(false);//check ETH wallet amount(NFT can only be purchased by ETH)
 
- const handleClick=()=>{
-  checkEthBalance();
-  setModalOpen(true)
- }
+  const handleClick = () => {
+    checkEthBalance();
+    setModalOpen(true);
+  };
 
- const checkEthBalance=()=>{
-  if(currentUser){
- const ethInfo= currentUser.wallet.find((crypto)=>{
-   return crypto.name==="ETH";
-  })
-  setEthBalanceFlag( ethInfo.amount>=nftItem.Price);
- }}
- 
-const handleConfirm=()=>{
-  fetch(`/patchnft/${currentUser._id}`, {
-    method: "PATCH",
-    headers: {
-      Accept: "application/json",
-      "content-Type": "application/json",
-    },
-    body: JSON.stringify({userId:currentUser._id, Nft:{...nftItem, owner:currentUser._id}}),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      console.log(data);
-        setRefetch(!refetch);
-        setModalOpen(false);
-        
+  const checkEthBalance = () => {
+    if (currentUser) {
+      const ethInfo = currentUser.wallet.find((crypto) => {
+        return crypto.name === "ETH";
+      });
+      setEthBalanceFlag(ethInfo.amount >= nftItem.Price);
+    }
+  };//check ETH balance
+
+  const handleConfirm = () => {
+    fetch(`/patchnft/${currentUser._id}`, {
+      method: "PATCH",
+      headers: {
+        Accept: "application/json",
+        "content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: currentUser._id,
+        Nft: { ...nftItem, owner: currentUser._id },
+      }),
     })
-    .catch((err) => console.log(err));
-};
-
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setReFetchNft(!reFetchNft);
+        setModalOpen(false);
+      })
+      .catch((err) => console.log(err));
+  };//reset NFT wallet and NFT stock after user purchased NFT
 
   return (
     <Wrapper>
@@ -74,40 +74,57 @@ const handleConfirm=()=>{
         </InnerWrapper>
         {nftItem.quantity >= 1 ? (
           <BuyButton onClick={handleClick}>BUY NOW</BuyButton>
-        ) : (
+        ) : (/*change the NFT two button's status*/
           <BuyButton className={"outOfStock"} disabled>
             OUT OF STOCK
           </BuyButton>
         )}
       </ClassnameDiv>
-      {ethBalanceFlag?
-      <MyModal isOpen={modalOpen}
-        shouldCloseOnOverlayClick={true}
-        shouldCloseOnEsc={true}>
-                  <CloseButton onClick={() => setModalOpen(false)}>
-          {" "}
-          <GrClose />
-        </CloseButton>
-        <h1><span>Thanks for shopping with Crypto</span><Highlight>Beats</Highlight></h1>
-          <h1>You will get <Highlight>{nftItem.name}</Highlight> NFT</h1>
-          <h2>The cost is <span>{nftItem.Price} </span>
+      {ethBalanceFlag ? (
+        <MyModal
+          isOpen={modalOpen}
+          shouldCloseOnOverlayClick={true}
+          shouldCloseOnEsc={true}
+        >
+          <CloseButton onClick={() => setModalOpen(false)}>
+            {" "}
+            <GrClose />
+          </CloseButton>
+          <h1>
+            <span>Thanks for shopping with Crypto</span>
+            <Highlight>Beats</Highlight>
+          </h1>
+          <h1>
+            You will get <Highlight>{nftItem.name}</Highlight> NFT
+          </h1>
+          <h2>
+            The cost is <span>{nftItem.Price} </span>
             <span>{nftItem.PriceUnit} </span>
-            <UnitImg src={nftItem.PriceUnitImg} /></h2>
+            <UnitImg src={nftItem.PriceUnitImg} />
+          </h2>
           <ConfirmButton onClick={handleConfirm}>Confirm</ConfirmButton>
         </MyModal>
-      :  
-      <MyModal isOpen={modalOpen}
-        shouldCloseOnOverlayClick={true}
-        shouldCloseOnEsc={true}>
-                  <CloseButton onClick={() => setModalOpen(false)}>
-          {" "}
-          <GrClose />
-        </CloseButton>
-        <h1><span>Your ETH </span><Highlight>Balance </Highlight><span>is Not Enough!</span></h1>
+      ) : (
+        <MyModal
+          isOpen={modalOpen}
+          shouldCloseOnOverlayClick={true}
+          shouldCloseOnEsc={true}
+        >
+          <CloseButton onClick={() => setModalOpen(false)}>
+            {" "}
+            <GrClose />
+          </CloseButton>
+          <h1>
+            <span>Your ETH </span>
+            <Highlight>Balance </Highlight>
+            <span>is Not Enough!</span>
+          </h1>
           <h1>Please check your wallet</h1>
-          <ConfirmButton onClick={() => setModalOpen(false)}>Confirm</ConfirmButton>
+          <ConfirmButton onClick={() => setModalOpen(false)}>
+            Confirm
+          </ConfirmButton>
         </MyModal>
-      }
+      )}
     </Wrapper>
   );
 };
@@ -179,20 +196,20 @@ const Highlight = styled.span`
   color: ${COLORS.blue};
 `;
 
-const ConfirmButton=styled.button`
-width: 300px;
-height:50px;
-color: ${COLORS.white};
-background-color: ${COLORS.blue};
-font-weight:600px;
-font-size:20px;
-border-radius:15px;
-margin-top:60px;
+const ConfirmButton = styled.button`
+  width: 300px;
+  height: 50px;
+  color: ${COLORS.white};
+  background-color: ${COLORS.blue};
+  font-weight: 600px;
+  font-size: 20px;
+  border-radius: 15px;
+  margin-top: 60px;
 `;
 
 const UnitImg = styled.img`
   width: 18px;
-  margin-left:5px;
+  margin-left: 5px;
 `;
 
 export default SingleNFT;

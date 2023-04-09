@@ -1,8 +1,8 @@
 import { COLORS } from "./Constants";
-import {createGlobalStyle} from "styled-components"
+import { createGlobalStyle } from "styled-components";
 
-
-const GlobalStyles=createGlobalStyle`
+//set global styles
+const GlobalStyles = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Jost&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@200&display=swap');
 *{

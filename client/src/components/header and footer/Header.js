@@ -22,11 +22,11 @@ import { TfiWallet } from "react-icons/tfi";
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [modalOpen, setModalOpen]=useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const handleSignup = () => {
     navigate(`/signup/${uuidv4()}`);
-  };/*navigate to signup page when user click signup button, generate userId at this stage and set in database finally (will use fist 8 character as referral code) */
+  }; /*navigate to signup page when user click signup button, generate userId at this stage and set in database finally (will use fist 8 character as referral code) */
 
   const { currentUser, setcurrentUser } = useContext(CurrentUserContext);
 
@@ -45,8 +45,8 @@ const Header = () => {
 
   return (
     <>
-      <HeaderWapper>
-        <NavbarLeftWapper>
+      <HeaderWrapper>
+        <NavbarLeftWrapper>
           <Navbar.Brand>
             <Link to={"/"}>
               <Logo src="/favicon/favicon.png" />
@@ -58,16 +58,9 @@ const Header = () => {
                 Home
               </Nav.Item>
               <Nav.Item href="/exchange">Buy Crypto</Nav.Item>
-              <Nav.Item href="/trade" title="Markets">Markets</Nav.Item>
-                {/* <Nav.Item href="/trade">Market Overview</Nav.Item>
-                <Nav.Item href="/trade">Market Data</Nav.Item>
-              </Nav.Menu> */}
-              {/* <Nav.Menu title="Trade"> */}
-                {/* <Nav.Item href="/exchange">CryptoBeats Convert</Nav.Item> */}
-                {/* <Nav.Item>CryptoBeats Spot</Nav.Item>
-                <Nav.Item>CryptoBeats P2P</Nav.Item>
-                <Nav.Item>CryptoBeats OTC</Nav.Item>
-              </Nav.Menu> */}
+              <Nav.Item href="/trade" title="Markets">
+                Markets
+              </Nav.Item>
               <Nav.Menu title="Finance">
                 <Nav.Item>CryptoBeats Loan (N/A)</Nav.Item>
                 <Nav.Item>CryptoBeats Earn (N/A)</Nav.Item>
@@ -81,25 +74,26 @@ const Header = () => {
                 </Nav.Menu>
               </Nav.Menu>
               <Nav.Item href="/news">News</Nav.Item>
-              <Nav.Item href="/nft" >NFT</Nav.Item>
-              {/* <Nav.Item>Feed</Nav.Item> */}
+              <Nav.Item href="/nft">NFT</Nav.Item>
             </Nav>
           )}
-        </NavbarLeftWapper>
+        </NavbarLeftWrapper>
 
-        <HeaderRightWapper>
+        <HeaderRightWrapper>
           {!pathFlag && (
-            <SearchWapper>
+            <SearchWrapper>
               <Searchbar />
               {currentUser ? (
                 <>
                   <LogBtn onClick={handleLogOut}>LogOut</LogBtn>
-                  <MyLink to={`/wallet/${currentUser._id}`}><TfiWallet/> Wallet</MyLink>
-                  <UserMenu/> 
+                  <MyLink to={`/wallet/${currentUser._id}`}>
+                    <TfiWallet /> Wallet
+                  </MyLink>
+                  <UserMenu />
                 </>
               ) : (
                 <>
-                  <LogBtn onClick={()=>setModalOpen(true)}>LogIn</LogBtn>
+                  <LogBtn onClick={() => setModalOpen(true)}>LogIn</LogBtn>
                   <SignupBtn onClick={handleSignup}>
                     <AiFillGift /> SignUp
                   </SignupBtn>
@@ -107,24 +101,24 @@ const Header = () => {
               )}
               <DownloadBtn>
                 <FiDownload />
-                <BarCode src="../webImages/barcode.jpg"/>
+                <BarCode src="../webImages/barcode.jpg" />
               </DownloadBtn>
-            </SearchWapper>
+            </SearchWrapper>
           )}
           <LanguageBtn>
             <TfiWorld />
             <Display>
-            <LanguagePanel/>
+              <LanguagePanel />
             </Display>
           </LanguageBtn>
-        </HeaderRightWapper>
-      </HeaderWapper>
-      <LogInModal modalOpen={modalOpen} setModalOpen={setModalOpen}/>
+        </HeaderRightWrapper>
+      </HeaderWrapper>
+      <LogInModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
     </>
   );
 };
 
-const NavbarLeftWapper = styled.div`
+const NavbarLeftWrapper = styled.div`
   position: fixed;
   left: 30px;
 `;
@@ -133,11 +127,11 @@ const BarCode = styled.img`
   display: none;
   width: 7%;
   position: fixed;
-  top:60px;
-  right:120px;
+  top: 60px;
+  right: 120px;
 `;
 
-const SearchWapper = styled.div`
+const SearchWrapper = styled.div`
   display: flex;
   gap: 20px;
 `;
@@ -148,7 +142,7 @@ const Logo = styled.img`
   top: -28px;
 `;
 
-const HeaderWapper = styled(Navbar)`
+const HeaderWrapper = styled(Navbar)`
   height: 80px;
   font-size: 15px;
   display: flex;
@@ -158,7 +152,7 @@ const HeaderWapper = styled(Navbar)`
   z-index: 99;
 `;
 
-const HeaderRightWapper = styled.div`
+const HeaderRightWrapper = styled.div`
   display: flex;
   gap: 25px;
   position: fixed;
@@ -179,36 +173,36 @@ const SignupBtn = styled.button`
 `;
 
 const LogBtn = styled.button`
-background-color: transparent;
-font-size:17px;
+  background-color: transparent;
+  font-size: 17px;
 `;
 
 const DownloadBtn = styled.button`
   font-size: 20px;
   background-color: transparent;
-  &:hover ${BarCode}{
+  &:hover ${BarCode} {
     display: block;
   }
 `;
 
 const Display = styled.div`
- display:none;
- position: fixed;
- background-color: ${COLORS.grey};
- top:60px;
- left: 1330px;
+  display: none;
+  position: fixed;
+  background-color: ${COLORS.grey};
+  top: 60px;
+  left: 1330px;
 `;
 
 const LanguageBtn = styled.button`
   font-size: 20px;
   background-color: transparent;
-  &:hover ${Display}{
+  &:hover ${Display} {
     display: block;
   }
 `;
 
 const MyLink = styled(Link)`
-text-decoration: none !important;
+  text-decoration: none !important;
   background-color: ${COLORS.green};
   color: #575858;
   font-size: 15px;
@@ -219,6 +213,5 @@ text-decoration: none !important;
     color: #393a3a;
   }
 `;
-
 
 export default Header;

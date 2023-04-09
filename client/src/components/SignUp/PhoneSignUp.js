@@ -23,7 +23,7 @@ const PhoneSignUp = ({
   };/*check password format */
 
   return (
-    <InputWapper>
+    <InputWrapper>
       <div>
         <CountryCodeInput
           id="countryCode"
@@ -83,11 +83,11 @@ const PhoneSignUp = ({
         placeholder="Referral Code (Optional)"
         onChange={(e) => handleChange(e.target.id, e.target.value)}
       />
-    </InputWapper>
+    </InputWrapper>
   );
 };
 
-const InputWapper = styled.div`
+const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;

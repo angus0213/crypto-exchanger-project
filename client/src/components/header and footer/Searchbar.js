@@ -2,6 +2,7 @@ import { FiSearch } from "react-icons/fi";
 import styled from "styled-components";
 
 const Searchbar=()=>{
+    //set fake search bar
     return (
         <>
         <form>

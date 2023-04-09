@@ -10,6 +10,7 @@ import { CurrentUserContext } from "../../CurrentUserContext";
 import { useContext } from "react";
 
 const UserMenu = () => {
+    //set user panel in header
     const { currentUser} = useContext(CurrentUserContext);
   return (
     <>

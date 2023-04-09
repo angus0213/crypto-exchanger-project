@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { createContext } from "react";
 
-export const CurrentUserContext = createContext(null);
+export const CurrentUserContext = createContext(null);//set user context
 
 export const CurrentUserProvider = ({ children }) => {
   const [currentUser, setcurrentUser] = useState("");

@@ -11,31 +11,31 @@ import EmailSignUp from "./EmailSignUp";
 import PhoneSignUp from "./PhoneSignUp";
 
 const SignUp = () => {
-  const [emailStatus, setEmailStatus] = useState(true);//control the panel to switch signup method;
-  const [mobileStatus, setMobileStatus] = useState(false);//control the panel to switch signup method;
-  const [emailFormData, setemailFormData] = useState("");// collect data from email form
-  const [mobileFormData, setMobileFormData] = useState("");// collect data from phone form
-  const [checkEmail, setCheckEmail] = useState(true);// check email input is filled or not
-  const [checkPassword, setCheckPassword] = useState(true);//same as above
+  const [emailStatus, setEmailStatus] = useState(true); //control the panel to switch signup method;
+  const [mobileStatus, setMobileStatus] = useState(false); //control the panel to switch signup method;
+  const [emailFormData, setemailFormData] = useState(""); // collect data from email form
+  const [mobileFormData, setMobileFormData] = useState(""); // collect data from phone form
+  const [checkEmail, setCheckEmail] = useState(true); // check email input is filled or not
+  const [checkPassword, setCheckPassword] = useState(true); //same as above
   const [checkPasswordConfirmation, setCheckPasswordConfirmation] =
-    useState(true);//same as above
-  const [checkmobileNumber, setCheckmobileNumber] = useState(true);//same as above
-  const [checkUserExist, setCheckUserExist] = useState("");//check the whether user is already in database
+    useState(true); //same as above
+  const [checkmobileNumber, setCheckmobileNumber] = useState(true); //same as above
+  const [checkUserExist, setCheckUserExist] = useState(""); //check the whether user is already in database
   const { currentUser } = useContext(CurrentUserContext); //get user info
 
   const location = useLocation();
-  const userId = location.pathname.slice(8);//set userId that generate from uuid in Header page
+  const userId = location.pathname.slice(8); //set userId that generate from uuid in Header page
   const navigate = useNavigate();
 
   const handleEmail = () => {
     setEmailStatus(true);
     setMobileStatus(false);
-  };//switch between email signup and phone signup
+  }; //switch between email signup and phone signup
 
   const handleMobile = () => {
     setEmailStatus(false);
     setMobileStatus(true);
-  };//switch between email signup and phone signup
+  }; //switch between email signup and phone signup
 
   const handleCheckPassword = (password) => {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/;
@@ -45,7 +45,7 @@ const SignUp = () => {
     } else {
       setCheckPassword(false);
     }
-  };//check password meets requirement
+  }; //check password meets requirement
 
   const handleConfirmPassword = (password, passwordConfirmation) => {
     if (password && passwordConfirmation && password === passwordConfirmation) {
@@ -53,7 +53,7 @@ const SignUp = () => {
     } else {
       setCheckPasswordConfirmation(false);
     }
-  };//confirm two password inputs are the same
+  }; //confirm two password inputs are the same
 
   const handleChange = (key, value) => {
     if (emailStatus) {
@@ -68,7 +68,7 @@ const SignUp = () => {
         [key]: value,
       });
     }
-  };//collect user input data
+  }; //collect user input data
 
   const submitEnable =
     (checkEmail &&
@@ -78,7 +78,7 @@ const SignUp = () => {
     (checkmobileNumber &&
       checkPassword &&
       checkPasswordConfirmation &&
-      mobileFormData.agreeTerms);//submit button will disabled unless these requirement fits
+      mobileFormData.agreeTerms); //submit button will disabled unless these requirement fits
 
   const userData = {
     _id: userId,
@@ -91,7 +91,7 @@ const SignUp = () => {
     referralCodeUsed: emailFormData.referralCodeUsed
       ? emailFormData.referralCodeUsed
       : mobileFormData.referralCodeUsed,
-  };//prepare user's data and send to backend
+  }; //prepare user's data and send to backend
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -114,19 +114,19 @@ const SignUp = () => {
         }
       })
       .catch((err) => console.log(err));
-  };//post user's data to the backend. If get 200 code, store userId to the session and navigate to verify page. If get 403, remind user that this user already exist
+  }; //post user's data to the backend. If get 200 code, store userId to the session and navigate to verify page. If get 403, remind user that this user already exist
 
   useEffect(() => {
     if (currentUser) {
       navigate(`/`);
     }
-  });// if get 200 code, let this new signup user login, and this signup page won't show again(navigate to home page)
+  }); // if get 200 code, let this new signup user login, and this signup page won't show again(navigate to home page)
 
   return (
     <>
-      <Wapper>
+      <Wrapper>
         <div>
-          <WelcomeWapper>
+          <WelcomeWrapper>
             <ImgLogo src="/favicon/favicon.png" />
             <WelcomeDiv>
               <h1>
@@ -135,8 +135,8 @@ const SignUp = () => {
                 <span>!</span>
               </h1>
             </WelcomeDiv>
-          </WelcomeWapper>
-          <BounsWapper>
+          </WelcomeWrapper>
+          <BounsWrapper>
             <h1>
               <span>SignUp </span>
               <Highlight>Today </Highlight>
@@ -146,12 +146,12 @@ const SignUp = () => {
             </h1>
             <h2>Another $30,000 Deposite Rewards</h2>
             <ImgBouns src="/webImages/signinBouns.png" />
-          </BounsWapper>
+          </BounsWrapper>
         </div>
-        <CreateAccuntWapper>
+        <CreateAccuntWrapper>
           <h1>Create Account</h1>
           <hr />
-          <ButtonWapper>
+          <ButtonWrapper>
             <SelectButton
               onClick={() => {
                 handleEmail();
@@ -165,12 +165,12 @@ const SignUp = () => {
               onClick={() => {
                 handleMobile();
                 setemailFormData("");
-              }}/*switch to phone signup */
+              }} /*switch to phone signup */
               className={mobileStatus && "active"}
             >
               Mobile Number
             </SelectButton>
-          </ButtonWapper>
+          </ButtonWrapper>
           <Form onSubmit={handleSubmit}>
             {emailStatus && (
               <EmailSignUp
@@ -184,7 +184,7 @@ const SignUp = () => {
                 handleConfirmPassword={handleConfirmPassword}
                 checkPasswordConfirmation={checkPasswordConfirmation}
                 setCheckPasswordConfirmation={setCheckPasswordConfirmation}
-              />/*link to email component */
+              /> /*link to email component */
             )}
             {mobileStatus && (
               <PhoneSignUp
@@ -198,7 +198,7 @@ const SignUp = () => {
                 handleConfirmPassword={handleConfirmPassword}
                 checkPasswordConfirmation={checkPasswordConfirmation}
                 setCheckPasswordConfirmation={setCheckPasswordConfirmation}
-              />/*link to phone component */
+              /> /*link to phone component */
             )}
             <AgreeDiv>
               <input
@@ -219,8 +219,8 @@ const SignUp = () => {
           {checkUserExist == 403 && (
             <UserWarning>User already exist!</UserWarning>
           )}
-        </CreateAccuntWapper>
-      </Wapper>
+        </CreateAccuntWrapper>
+      </Wrapper>
     </>
   );
 };
@@ -231,11 +231,11 @@ const Form = styled.form`
   gap: 20px;
 `;
 
-const Wapper = styled.div`
+const Wrapper = styled.div`
   display: flex;
 `;
 
-const WelcomeWapper = styled.div`
+const WelcomeWrapper = styled.div`
   display: flex;
   background-color: ${COLORS.grey};
   align-items: center;
@@ -247,7 +247,7 @@ const WelcomeWapper = styled.div`
   border-radius: 15px;
 `;
 
-const CreateAccuntWapper = styled.div`
+const CreateAccuntWrapper = styled.div`
   display: flex;
   flex-direction: column;
   background-color: ${COLORS.grey};
@@ -272,7 +272,7 @@ const ImgBouns = styled.img`
   width: 600px;
 `;
 
-const BounsWapper = styled.div`
+const BounsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   background-color: ${COLORS.grey};
@@ -310,7 +310,7 @@ const Submit = styled.button`
   color: ${COLORS.white};
 `;
 
-const ButtonWapper = styled.div`
+const ButtonWrapper = styled.div`
   display: flex;
   gap: 20px;
   margin-bottom: 10px;

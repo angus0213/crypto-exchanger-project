@@ -13,19 +13,19 @@ app.use(express.static("./server/assets"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(__dirname + "/"));
 
-const {postUsers}=require("./controllers/postUsers");
-const {getUser}=require("./controllers/getUser");
-const {patchUsers}=require("./controllers/patchUsers");
-const {postLogin}=require("./controllers/postLogin");
+const { postUsers } = require("./controllers/postUsers");
+const { getUser } = require("./controllers/getUser");
+const { patchUsers } = require("./controllers/patchUsers");
+const { postLogin } = require("./controllers/postLogin");
 const { getPrices } = require("./controllers/getPrices");
-const {patchWallet}=require("./controllers/patchWallet");
-const {getNFTcollections}=require("./controllers/getNFTcollections")
-const {patchNFT}=require("./controllers/patchNFT")
-const {patchNFTWallet}=require("./controllers/patchNFTWallet")
-const {patchCancelListing}=require("./controllers/patchCancelListing")
-const {getNews}=require("./controllers/getNews")
-const {patchDepositWallet}=require("./controllers/patchDepositWallet")
-const {patchRedeem}=require("./controllers/patchRedeem")
+const { patchWallet } = require("./controllers/patchWallet");
+const { getNFTcollections } = require("./controllers/getNFTcollections");
+const { patchNFT } = require("./controllers/patchNFT");
+const { patchNFTWallet } = require("./controllers/patchNFTWallet");
+const { patchCancelListing } = require("./controllers/patchCancelListing");
+const { getNews } = require("./controllers/getNews");
+const { patchDepositWallet } = require("./controllers/patchDepositWallet");
+const { patchRedeem } = require("./controllers/patchRedeem");
 
 app.use((req, res, next) => {
   res.header(
@@ -47,16 +47,16 @@ app.post("/userlogin", postLogin);
 app.get("/user/:userId", getUser);
 app.get("/quoteprices", getPrices);
 app.get("/nftcollections", getNFTcollections);
-app.get("/news", getNews)
+app.get("/news", getNews);
 
 /* PATCH */
 app.patch("/user/:userId", patchUsers);
 app.patch("/wallet/:userId", patchWallet);
 app.patch("/patchnft/:userId", patchNFT);
 app.patch("/patchnftwallet/:userId", patchNFTWallet);
-app.patch("/cancelnftlisting/:userId", patchCancelListing)
-app.patch("/depositwallet/:userId", patchDepositWallet)
-app.patch("/redeem/:userId", patchRedeem)
+app.patch("/cancelnftlisting/:userId", patchCancelListing);
+app.patch("/depositwallet/:userId", patchDepositWallet);
+app.patch("/redeem/:userId", patchRedeem);
 
 app.get("*", (req, res) => {
   res.status(404).json({

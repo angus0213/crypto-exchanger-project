@@ -1,4 +1,4 @@
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Header from "./header and footer/Header";
 import GlobalStyles from "./GlobalStyles";
 import Home from "./Home/Home";
@@ -17,32 +17,37 @@ import TradeTable from "./Home/TradeTable";
 import { CurrentPriceContext } from "./CurrentPricesContext";
 import TermDepositWalletHistory from "./Wallet/TermDepositWalletHistory";
 
-const App=()=> {
-  const { currentUser} = useContext(CurrentUserContext);
-  const {currentPrice}=useContext(CurrentPriceContext);
+const App = () => {
+  const { currentUser } = useContext(CurrentUserContext);
+  const { currentPrice } = useContext(CurrentPriceContext);
   return (
-   <>
-   <BrowserRouter>
-   <GlobalStyles/>
-   <Header/>
-   <Routes>
-    <Route path="/" element={<Home/>}/>
-    <Route path="/signup/:userId" element={<SignUp/>}/>
-    <Route path="/termsandconditions" element={<TermsandConditions/>}/>
-    <Route path="/userverify/:userId" element={<UserVerify/>}/>
-    <Route path="/wallet/:userId" element={<Wallet/>}/>
-    <Route path="/exchange" element={<Exchange/>}/>
-    <Route path="/nft" element={<NFTHome/>}/>
-    <Route path="/trade" element={currentPrice&& <TradeTable/>}/>
-    <Route path="/spotwallethistory/:userId" element={currentUser && <SpotWalletHistory/>}/>
-    <Route path="/news" element={<NewsHome/>}/>
-    <Route path="/termdepositwallethistory/:userId" element={currentUser && <TermDepositWalletHistory/>}/>
-   </Routes>
-   <Footer/>
-   </BrowserRouter>
-   </>
+    <>
+      <BrowserRouter>
+        <GlobalStyles />
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/signup/:userId" element={<SignUp />} />
+          <Route path="/termsandconditions" element={<TermsandConditions />} />
+          <Route path="/userverify/:userId" element={<UserVerify />} />
+          <Route path="/wallet/:userId" element={<Wallet />} />
+          <Route path="/exchange" element={<Exchange />} />
+          <Route path="/nft" element={<NFTHome />} />
+          <Route path="/trade" element={currentPrice && <TradeTable />} />
+          <Route
+            path="/spotwallethistory/:userId"
+            element={currentUser && <SpotWalletHistory />}
+          />
+          <Route path="/news" element={<NewsHome />} />
+          <Route
+            path="/termdepositwallethistory/:userId"
+            element={currentUser && <TermDepositWalletHistory />}
+          />
+        </Routes>
+        <Footer />
+      </BrowserRouter>
+    </>
   );
-}
-
+};
 
 export default App;

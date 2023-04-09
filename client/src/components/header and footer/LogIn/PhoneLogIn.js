@@ -21,7 +21,7 @@ const PhoneLogIn = ({
   }; /*check password format */
 
   return (
-    <InputWapper>
+    <InputWrapper>
       <div>
         <CountryCodeInput
           id="countryCode"
@@ -67,11 +67,11 @@ const PhoneLogIn = ({
           lowercase character!
         </Warning>
       )}
-    </InputWapper>
+    </InputWrapper>
   );
 };
 
-const InputWapper = styled.div`
+const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;

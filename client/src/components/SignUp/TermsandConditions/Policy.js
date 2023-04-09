@@ -3,7 +3,7 @@ import { COLORS } from "../../Constants";
 
 const Policy = () => {
   return (
-    <Wapper>
+    <Wrapper>
       <div>
         <H1>EFFECTIVE DATE: April 2023,</H1>
         <P>
@@ -26,7 +26,7 @@ const Policy = () => {
       <Sample>
         <P>To be continued...</P>
       </Sample>
-    </Wapper>
+    </Wrapper>
   );
 };
 
@@ -38,7 +38,7 @@ const H1 = styled.h1`
   color: ${COLORS.white};
 `;
 
-const Wapper = styled.div`
+const Wrapper = styled.div`
   width: 80%;
 `;
 

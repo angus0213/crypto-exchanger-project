@@ -11,14 +11,10 @@ const {
 const batchImportDatabase = async () => {
   connectMongoDB()
     .then(async () => {
-      const { NFTStockData} = getCollections(); // Get the collections
+      const { NFTStockData } = getCollections(); // Get the collections
 
-
-  
-      // Insert the usersData in MongoDB
+      // Insert the NFTData in MongoDB
       const NFTResult = await NFTStockData.insertMany(NFTStock);
-
-
       console.log({
         NFTInsertedCount: NFTResult.insertedCount,
       });

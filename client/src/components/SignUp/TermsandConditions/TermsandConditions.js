@@ -31,26 +31,26 @@ const TermsandConditions=()=>{
     }
 
     return (
-       <Wapper>
-       <TitleWapper>
+       <Wrapper>
+       <TitleWrapper>
        <Img src="../webImages/legal.jpg"/>
-       <BtnWapper>
+       <BtnWrapper>
         <Selection onClick={handleClickTerms} className={terms && "active"}>Terms and Conditions</Selection>
         <Selection onClick={handleClickPolicy} className={policy && "active"}>Privacy Policy</Selection>
         <Selection onClick={handleClickDisclosure} className={disclosure && "active"}>Risk Disclosure Statement</Selection>
-       </BtnWapper>
+       </BtnWrapper>
        <Hr/>
-       </TitleWapper>
+       </TitleWrapper>
       
        {terms && <Terms/>}
        {policy && <Policy/>}
        {disclosure && <Disclosure/>}
       
-       </Wapper>
+       </Wrapper>
     )
 }
 
-const Wapper=styled.div`
+const Wrapper=styled.div`
 display: flex;
 flex-direction: column;
 align-items: center;
@@ -60,7 +60,7 @@ const Img=styled.img`
 width: 100.8%;
 `;
 
-const BtnWapper=styled.div`
+const BtnWrapper=styled.div`
 display: flex;
 justify-content: center;
 width: 100%;
@@ -80,7 +80,7 @@ padding-bottom: 15px;
 }
 `;
 
-const TitleWapper=styled.div`
+const TitleWrapper=styled.div`
 display: flex;
 flex-direction: column;
 align-items: center;

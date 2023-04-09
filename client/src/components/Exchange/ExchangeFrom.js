@@ -113,12 +113,12 @@ const Amount = styled.span`
 
 const MaxButton = styled.button`
   display: flex;
-  font-size: 20px;
+  font-size: 15px;
   position: relative;
   left: -30px;
   top:-5px;
   background-color: ${COLORS.blue};
-  height: 40px;
+  height: 30px;
   border-radius: 15px;
   color: ${COLORS.white};
   padding: 5px 30px 5px 30px;
@@ -126,7 +126,7 @@ const MaxButton = styled.button`
 
 const WalletInfo = styled.div`
   display: flex;
-  font-size: 20px;
+  font-size: 15px;
   color: black;
   position: relative;
   left: 300px;

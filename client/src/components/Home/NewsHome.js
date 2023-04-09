@@ -6,38 +6,42 @@ import { COLORS } from "../Constants";
 
 const NewsHome = () => {
   const { currentNews } = useContext(CurrentNewsContext);
+  const [pageStart, setPageStart] = useState(0); //set news pagination start
+  const [pageEnd, setPageEnd] = useState(5); //set news pagination end
 
-  const [pageStart, setPageStart] =useState(0);
-  const [pageEnd, setPageEnd] =useState(5);
+  const handlePaginationPlus = () => {
+    setPageStart(pageEnd);
+    setPageEnd(pageEnd + 5);
+  }; //click, the start and end will plus 5 (next page)
 
-  const handlePaginationPlus=()=>{
-    setPageStart(pageEnd)
-    setPageEnd(pageEnd+5)
-  } 
+  const handlePaginationMinus = () => {
+    setPageEnd(pageStart);
+    setPageStart(pageStart - 5);
+  }; //click, the start and end will minus 5 (last page)
 
-  const handlePaginationMinus=()=>{
-    setPageEnd(pageStart)
-    setPageStart(pageStart-5)
-  } 
-console.log(pageStart);
-console.log(pageEnd);
   return (
-currentNews && (
-<Wrapper>
-<Title>Crypto News</Title>
- {currentNews.map((article, index) => {
-          if (pageStart<=index && index<pageEnd){
-          return <News key={index} article={article} />;}
-        })} 
+    currentNews && (
+      <Wrapper>
+        <Title>Crypto News</Title>
+        {currentNews.map((article, index) => {
+          if (pageStart <= index && index < pageEnd) {
+            return <News key={index} article={article} />;
+          } /*conditional rendering*/
+        })}
         <ButtonWrapper>
-       <Button onClick={handlePaginationMinus} disabled={pageEnd<=5}>Previous</Button>
-       <Button onClick={handlePaginationPlus} disabled={pageEnd>currentNews.length-1}>Next</Button>
-       </ButtonWrapper>
-</Wrapper>
-)
-
-  )
-
+          <Button onClick={handlePaginationMinus} disabled={pageEnd <= 5}>
+            Previous
+          </Button>
+          <Button
+            onClick={handlePaginationPlus}
+            disabled={pageEnd > currentNews.length - 1} //disable the next button
+          >
+            Next
+          </Button>
+        </ButtonWrapper>
+      </Wrapper>
+    )
+  );
 };
 
 const Wrapper = styled.div`
@@ -54,11 +58,11 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.h1`
-position: relative;
-left: -620px;
-color:${COLORS.blue};
-font-size:30px;
-margin-bottom: -20px;
+  position: relative;
+  left: -620px;
+  color: ${COLORS.blue};
+  font-size: 30px;
+  margin-bottom: -20px;
 `;
 
 const Button = styled.button`
@@ -67,16 +71,16 @@ const Button = styled.button`
   height: 40px;
   color: ${COLORS.grey};
   padding: 3px;
-  font-size:20px;
+  font-size: 20px;
   background-color: ${COLORS.blue};
 `;
 
 const ButtonWrapper = styled.button`
-display: flex;
-gap: 200px;
-margin-top: 30px;
-margin-bottom: 30px;
-background-color: ${COLORS.grey};
+  display: flex;
+  gap: 200px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  background-color: ${COLORS.grey};
 `;
 
 export default NewsHome;

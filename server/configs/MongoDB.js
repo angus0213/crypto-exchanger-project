@@ -1,47 +1,46 @@
-const {MongoClient}=require("mongodb");
-const path=require("path");
+const { MongoClient } = require("mongodb");
+const path = require("path");
 
-require("dotenv").config({path: path.join(__dirname,"../.env")}); //path to .env
+require("dotenv").config({ path: path.join(__dirname, "../.env") }); //path to .env
 
-const {MONGO_URI, MONGO_DB_NAME}=process.env;
+const { MONGO_URI, MONGO_DB_NAME } = process.env;
 
 //options for mongoDB
-const options={
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+const options = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 };
 
 // constants for mongoDB
 let client, db;
 
 // connect to MongDB client
-const connectMongoDB= async()=>{
-try{
-    client=new MongoClient(MONGO_URI, options);
-    await client.connect();//connect to the client
-    db=client.db(MONGO_DB_NAME)
+const connectMongoDB = async () => {
+  try {
+    client = new MongoClient(MONGO_URI, options);
+    await client.connect(); //connect to the client
+    db = client.db(MONGO_DB_NAME);
     console.log("MongoDB is connected");
-}catch(err){
+  } catch (err) {
     console.log(err.message);
-}
-
-}
+  }
+};
 
 // get all the collections of this MongoDB project
-const getCollections=()=>{
-    const users=db.collection("users"); //user collection
-    const NFTStockData=db.collection("NFTStockData"); //NFTStockData collection
-    return {users, NFTStockData};
-}
+const getCollections = () => {
+  const users = db.collection("users"); //user collection
+  const NFTStockData = db.collection("NFTStockData"); //NFTStockData collection
+  return { users, NFTStockData };
+};
 
 // close MongoDB client
-const closeMongoDB=()=>{
-    console.log("MongoDB is close");
-    client.close();
-}
+const closeMongoDB = () => {
+  console.log("MongoDB is close");
+  client.close();
+};
 
-module.exports={
-    connectMongoDB,
-    getCollections,
-    closeMongoDB,
-}
+module.exports = {
+  connectMongoDB,
+  getCollections,
+  closeMongoDB,
+};

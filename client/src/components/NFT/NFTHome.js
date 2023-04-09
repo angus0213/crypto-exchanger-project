@@ -1,53 +1,52 @@
 import { useEffect, useState } from "react";
 import SingleNFT from "./SingleNFT";
 import styled from "styled-components";
-import {COLORS} from "../Constants"
-import Sidebar from "./Sidebar";
+import { COLORS } from "../Constants";
 
 const NFTHome = () => {
   const [nftStock, setNftStock] = useState("");
+  const [reFetchNft, setReFetchNft]=useState(false);
 
   useEffect(() => {
     fetch("/nftcollections")
       .then((res) => res.json())
       .then((data) => setNftStock(data.data))
       .catch((err) => console.log(err));
-  }, []);
+  }, [reFetchNft]);//fetch the NFT stock from database and render
+
   return (
-   
     nftStock && (
       <>
-      <Sidebar/>
-      <Wrapper>
-        <InnerWrapper>
-        {nftStock.map((nftItem) => {
-          return <SingleNFT nftItem={nftItem} />;
-        })}
-        </InnerWrapper>
-      </Wrapper>
+        <Wrapper>
+          <InnerWrapper>
+            {nftStock.map((nftItem) => {
+              return <SingleNFT nftItem={nftItem} reFetchNft={reFetchNft} setReFetchNft={setReFetchNft}/>;
+            })}
+          </InnerWrapper>
+        </Wrapper>
       </>
     )
   );
 };
 
-const Wrapper= styled.div`
-background-color:${COLORS.grey};
-position:relative;
-top:100px;
-left:380px;
-width: 1400px;
+const Wrapper = styled.div`
+  background-color: ${COLORS.grey};
+  position: relative;
+  top: 100px;
+  left: 250px;
+  width: 1400px;
 `;
 
-const InnerWrapper= styled.div`
-display:flex;
-flex-flow: row wrap;
-flex: 0 1 calc(20% - 8px);
-width: 1300px;
-gap:50px;
-justify-content:center;
-padding-bottom:50px;
-padding-top:50px;
-margin-left:50px;
+const InnerWrapper = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+  flex: 0 1 calc(20% - 8px);
+  width: 1300px;
+  gap: 50px;
+  justify-content: center;
+  padding-bottom: 50px;
+  padding-top: 50px;
+  margin-left: 50px;
 `;
 
 export default NFTHome;

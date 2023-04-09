@@ -3,7 +3,7 @@ import { COLORS } from "../../Constants";
 
 const Disclosure = () => {
   return (
-    <Wapper>
+    <Wrapper>
       <div>
         <P>Effective Date: April 2023,</P>
         <P>
@@ -37,7 +37,7 @@ const Disclosure = () => {
       <Sample>
         <P>To be continued...</P>
       </Sample>
-    </Wapper>
+    </Wrapper>
   );
 };
 
@@ -45,7 +45,7 @@ const P = styled.p`
   color: ${COLORS.white};
 `;
 
-const Wapper = styled.div`
+const Wrapper = styled.div`
   width: 80%;
 `;
 

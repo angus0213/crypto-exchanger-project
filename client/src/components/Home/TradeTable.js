@@ -23,14 +23,14 @@ const TradeTable = () => {
     } else {
       navigate("/exchange");
     }
-  };
+  }; //only allow login user
 
   const data = currentPrice.map((item) => {
     const crypto = cryptos.find(
       (singleCrypto) => item.asset_id_base === singleCrypto.name
     );
     const tradingPairs = `${item.asset_id_base}/${item.asset_id_quote}`;
-
+// use ant design table component
     return {
       cryptoImgSrc: crypto.imageSrc,
       "Trading Pairs": tradingPairs,
@@ -135,7 +135,6 @@ const TradeTable = () => {
         <h1>
           <Highlight>Please Log in First!</Highlight>
         </h1>
-
         <ConfirmButton
           onClick={() => {
             setModalOpen(false);

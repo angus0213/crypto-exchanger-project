@@ -5,33 +5,35 @@ import { GrClose } from "react-icons/gr";
 import { useState } from "react";
 import { CurrentUserContext } from "../CurrentUserContext";
 import { useContext } from "react";
-import cryptos from "../../data/cryptos.json"
 
-
-const DepositModal = ({ modalOpen, setModalOpen }) => {
-  const {currentUser,refetch, setRefetch}=useContext(CurrentUserContext)
+const DepositModal = ({
+  modalOpen,
+  setModalOpen,
+  selectedCoin,
+  selectedCoinSrc,
+  maxAmount,
+  setMaxAmount,
+}) => {
+  const { currentUser, refetch, setRefetch } = useContext(CurrentUserContext);
   const [formData, setFormData] = useState(""); //control the panel to switch login method;
 
-
   const handleChange = (key, value) => {
-      setFormData({
-        ...formData,
-        [key]: value,
-      });
+    setFormData({
+      crypto: selectedCoin,
+      [key]: value,
+    });
   }; //collect user input data
+  console.log(maxAmount);
+  const currentCrypto = currentUser.wallet.find((item) => {
+    return item._id === selectedCoin;
+  }); //find selected crypto info
 
-
-  const currentCrypto= currentUser.wallet.find((item)=>{
-     return item._id===formData.crypto
-  })//find selected crypto info
-
-let compareMaxAmountFlag=true;
-  if (currentCrypto && formData.amount>currentCrypto.amount)
-  {
-    compareMaxAmountFlag=false
-  }//check selected crypto wallet amount
+  let compareMaxAmountFlag = true;
+  if (currentCrypto && formData.amount > currentCrypto.amount) {
+    compareMaxAmountFlag = false;
+  } //check selected crypto wallet amount
   const submitEnable =
-    formData.crypto && formData.amount &&formData.amount>0 &&compareMaxAmountFlag //enable submit button
+    formData.amount && formData.amount > 0 && compareMaxAmountFlag; //enable submit button
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -41,20 +43,22 @@ let compareMaxAmountFlag=true;
         Accept: "application/json",
         "content-Type": "application/json",
       },
-      body: JSON.stringify({...formData, id:currentUser._id, imageSrc:currentCrypto.imageSrc, type:"deposit"}),
+      body: JSON.stringify({
+        ...formData,
+        id: currentUser._id,
+        imageSrc: currentCrypto.imageSrc,
+        type: "deposit",
+      }),
     })
       .then((res) => res.json())
       .then((data) => {
-          console.log(data);
-          setModalOpen(false);
-          setRefetch(!refetch);
-        }
-    
-      )
+        console.log(data);
+        setFormData(""); //clear form data after submit
+        setModalOpen(false);
+        setRefetch(!refetch);
+      })
       .catch((err) => console.log(err));
-  }; 
-  
-
+  }; //send deposit info to the backend
   return (
     <>
       <MyModal
@@ -62,52 +66,57 @@ let compareMaxAmountFlag=true;
         shouldCloseOnOverlayClick={true}
         shouldCloseOnEsc={true}
       >
-        <CloseButton onClick={() => setModalOpen(false)}>
+        <CloseButton
+          onClick={() => {
+            setModalOpen(false);
+            setFormData("");
+          }}
+        >
           {" "}
           <GrClose />
         </CloseButton>
-       <Form>
-        <div> 
-        <Select
-          id="crypto"
-          onChange={(e) => handleChange(e.target.id, e.target.value)}
-        >
-          <Option disabled selected>
-            Select
-          </Option>
-          ;
-          {cryptos.map((item, index) => {
-            return <Option id={index}>{item.name}</Option>;
-          })}
-        </Select>
-        {formData.crypto && (
-          <Img
-            src={
-              cryptos.find((crypto) => crypto.name === formData.crypto)
-                .imageSrc
-            }
-          />
+        {currentCrypto && (
+          <div>
+            <MaxButton
+              onClick={() => {
+                setMaxAmount(true);
+                setFormData({
+                  crypto: selectedCoin,
+                  amount: currentCrypto.amount,
+                });
+              }}
+            >
+              Max
+            </MaxButton>
+            <HeadWrapper>
+              <p>{selectedCoin}</p>
+              <CryptoImg src={selectedCoinSrc} />
+            </HeadWrapper>
+            <Input
+              type={"text"}
+              id="amount"
+              required
+              placeholder="Deposit Amount"
+              value={maxAmount ? currentCrypto.amount : formData.amount}
+              onFocus={() => {
+                setMaxAmount(false);
+              }}
+              onChange={(e) => handleChange(e.target.id, e.target.value)}
+            />
+          </div>
         )}
-        </div>
-        <Input
-          type={"text"}
-          id="amount"
-          required
-          onChange={(e) => handleChange(e.target.id, e.target.value)}
-        />
-       
-      </Form>
-      <Deposit onClick={handleSubmit} disabled={!submitEnable}>Deposit</Deposit>
+        <Deposit onClick={handleSubmit} disabled={!submitEnable}>
+          Deposit
+        </Deposit>
       </MyModal>
     </>
   );
 };
 
-
 const MyModal = styled(Modal)`
-  background-color: ${COLORS.black};
-  width: 500px;
-  height: 800px;
+  background-color: ${COLORS.darkgray};
+  width: 650px;
+  height: 500px;
   position: fixed;
   left: 720px;
   top: 120px;
@@ -116,40 +125,40 @@ const MyModal = styled(Modal)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 50px;
 `;
 
-const Img = styled.img`
-  width: 4%;
+const HeadWrapper = styled.div`
+  display: flex;
+  font-size: 30px;
+  gap: 10px;
 `;
+
+const CryptoImg = styled.img`
+  width: 10%;
+`;
+
+const MaxButton = styled.button`
+  display: flex;
+  font-size: 15px;
+  position: relative;
+  left: -80px;
+  top: -100px;
+  background-color: ${COLORS.blue};
+  height: 30px;
+  border-radius: 15px;
+  color: ${COLORS.white};
+  padding: 5px 30px 5px 30px;
+`;
+
 const Input = styled.input`
   width: 300px;
-  height: 35px;
+  height: 40px;
+  font-size: 18px;
   background-color: ${COLORS.white};
-  margin-right: 50px;
   position: relative;
-  top:20px
-`;
-
-const Option = styled.option`
-color: ${COLORS.charcoal};
-background-color: ${COLORS.white};
-`;
-
-const Select = styled.select`
-  position: relative;
-  margin-left: 15px;
-  width: 150px;
-  height: 35px;
-  font-size: 20px;
-`;
-
-const Form = styled.form`
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-position: relative;
-top: 30px;
+  top: 20px;
+  left: 50px;
 `;
 
 const Deposit = styled.button`
@@ -159,18 +168,16 @@ const Deposit = styled.button`
   font-size: 20px;
   color: ${COLORS.white};
   position: relative;
-  left: 0px;
-  top:50px;
+  left: 20px;
+  top: 50px;
   padding: 5px 30px 5px 30px;
 `;
-
 
 const CloseButton = styled.button`
   background-color: transparent;
   position: fixed;
-  top: 160px;
-  right: 680px;
+  top: 165px;
+  right: 580px;
 `;
-
 
 export default DepositModal;

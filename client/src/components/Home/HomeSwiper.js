@@ -6,7 +6,6 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import styled from "styled-components";
 import { COLORS } from "../Constants";
-import GlobalStyles from "../GlobalStyles";
 
 const HomeSwiper = () => {
   return (
@@ -25,12 +24,10 @@ const HomeSwiper = () => {
         <SwiperSlide>
           <SwiperDiv>
             <div>
-            <SwiperWelcome>
+              <SwiperWelcome>
                 <span>Welcome to Crypto</span>
                 <WelcomeSpan>Beats</WelcomeSpan>
-              
               </SwiperWelcome>
-
               <SwiperP>Sign Up Today</SwiperP>
               <SwiperAmount>
                 <span>To get </span>
@@ -42,16 +39,24 @@ const HomeSwiper = () => {
           </SwiperDiv>
         </SwiperSlide>
         <SwiperSlide>
-          <div><SwiperImg2 src="../webImages/ape.png" /><SwiperImg3 src="../webImages/side1.jpg"/></div>
+          <div>
+            <SwiperImg2 src="../webImages/ape.png" />
+            <SwiperImg3 src="../webImages/side1.jpg" />
+          </div>
         </SwiperSlide>
-        <SwiperSlide><div><SwiperImg4  src="../webImages/trade.jpg"/><SwiperImg5 src="../webImages/mobileapp.jpg"/></div></SwiperSlide>
+        <SwiperSlide>
+          <div>
+            <SwiperImg4 src="../webImages/trade.jpg" />
+            <SwiperImg5 src="../webImages/mobileapp.jpg" />
+          </div>
+        </SwiperSlide>
       </Swiper>
     </Wrapper>
   );
 };
 
 const SwiperWelcome = styled.p`
-   display: flex;
+  display: flex;
   position: relative;
   top: 80px;
   left: 90px;
@@ -59,7 +64,6 @@ const SwiperWelcome = styled.p`
   color: ${COLORS.black};
   font-family: "IBM Plex Sans";
   font-weight: 550;
-  /* z-index: 2; */
 `;
 
 const WelcomeSpan = styled.span`
@@ -124,7 +128,7 @@ const SwiperImg2 = styled.img`
 
 const SwiperImg3 = styled.img`
   position: relative;
-  top:120px;
+  top: 120px;
   left: 250px;
   width: 30%;
   border-radius: 50%;
@@ -138,7 +142,7 @@ const SwiperImg4 = styled.img`
 
 const SwiperImg5 = styled.img`
   position: relative;
-  top:0px;
+  top: 0px;
   left: 260px;
   width: 40%;
   border-radius: 50%;

@@ -19,7 +19,7 @@ const EmailLogIn = ({
   }; /*check email whether contain "@" */
 
   return (
-    <InputWapper>
+    <InputWrapper>
       <Input
         type={"text"}
         id="email"
@@ -53,7 +53,7 @@ const EmailLogIn = ({
           lowercase character!
         </Warning>
       )}
-    </InputWapper>
+    </InputWrapper>
   );
 };
 
@@ -62,7 +62,7 @@ const Input = styled.input`
   border-radius: 15px;
 `;
 
-const InputWapper = styled.div`
+const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;

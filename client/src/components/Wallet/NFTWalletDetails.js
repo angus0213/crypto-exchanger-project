@@ -5,67 +5,65 @@ import { useState } from "react";
 import { GrClose } from "react-icons/gr";
 import { CurrentUserContext } from "../CurrentUserContext";
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
 
 const NFTWalletDetails = ({ nftItem }) => {
-  const [modalOpen, setModalOpen]=useState(false)
-  const {currentUser,refetch, setRefetch } = useContext(CurrentUserContext);
-  const [inputForm, setInputForm]=useState("")
+  const [modalOpen, setModalOpen] = useState(false);
+  const { currentUser, refetch, setRefetch } = useContext(CurrentUserContext);
+  const [inputForm, setInputForm] = useState("");
 
-const handleChange=(key, value)=>{
+  const handleChange = (key, value) => {
     setInputForm({
-        ...inputForm,
-        [key]:value
-    })
-}
+      ...inputForm,
+      [key]: value,
+    });
+  }; //catch user's listing price
 
- const handleClick=()=>{
-  setModalOpen(true)
- }
+  const handleClick = () => {
+    setModalOpen(true);
+  }; //open modal
 
-
- 
-const handleConfirm=()=>{
+  const handleConfirm = () => {
     fetch(`/patchnftwallet/${currentUser._id}`, {
-        method: "PATCH",
-        headers: {
-          Accept: "application/json",
-          "content-Type": "application/json",
-        },
-        body: JSON.stringify({userId:currentUser._id, listingPrice:inputForm.listingPrice, Nft:nftItem}),
+      method: "PATCH",
+      headers: {
+        Accept: "application/json",
+        "content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: currentUser._id,
+        listingPrice: inputForm.listingPrice,
+        Nft: nftItem,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setRefetch(!refetch);
+        setModalOpen(false);
       })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-            setRefetch(!refetch);
-            setModalOpen(false);
-            
-        })
-        .catch((err) => console.log(err));
-};
+      .catch((err) => console.log(err));
+  };//send listing to backend
 
-const handleCancel=()=>{
+  const handleCancel = () => {
     fetch(`/cancelnftlisting/${currentUser._id}`, {
-        method: "PATCH",
-        headers: {
-          Accept: "application/json",
-          "content-Type": "application/json",
-        },
-        body: JSON.stringify({userId:currentUser._id, Nft:nftItem}),
+      method: "PATCH",
+      headers: {
+        Accept: "application/json",
+        "content-Type": "application/json",
+      },
+      body: JSON.stringify({ userId: currentUser._id, Nft: nftItem }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setRefetch(!refetch);
       })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-            setRefetch(!refetch);            
-        })
-        .catch((err) => console.log(err));
-}
+      .catch((err) => console.log(err));
+  };//send cancel info to backend
 
   return (
     <Wrapper>
-  <ClassnameDiv
-        className={nftItem.quantity >= 1 ? "inWallet" : "listed"}
-      >
+      <ClassnameDiv className={nftItem.quantity >= 1 ? "inWallet" : "listed"}>
         <NFTImg src={nftItem.imageSrc} />
         <InnerWrapper>
           <p>
@@ -83,29 +81,39 @@ const handleCancel=()=>{
             <ETHImg src={nftItem.PriceUnitImg} />
           </p>
         </InnerWrapper>
-       
-          <Button onClick={handleClick} disabled={nftItem.quantity <1}>List for Sell</Button>
-          </ClassnameDiv>
-          <Button onClick={handleCancel} disabled={nftItem.quantity >= 1} className={nftItem.quantity <1 ? "inWallet" : "outOfStock"}>
-            Cancel Listing
-          </Button>
-        
-    
-     
-      <MyModal isOpen={modalOpen}
+        <Button onClick={handleClick} disabled={nftItem.quantity < 1}>
+          List for Sell
+        </Button>
+      </ClassnameDiv>
+      <Button
+        onClick={handleCancel}
+        disabled={nftItem.quantity >= 1}
+        className={nftItem.quantity < 1 ? "inWallet" : "outOfStock"}
+      >
+        Cancel Listing
+      </Button>
+
+      <MyModal
+        isOpen={modalOpen}
         shouldCloseOnOverlayClick={true}
-        shouldCloseOnEsc={true}>
-                  <CloseButton onClick={() => setModalOpen(false)}>
+        shouldCloseOnEsc={true}
+      >
+        <CloseButton onClick={() => setModalOpen(false)}>
           {" "}
           <GrClose />
         </CloseButton>
         <h1>Price you want to list </h1>
-          <input id="listingPrice" onChange={(e)=>handleChange(e.target.id, e.target.value)} required/>
-          <h2>{nftItem.PriceUnit}
-            <UnitImg src={nftItem.PriceUnitImg} /></h2>
-          <ConfirmButton onClick={handleConfirm}>Confirm</ConfirmButton>
-        </MyModal>
-      
+        <input
+          id="listingPrice"
+          onChange={(e) => handleChange(e.target.id, e.target.value)}
+          required
+        />
+        <h2>
+          {nftItem.PriceUnit}
+          <UnitImg src={nftItem.PriceUnitImg} />
+        </h2>
+        <ConfirmButton onClick={handleConfirm}>Confirm</ConfirmButton>
+      </MyModal>
     </Wrapper>
   );
 };
@@ -124,7 +132,6 @@ const InnerWrapper = styled.div`
 const Content = styled.span`
   color: #b180e6;
 `;
-
 
 const Button = styled.button`
   background-color: ${COLORS.blue};
@@ -174,21 +181,20 @@ const MyModal = styled(Modal)`
   align-items: center;
 `;
 
-
-const ConfirmButton=styled.button`
-width: 300px;
-height:50px;
-color: ${COLORS.white};
-background-color: ${COLORS.blue};
-font-weight:600px;
-font-size:20px;
-border-radius:15px;
-margin-top:60px;
+const ConfirmButton = styled.button`
+  width: 300px;
+  height: 50px;
+  color: ${COLORS.white};
+  background-color: ${COLORS.blue};
+  font-weight: 600px;
+  font-size: 20px;
+  border-radius: 15px;
+  margin-top: 60px;
 `;
 
 const UnitImg = styled.img`
   width: 18px;
-  margin-left:5px;
+  margin-left: 5px;
 `;
 
 export default NFTWalletDetails;
