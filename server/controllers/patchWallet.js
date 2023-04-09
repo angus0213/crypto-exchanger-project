@@ -4,8 +4,9 @@ const {getCollections}=require("../configs/MongoDB")
 
 const patchWallet=async(req, res)=>{
 
-    console.log(req.body);
     const {users}=getCollections();
+
+    try{
     const userInfo= await users.findOne({_id:req.body.userId})
     
     if(userInfo){
@@ -27,6 +28,9 @@ const patchWallet=async(req, res)=>{
     }
     else{
         return res.status(403).json({ status: 403, message: "User doesn't exist" });
+    }}
+    catch (err){
+      return res.status(500).json({ status: 500, message: err.message });
     }
    
 }

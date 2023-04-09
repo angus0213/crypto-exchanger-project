@@ -21,6 +21,27 @@ const TermDepositWallet=()=>{
     const [redeemInterest, setRedeemInterest] = useState("")
   const navigate=useNavigate();
 
+  const handleRedeem=()=>{
+    fetch(`/redeem/${currentUser._id}`, {
+      method: "PATCH",
+      headers: {
+        Accept: "application/json",
+        "content-Type": "application/json",
+      },
+      body: JSON.stringify({redeemCoin:redeemCoin, _id:currentUser._id}),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+          console.log(data);
+          setModalOpen(false);
+          setRefetch(!refetch);
+        }
+    
+      )
+      .catch((err) => console.log(err));
+  }; 
+  
+
     let principal
     let valueDate
     const data=currentUser.depositWallet.map((item)=>{
@@ -29,14 +50,13 @@ const TermDepositWallet=()=>{
            principal=crypto.amount
         }
       })
+      console.log(currentUser.depositWalletHistory);
+  
       currentUser.depositWalletHistory.forEach((history)=>{
         if (item._id===history.crypto){
           valueDate=history.timestamp
         }
-      })
-
-console.log(principal);
-        
+      })   
         if (principal>0) {
         return {
           cryptoImgSrc: item.imageSrc,
@@ -146,7 +166,7 @@ console.log(data);
             <span>Your Total Interest Earned: </span>
             <Highlight>{redeemInterest} {redeemCoin}</Highlight>
           </h1>
-          <ConfirmButton >Redeem</ConfirmButton>
+          <ConfirmButton onClick={handleRedeem}>Redeem</ConfirmButton>
         </MyModal>
       </>
     )};// setup depositwallet table

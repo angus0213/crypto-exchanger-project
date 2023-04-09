@@ -52,7 +52,6 @@ let compareMaxAmountFlag=true;
     
       )
       .catch((err) => console.log(err));
-      setModalOpen(false)
   }; 
   
 

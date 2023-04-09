@@ -78,7 +78,13 @@
     </tr>
        <tr>
     <td>patch</td>
-    <td> /depositwallet</td>
+    <td> /redeem/:userId</td>
+    <td><strong>Body</strong><br/>itemId: number (required)<br/>quantity: number (required) </td>
+    <td>{cartItems}</td>
+  </tr>
+   <tr>
+    <td>patch</td>
+    <td>/depositwallet/:userId</td>
     <td><strong>Body</strong><br/>itemId: number (required)<br/>quantity: number (required) </td>
     <td>{cartItems}</td>
   </tr>

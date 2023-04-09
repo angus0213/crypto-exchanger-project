@@ -54,7 +54,7 @@ const TermDepositWalletHistory=()=>{
         title: "Date",
         dataIndex: "Date",
         key: "Date",
-        sorter: (a, b) => Date.parse(a["TradeTime"]) - Date.parse(b["TradeTime"]),
+        sorter: (a, b) => Date.parse(a["Date"]) - Date.parse(b["Date"]),
       },
   
     ];

@@ -25,6 +25,7 @@ const {patchNFTWallet}=require("./controllers/patchNFTWallet")
 const {patchCancelListing}=require("./controllers/patchCancelListing")
 const {getNews}=require("./controllers/getNews")
 const {patchDepositWallet}=require("./controllers/patchDepositWallet")
+const {patchRedeem}=require("./controllers/patchRedeem")
 
 app.use((req, res, next) => {
   res.header(
@@ -55,6 +56,7 @@ app.patch("/patchnft/:userId", patchNFT);
 app.patch("/patchnftwallet/:userId", patchNFTWallet);
 app.patch("/cancelnftlisting/:userId", patchCancelListing)
 app.patch("/depositwallet/:userId", patchDepositWallet)
+app.patch("/redeem/:userId", patchRedeem)
 
 app.get("*", (req, res) => {
   res.status(404).json({
