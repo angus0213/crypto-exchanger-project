@@ -23,7 +23,6 @@ const DepositModal = ({
       [key]: value,
     });
   }; //collect user input data
-  console.log(maxAmount);
   const currentCrypto = currentUser.wallet.find((item) => {
     return item._id === selectedCoin;
   }); //find selected crypto info

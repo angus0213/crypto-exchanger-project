@@ -8,63 +8,57 @@ import styled from "styled-components";
 import Modal from "react-modal";
 import { GrClose } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
-import {COLORS} from "../Constants";
-
+import { COLORS } from "../Constants";
 
 const Exchange = () => {
-  const { currentUser, refetch, setRefetch } = useContext(CurrentUserContext);//refetch currentUser
-  const [formDataFrom, setFormDataFrom] = useState("");//record user the crypto name and amount that user wish to spend
-  const [formDataTo, setFormDataTo] = useState("");//record user the crypto name and amount that user wish to buy
-  const [maxAmount, setMaxAmount] = useState(false);// if the user press max amount button, the whole amount in the wallet will be shown in input area automaticlly
-  const [inputFromFlag, setInputFromFlag] = useState(false);// used to switch the input value between sell and buy
-  const [inputToFlag, setInputToFlag] = useState(false);//same as above
-  const [modalOpen, setModalOpen] = useState(false);//set confirmation modal open or close
-  const [exchangeRate, setExchangeRate] = useState("");//set exchange rate between selected cryptos
+  const { currentUser, refetch, setRefetch } = useContext(CurrentUserContext); //refetch currentUser
+  const [formDataFrom, setFormDataFrom] = useState(""); //record user the crypto name and amount that user wish to spend
+  const [formDataTo, setFormDataTo] = useState(""); //record user the crypto name and amount that user wish to buy
+  const [maxAmount, setMaxAmount] = useState(false); // if the user press max amount button, the whole amount in the wallet will be shown in input area automaticlly
+  const [modalOpen, setModalOpen] = useState(false); //set confirmation modal open or close
+  const [exchangeRate, setExchangeRate] = useState(""); //set exchange rate between selected cryptos
   const navigate = useNavigate();
-
-  if(!currentUser) {
-    navigate("/")
-  }//user must login first
 
   const handleChangeFrom = (key, value) => {
     setFormDataFrom({
       ...formDataFrom,
       [key]: value,
     });
-  };//record the inputs of sell
+  }; //record the inputs of sell
 
   const handleChangeTo = (key, value) => {
     setFormDataTo({
       ...formDataTo,
       [key]: value,
     });
-  };//record the inputs of buy
+  }; //record the inputs of buy
 
   let walletAmount = 0;
-  if (currentUser && formDataFrom) {
+  if (currentUser && formDataFrom.cryptoFrom) {
     walletAmount = currentUser.wallet.find(
       (crypto) => crypto.name === formDataFrom.cryptoFrom
     ).amount;
-  }//get the wallet amount that user want to sell
+  } //get the wallet amount that user want to sell
 
   if (formDataFrom.amount > walletAmount) {
     formDataFrom.amount = walletAmount;
-  }//set the user sell input amount no high than wallet amount
+  } //set the user sell input amount no high than wallet amount
 
   if (formDataTo.amount / exchangeRate > walletAmount) {
     formDataFrom.amount = walletAmount;
     formDataTo.amount = formDataFrom.amount * exchangeRate;
-  }//set the user buy input amount no high than wallet amount
+  } //set the user buy input amount no high than wallet amount
 
   let balanceMinus;
   let balancePlus;
   if (formDataFrom.amount && exchangeRate) {
     balanceMinus = formDataFrom.amount;
     balancePlus = formDataFrom.amount * exchangeRate;
-  } else {
+  }
+  if (formDataTo.amount && exchangeRate) {
     balanceMinus = formDataTo.amount / exchangeRate;
     balancePlus = formDataTo.amount;
-  }//if input data in sell input text area, will use "if" statement will set the changed amount; if input data in buy input text area, will use "else" statement will set the changed amount
+  } //if input data in sell input text area, will use "if" statement will set the changed amount; if input data in buy input text area, will use "else" statement will set the changed amount
 
   const handleConfirm = () => {
     fetch(`/wallet/${currentUser._id}`, {
@@ -90,11 +84,10 @@ const Exchange = () => {
         }
       })
       .catch((err) => console.log(err));
-  };// set changed info to backend
+  }; // set changed info to backend
 
   return (
     <>
-      
       <ExchangeFrom
         formDataFrom={formDataFrom}
         setFormDataFrom={setFormDataFrom}
@@ -102,41 +95,37 @@ const Exchange = () => {
         formDataTo={formDataTo}
         maxAmount={maxAmount}
         setMaxAmount={setMaxAmount}
-        inputFromFlag={inputFromFlag}
-        setInputFromFlag={setInputFromFlag}
-        inputToFlag={inputToFlag}
-        setInputToFlag={setInputToFlag}
         walletAmount={walletAmount}
         exchangeRate={exchangeRate}
       />
       <MyMdCurrencyExchange />
       <ToWrapper>
-      <ExchangeImg src="../webImages/chart.png"/>
-      <ExchangeTo
-        formDataTo={formDataTo}
-        setFormDataTo={setFormDataTo}
-        handleChangeTo={handleChangeTo}
-        formDataFrom={formDataFrom}
-        maxAmount={maxAmount}
-        setMaxAmount={setMaxAmount}
-        inputFromFlag={inputFromFlag}
-        setInputFromFlag={setInputFromFlag}
-        inputToFlag={inputToFlag}
-        setInputToFlag={setInputToFlag}
-        walletAmount={walletAmount}
-        setModalOpen={setModalOpen}
-        exchangeRate={exchangeRate}
-        setExchangeRate={setExchangeRate}
-      />
-      <MyModal isOpen={modalOpen}
-        shouldCloseOnOverlayClick={true}
-        shouldCloseOnEsc={true}>
-                  <CloseButton onClick={() => setModalOpen(false)}>
-          {" "}
-          <GrClose />
-        </CloseButton>
-        <h1><span>Thanks for using Crypto</span><Highlight>Beats!</Highlight></h1>
-        <h1>
+        <ExchangeImg src="../webImages/chart.png" />
+        <ExchangeTo
+          formDataTo={formDataTo}
+          setFormDataTo={setFormDataTo}
+          handleChangeTo={handleChangeTo}
+          formDataFrom={formDataFrom}
+          walletAmount={walletAmount}
+          setModalOpen={setModalOpen}
+          exchangeRate={exchangeRate}
+          setExchangeRate={setExchangeRate}
+          setFormDataFrom={setFormDataFrom}
+        />
+        <MyModal
+          isOpen={modalOpen}
+          shouldCloseOnOverlayClick={true}
+          shouldCloseOnEsc={true}
+        >
+          <CloseButton onClick={() => setModalOpen(false)}>
+            {" "}
+            <GrClose />
+          </CloseButton>
+          <h1>
+            <span>Thanks for using Crypto</span>
+            <Highlight>Beats!</Highlight>
+          </h1>
+          <h1>
             <span>You will get </span>
             <Highlight>{Number(balancePlus).toFixed(5)} </Highlight>
             <Highlight>{formDataTo.cryptoTo}</Highlight>
@@ -145,30 +134,33 @@ const Exchange = () => {
             <span>Your </span>
             <Highlight>{formDataFrom.cryptoFrom} </Highlight>
             <span>balance will be reduced to </span>{" "}
-            <Highlight>{Number(walletAmount).toFixed(5) - Number(balanceMinus).toFixed(5)}</Highlight>
+            <Highlight>
+              {Number(walletAmount).toFixed(5) -
+                Number(balanceMinus).toFixed(5)}
+            </Highlight>
           </h1>
           <ConfirmButton onClick={handleConfirm}>Confirm</ConfirmButton>
         </MyModal>
-        </ToWrapper>
+      </ToWrapper>
     </>
   );
 };
 
-const ToWrapper=styled.div`
+const ToWrapper = styled.div`
   display: flex;
 `;
 
-const ExchangeImg=styled.img`
+const ExchangeImg = styled.img`
   width: 25%;
   border-radius: 50%;
   position: relative;
-  top:50px;
+  top: 50px;
   left: 120px;
 `;
 
 const MyModal = styled(Modal)`
   background-color: ${COLORS.darkgray};
-  width: 650px;
+  width: 800px;
   height: 500px;
   position: fixed;
   left: 720px;
@@ -199,15 +191,15 @@ const Highlight = styled.span`
   color: ${COLORS.blue};
 `;
 
-const ConfirmButton=styled.button`
-width: 300px;
-height:50px;
-color: ${COLORS.white};
-background-color: ${COLORS.blue};
-font-weight:600px;
-font-size:20px;
-border-radius:15px;
-margin-top:60px;
+const ConfirmButton = styled.button`
+  width: 300px;
+  height: 50px;
+  color: ${COLORS.white};
+  background-color: ${COLORS.blue};
+  font-weight: 600px;
+  font-size: 20px;
+  border-radius: 15px;
+  margin-top: 60px;
 `;
 
 export default Exchange;

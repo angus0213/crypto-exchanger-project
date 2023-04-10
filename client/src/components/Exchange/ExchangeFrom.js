@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
 import styled from "styled-components";
 import cryptos from "../../data/cryptos.json";
 import { CurrentUserContext } from "../CurrentUserContext";
 import { useContext } from "react";
-import {COLORS} from "../Constants";
+import { COLORS } from "../Constants";
 
 const ExchangeFrom = ({
   formDataFrom,
@@ -11,43 +10,25 @@ const ExchangeFrom = ({
   handleChangeFrom,
   maxAmount,
   setMaxAmount,
-  inputFromFlag,
-  setInputFromFlag,
-  inputToFlag,
-  setInputToFlag,
   walletAmount,
-  exchangeRate
+  exchangeRate,
+  setFormDataFrom,
 }) => {
   const { currentUser } = useContext(CurrentUserContext);
 
   const handleClickMaxAmountFlag = () => {
+    //need
     setMaxAmount(true);
-  };// when user click, will let the max amount be showed in the sell text area
-
-  const handleFocus = () => {
-    setMaxAmount(false);
-    setInputToFlag(false);
-    setInputFromFlag(true);
-    if (inputToFlag && formDataTo.amount) {
-      formDataFrom.amount = "";
-      formDataTo.amount = "";
-    }
-  };//if user type amount in sell text area, but changed to input in buy text area later(same as reverse), this function will reset the value of two input areas
-
-  useEffect(() => {
-    setMaxAmount(false);
-  }, [formDataFrom.cryptoFrom]);// if the user choose to type in the sell text area manually, the max amount button in sell form will be disabled
-
+    setFormDataFrom({ ...formDataFrom, amount: walletAmount });
+  }; // when user click, will let the max amount be showed in the sell text area
 
   return (
     <WrapperFrom>
       <div>
-      <Direction>From</Direction>
+        <Direction>From</Direction>
         {currentUser && formDataFrom && (
           <WalletInfo>
-                 <MaxButton onClick={handleClickMaxAmountFlag}>
-            Max Amount
-            </MaxButton>
+            <MaxButton onClick={handleClickMaxAmountFlag}>Max Amount</MaxButton>
             <p>
               <span>Your wallet Amount: </span>
               <Amount>{walletAmount}</Amount>
@@ -63,15 +44,18 @@ const ExchangeFrom = ({
           required
           onChange={(e) => handleChangeFrom(e.target.id, e.target.value)}
           value={
-            (maxAmount ? walletAmount : formDataFrom.amount) ||
-            (inputFromFlag
-              ? formDataFrom.amount
-              : formDataTo.amount/exchangeRate
-              ? formDataTo.amount/exchangeRate
-              : "")/*this part of code will work with exchangeTo.js's same part, and let the input value be showed correctly whenever user typed in sell text area or buy text area*/
+            maxAmount
+              ? walletAmount
+              : formDataTo.amount
+              ? formDataTo.amount / exchangeRate
+              : formDataFrom.amount   //if click max amount, set input value=walletAmount; if user doesn't click max button and type in "To" input area, set "From" input area value= "To" input
           }
-          onFocus={handleFocus}
-          disabled={!formDataFrom.cryptoFrom}
+          onFocus={setMaxAmount(false)}
+          disabled={
+            !formDataFrom.cryptoFrom ||
+            !formDataTo.cryptoTo ||
+            formDataTo.amount
+          }
         />
         {formDataFrom.cryptoFrom && (
           <Img
@@ -103,7 +87,7 @@ const Direction = styled.h1`
   color: ${COLORS.blue};
   font-size: 30px;
   position: relative;
-  top:10px;
+  top: 10px;
   left: 80px;
 `;
 
@@ -116,7 +100,7 @@ const MaxButton = styled.button`
   font-size: 15px;
   position: relative;
   left: -30px;
-  top:-5px;
+  top: -5px;
   background-color: ${COLORS.blue};
   height: 30px;
   border-radius: 15px;
@@ -130,7 +114,7 @@ const WalletInfo = styled.div`
   color: black;
   position: relative;
   left: 300px;
-  top:-35px;
+  top: -35px;
 `;
 const Select = styled.select`
   position: relative;
@@ -141,12 +125,12 @@ const Select = styled.select`
 `;
 
 const WrapperFrom = styled.div`
-  background-color: ${COLORS.white}  ;
+  background-color: ${COLORS.white};
   position: relative;
   top: 100px;
   width: 800px;
   height: 300px;
-  left:500px;
+  left: 500px;
   border-radius: 15px;
 `;
 
@@ -161,17 +145,16 @@ const Input = styled.input`
 `;
 
 const Option = styled.option`
-color: ${COLORS.charcoal};
-background-color: ${COLORS.white};
+  color: ${COLORS.charcoal};
+  background-color: ${COLORS.white};
 `;
 
 const Form = styled.form`
-display: flex;
-align-items: center;
-justify-content: center;
-position: relative;
-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  top: 30px;
 `;
-
 
 export default ExchangeFrom;
