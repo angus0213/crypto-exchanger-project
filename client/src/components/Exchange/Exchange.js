@@ -52,12 +52,12 @@ const Exchange = () => {
   let balanceMinus;
   let balancePlus;
   if (formDataFrom.amount && exchangeRate) {
-    balanceMinus = formDataFrom.amount;
-    balancePlus = formDataFrom.amount * exchangeRate;
+    balanceMinus = Number(formDataFrom.amount);
+    balancePlus = Number(formDataFrom.amount * exchangeRate);
   }
   if (formDataTo.amount && exchangeRate) {
-    balanceMinus = formDataTo.amount / exchangeRate;
-    balancePlus = formDataTo.amount;
+    balanceMinus = Number(formDataTo.amount / exchangeRate);
+    balancePlus = Number(formDataTo.amount);
   } //if input data in sell input text area, will use "if" statement will set the changed amount; if input data in buy input text area, will use "else" statement will set the changed amount
 
   const handleConfirm = () => {
@@ -126,18 +126,16 @@ const Exchange = () => {
             <Highlight>Beats!</Highlight>
           </h1>
           <h1>
-            <span>You will get </span>
+            <span>You Will GET </span>
             <Highlight>{Number(balancePlus).toFixed(5)} </Highlight>
             <Highlight>{formDataTo.cryptoTo}</Highlight>
           </h1>
           <h1>
-            <span>Your </span>
-            <Highlight>{formDataFrom.cryptoFrom} </Highlight>
-            <span>balance will be reduced to </span>{" "}
+            <span>The Cost is </span>
             <Highlight>
-              {Number(walletAmount).toFixed(5) -
-                Number(balanceMinus).toFixed(5)}
+                {Number(balanceMinus).toFixed(5)} 
             </Highlight>
+            <Highlight> {formDataFrom.cryptoFrom} </Highlight>
           </h1>
           <ConfirmButton onClick={handleConfirm}>Confirm</ConfirmButton>
         </MyModal>
@@ -184,7 +182,7 @@ const CloseButton = styled.button`
   background-color: transparent;
   position: fixed;
   top: 160px;
-  right: 530px;
+  right: 380px;
 `;
 
 const Highlight = styled.span`

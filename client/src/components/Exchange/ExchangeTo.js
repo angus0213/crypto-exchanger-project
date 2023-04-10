@@ -16,7 +16,8 @@ const ExchangeTo = ({
   setFormDataFrom,
 }) => {
   const { currentPrice } = useContext(CurrentPriceContext);
-
+console.log(formDataFrom);
+console.log(formDataTo);
   let cryptoPair = "";
   let currentExchangeRate;
   if (formDataFrom.cryptoFrom && formDataTo.cryptoTo && currentPrice) {
