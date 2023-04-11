@@ -10,8 +10,8 @@ import { CurrentUserContext } from "../../CurrentUserContext";
 import { useContext } from "react";
 
 const UserMenu = () => {
-    //set user panel in header
-    const { currentUser} = useContext(CurrentUserContext);
+  //set user panel in header
+  const { currentUser } = useContext(CurrentUserContext);
   return (
     <>
       <Wrapper>
@@ -20,10 +20,20 @@ const UserMenu = () => {
         </ProfileBtn>
         <Display>
           <LinkWrapper>
-            <MyLink><GrDocumentUser/> Profile</MyLink>
-            <MyLink to={`/wallet/${currentUser._id}`}><TfiWallet/> Wallet</MyLink>
-            <MyLink><AiOutlineDollarCircle/> Asset</MyLink>
-            <MyLink><FiSettings/> Settings</MyLink>
+            <MyLink>
+              <GrDocumentUser /> Profile
+            </MyLink>
+            {currentUser.wallet && (
+              <MyLink to={`/wallet/${currentUser._id}`}>
+                <TfiWallet /> Wallet
+              </MyLink>
+            )}
+            <MyLink>
+              <AiOutlineDollarCircle /> Asset
+            </MyLink>
+            <MyLink>
+              <FiSettings /> Settings
+            </MyLink>
           </LinkWrapper>
         </Display>
       </Wrapper>
@@ -35,7 +45,6 @@ const LinkWrapper = styled.div`
   flex-direction: column;
   position: absolute;
   background-color: ${COLORS.white};
-
 `;
 
 const MyHiOutlineUserCircle = styled(HiOutlineUserCircle)`
@@ -43,15 +52,15 @@ const MyHiOutlineUserCircle = styled(HiOutlineUserCircle)`
 `;
 
 const MyLink = styled(Link)`
-padding: 10px 60px 10px 10px;
-text-align: left;
-color: ${COLORS.black};
-  &:hover{
-    color:  ${COLORS.white};
+  padding: 10px 60px 10px 10px;
+  text-align: left;
+  color: ${COLORS.black};
+  &:hover {
+    color: ${COLORS.white};
     text-decoration: none;
     background-color: ${COLORS.darkgray};
   }
-width: 150px;
+  width: 150px;
 `;
 
 const Display = styled.div`
@@ -63,7 +72,7 @@ const Wrapper = styled.div`
     display: block;
   }
   position: relative;
-  top:3px;
+  top: 3px;
 `;
 
 const ProfileBtn = styled.button`

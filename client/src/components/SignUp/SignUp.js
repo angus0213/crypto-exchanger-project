@@ -208,8 +208,8 @@ const SignUp = () => {
               />
               <AgreeTerm>
                 By clicking “Create Account”, you agree to
-                <Link to={"/termsandconditions"}>Terms of Service</Link> and
-                <Link to={"/termsandconditions"}>Privacy Policy</Link>
+                <Link to={"/termsandconditions"} target="_blank">Terms of Service</Link> and
+                <Link to={"/termsandconditions"} target="_blank">Privacy Policy</Link>
               </AgreeTerm>
             </AgreeDiv>
             <Submit type={"submit"} disabled={!submitEnable}>

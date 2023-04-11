@@ -11,7 +11,7 @@ const UserPanel = ({ currentPrice }) => {
   let sumValueWithoutUSDTinDepositWallet = 0;
   let sumValueinDepositWallet = 0;
   let sumValue = 0;
-  if (currentUser) {
+  if (currentUser.wallet) {
     currentUser.wallet.forEach((crypto) => {
       currentPrice.forEach((tradingPair) => {
         if (
@@ -47,7 +47,7 @@ const UserPanel = ({ currentPrice }) => {
     sumValue = Number(sumValueinWallet) + Number(sumValueinDepositWallet);//calculate the total asset of the user and showed in Home page
   }
   return (
-    currentUser && (
+    currentUser.country? (
       <Panel>
         <MyAiTwotoneSound />{" "}
         <Announce>
@@ -55,6 +55,17 @@ const UserPanel = ({ currentPrice }) => {
           <Highlight>{currentUser._id.slice(0, 5).concat("***")}</Highlight>{" "}
           customer: You have <Highlight>{sumValue.toFixed(4)} USDT</Highlight>{" "}
           equivalent asset at {new Date().toLocaleString()}
+        </Announce>
+      </Panel>
+    ):
+    (currentUser &&
+      <Panel>
+        <MyAiTwotoneSound />{" "}
+        <Announce>
+          Dear{" "}
+          <Highlight>{currentUser._id.slice(0, 5).concat("***")}</Highlight>{" "}
+          customer: Please Finish <Highlight>KYC </Highlight>{" "}
+          before trade!
         </Announce>
       </Panel>
     )

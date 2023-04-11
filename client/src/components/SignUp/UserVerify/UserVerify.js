@@ -3,11 +3,15 @@ import styled from "styled-components";
 import { COLORS } from "../../Constants";
 import { useNavigate } from "react-router-dom";
 import VerifyModal from "./VerifyModal";
+import { DatePicker } from "antd";
+import { useContext } from "react";
+import { CurrentUserContext } from "../../CurrentUserContext";
 
 const UserVerify = () => {
   const [formData, setFormData] = useState("");
   const navigate = useNavigate();
   const [modalopen, setModalOpen] = useState(false);
+  const { refetch, setRefetch } = useContext(CurrentUserContext);
 
   const userId = sessionStorage.getItem("userId");
 
@@ -16,7 +20,7 @@ const UserVerify = () => {
       ...formData,
       [key]: value,
     });
-  };//get verify data
+  }; //get verify data
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,7 +34,7 @@ const UserVerify = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.data.modifiedCount >= 1) {
+        if (data.data.modifiedCount >= 1 && formData.DOB) {
           setModalOpen(true);
         }
       })
@@ -41,7 +45,10 @@ const UserVerify = () => {
   const UserReferralCode = userId.slice(0, 8).toUpperCase(); //set refferal code of the user
 
   const handleModalClose = () => setModalOpen(false);
-
+  // console.log(set(new Date('2022-01-24'))-3);
+  const DobLimit = new Date(
+    new Date().setFullYear(new Date().getFullYear() - 18)
+  ); //set user age must > 18
   return (
     <>
       <Wrapper>
@@ -65,6 +72,13 @@ const UserVerify = () => {
           <hr />
           <Form onSubmit={handleSubmit}>
             <InputWrapper>
+              <DatePicker
+                disabledDate={(current) => current > DobLimit}
+                placeholder="Date of Birth"
+                onChange={(dates, dateStrings) =>
+                  handleChange("DOB", dateStrings)
+                }
+              />
               <Input
                 type={"text"}
                 id="ID"
@@ -76,13 +90,6 @@ const UserVerify = () => {
                 type={"text"}
                 id="fullName"
                 placeholder="Full Name"
-                required
-                onChange={(e) => handleChange(e.target.id, e.target.value)}
-              />
-              <Input
-                type={"text"}
-                id="age"
-                placeholder="Age"
                 required
                 onChange={(e) => handleChange(e.target.id, e.target.value)}
               />
@@ -103,7 +110,14 @@ const UserVerify = () => {
             </InputWrapper>
             <Submit type={"submit"}>Submit</Submit>
           </Form>
-          <Cancel onClick={() => navigate("/")}>Skip</Cancel>
+          <Cancel
+            onClick={() => {
+              navigate("/");
+              setRefetch(!refetch);
+            }}
+          >
+            Skip
+          </Cancel>
         </KYCWrapper>
       </Wrapper>
       <VerifyModal modalopen={modalopen} handleModalClose={handleModalClose} />

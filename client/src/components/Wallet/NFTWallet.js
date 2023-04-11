@@ -6,13 +6,19 @@ import { CurrentUserContext } from "../CurrentUserContext";
 import { useContext } from "react";
 
 const NFTWallet = () => {
-    const {currentUser } = useContext(CurrentUserContext);
+    const {currentUser} = useContext(CurrentUserContext);
     
   return (
    
     currentUser && (
       <Wrapper>
           <Title>NFT Collections</Title>
+          {currentUser.NFT.length===0 && 
+          <ReminderWrapper>
+          <Reminder>You do not have any NFT colletction</Reminder>
+          <Reminder>Please get your first NFT from the NFT market place</Reminder>
+          </ReminderWrapper>
+          }
         <InnerWrapper>
         {currentUser.NFT.map((nftItem) => {
           return <NFTWalletDetails nftItem={nftItem} />;
@@ -41,7 +47,6 @@ gap:50px;
 justify-content:center;
 padding-bottom:50px;
 padding-top:50px;
-
 margin-left:50px;
 `;
 
@@ -50,6 +55,18 @@ const Title = styled.h1`
   position: relative;
   left: 20px;
   width: 200px;
+`;
+
+const Reminder = styled.h2`
+  color: ${COLORS.blue};
+`;
+
+const ReminderWrapper = styled.div`
+display:flex;
+flex-direction:column;
+align-items:center;
+position: relative;
+top:100px;
 `;
 
 export default NFTWallet;

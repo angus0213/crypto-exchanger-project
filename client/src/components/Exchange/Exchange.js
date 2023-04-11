@@ -9,6 +9,8 @@ import Modal from "react-modal";
 import { GrClose } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
 import { COLORS } from "../Constants";
+import { CurrentPriceContext } from "../CurrentPricesContext";
+import { CircularProgress } from "@mui/material";
 
 const Exchange = () => {
   const { currentUser, refetch, setRefetch } = useContext(CurrentUserContext); //refetch currentUser
@@ -17,6 +19,7 @@ const Exchange = () => {
   const [maxAmount, setMaxAmount] = useState(false); // if the user press max amount button, the whole amount in the wallet will be shown in input area automaticlly
   const [modalOpen, setModalOpen] = useState(false); //set confirmation modal open or close
   const [exchangeRate, setExchangeRate] = useState(""); //set exchange rate between selected cryptos
+  const { priceStatus } = useContext(CurrentPriceContext);
   const navigate = useNavigate();
 
   const handleChangeFrom = (key, value) => {
@@ -86,7 +89,9 @@ const Exchange = () => {
       .catch((err) => console.log(err));
   }; // set changed info to backend
 
-  return (
+  return priceStatus === "loading" ? (
+    <MyCircularProgress size="60px" />
+  ) : (
     <>
       <ExchangeFrom
         formDataFrom={formDataFrom}
@@ -132,9 +137,7 @@ const Exchange = () => {
           </h1>
           <h1>
             <span>The Cost is </span>
-            <Highlight>
-                {Number(balanceMinus).toFixed(5)} 
-            </Highlight>
+            <Highlight>{Number(balanceMinus).toFixed(5)}</Highlight>
             <Highlight> {formDataFrom.cryptoFrom} </Highlight>
           </h1>
           <ConfirmButton onClick={handleConfirm}>Confirm</ConfirmButton>
@@ -146,6 +149,14 @@ const Exchange = () => {
 
 const ToWrapper = styled.div`
   display: flex;
+`;
+
+const MyCircularProgress = styled(CircularProgress)`
+  position: fixed;
+  left: 900px;
+  top: 400px;
+  width: 300px;
+  z-index: 99;
 `;
 
 const ExchangeImg = styled.img`

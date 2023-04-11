@@ -2,30 +2,45 @@ import { useEffect, useState } from "react";
 import SingleNFT from "./SingleNFT";
 import styled from "styled-components";
 import { COLORS } from "../Constants";
+import { CircularProgress } from "@mui/material";
 
 const NFTHome = () => {
   const [nftStock, setNftStock] = useState("");
-  const [reFetchNft, setReFetchNft]=useState(false);
+  const [reFetchNft, setReFetchNft] = useState(false);
+  const [nftStatus, setNftStatus] = useState("loading");
 
   useEffect(() => {
     fetch("/nftcollections")
       .then((res) => res.json())
-      .then((data) => setNftStock(data.data))
+      .then((data) => {
+        setNftStock(data.data);
+        setNftStatus("idle");
+      })
       .catch((err) => console.log(err));
-  }, [reFetchNft]);//fetch the NFT stock from database and render
+  }, [reFetchNft]); //fetch the NFT stock from database and render
 
-  return (
-    nftStock && (
-      <>
-        <Wrapper>
-          <InnerWrapper>
-            {nftStock.map((nftItem) => {
-              return <SingleNFT nftItem={nftItem} reFetchNft={reFetchNft} setReFetchNft={setReFetchNft}/>;
-            })}
-          </InnerWrapper>
-        </Wrapper>
-      </>
-    )
+  return nftStatus === "loading" ? (
+    <MyCircularProgress size="60px" />
+  ) : (
+    <>
+      {nftStock && (
+        <div>
+          <Wrapper>
+            <InnerWrapper>
+              {nftStock.map((nftItem, index) => {
+                return (
+                  <SingleNFT key={index}
+                    nftItem={nftItem}
+                    reFetchNft={reFetchNft}
+                    setReFetchNft={setReFetchNft}
+                  />
+                );
+              })}
+            </InnerWrapper>
+          </Wrapper>
+        </div>
+      )}
+    </>
   );
 };
 
@@ -35,6 +50,14 @@ const Wrapper = styled.div`
   top: 100px;
   left: 250px;
   width: 1400px;
+`;
+
+const MyCircularProgress = styled(CircularProgress)`
+  position: fixed;
+  left: 900px;
+  top: 400px;
+  width: 300px;
+  z-index: 99;
 `;
 
 const InnerWrapper = styled.div`

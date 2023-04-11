@@ -9,10 +9,12 @@ import { CurrentUserContext } from "../CurrentUserContext";
 import Modal from "react-modal";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { CircularProgress } from '@mui/material';
+import { handleScrollToTop } from "../../helper/handleScrollToTop";
 
 const TradeTable = () => {
   //based on the info fetched from API, set the table to display the price and trade volume data in Homepage
-  const { currentPrice } = useContext(CurrentPriceContext);
+  const { currentPrice, priceStatus } = useContext(CurrentPriceContext);
   const { currentUser } = useContext(CurrentUserContext);
   const [modalOpen, setModalOpen] = useState(false); //set confirmation modal open or close
   const navigate = useNavigate();
@@ -22,6 +24,7 @@ const TradeTable = () => {
       setModalOpen(true);
     } else {
       navigate("/exchange");
+      handleScrollToTop();
     }
   }; //only allow login user
 
@@ -46,7 +49,6 @@ const TradeTable = () => {
 
   const columns = [
     {
-      title: "Avatar",
       dataIndex: "ImageURL",
       render: (text, record) => <Avatar src={record.cryptoImgSrc} />,
     },
@@ -127,8 +129,10 @@ const TradeTable = () => {
       render: () => <Button onClick={handleClick}>{"Trade"}</Button>,
     },
   ];
-
+  
   return (
+    priceStatus ==="loading"?
+    <MyCircularProgress size="60px" />:
     <Wrapper>
       <MyTable dataSource={data} columns={columns} rowClassName={"row"} />
       <MyModal isOpen={modalOpen}>
@@ -156,7 +160,15 @@ const Wrapper = styled.div`
   top: 100px;
   left: 200px;
   border-radius: 15px;
-  margin-bottom: 220px;
+  margin-bottom: 100px;
+`;
+
+const MyCircularProgress = styled(CircularProgress)`
+  position: fixed;
+  left:900px;
+  top:400px;
+  width:300px;
+  z-index: 99;
 `;
 
 const MyTable = styled(Table)`

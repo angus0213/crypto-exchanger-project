@@ -8,7 +8,7 @@ import { useContext } from "react";
 
 const SingleNFT = ({ nftItem, reFetchNft, setReFetchNft }) => {
   const [modalOpen, setModalOpen] = useState(false);
-  const { currentUser} = useContext(CurrentUserContext);
+  const { currentUser, refetch, setRefetch} = useContext(CurrentUserContext);
   const [ethBalanceFlag, setEthBalanceFlag] = useState(false);//check ETH wallet amount(NFT can only be purchased by ETH)
 
   const handleClick = () => {
@@ -42,6 +42,7 @@ const SingleNFT = ({ nftItem, reFetchNft, setReFetchNft }) => {
         console.log(data);
         setReFetchNft(!reFetchNft);
         setModalOpen(false);
+        setRefetch(!refetch);
       })
       .catch((err) => console.log(err));
   };//reset NFT wallet and NFT stock after user purchased NFT

@@ -18,6 +18,7 @@ import { useState } from "react";
 import UserMenu from "./LogIn/UserMenu";
 import LanguagePanel from "./LanguagePanel";
 import { TfiWallet } from "react-icons/tfi";
+import { handleScrollToTop } from "../../helper/handleScrollToTop";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -26,9 +27,11 @@ const Header = () => {
 
   const handleSignup = () => {
     navigate(`/signup/${uuidv4()}`);
+    handleScrollToTop();
   }; /*navigate to signup page when user click signup button, generate userId at this stage and set in database finally (will use fist 8 character as referral code) */
 
-  const { currentUser, setcurrentUser } = useContext(CurrentUserContext);
+  const { currentUser, setcurrentUser, refetch, setRefetch } =
+    useContext(CurrentUserContext);
 
   const path = ["/termsandconditions", "/signup", "/userverify"];
 
@@ -40,6 +43,8 @@ const Header = () => {
   const handleLogOut = () => {
     setcurrentUser("");
     sessionStorage.clear();
+    navigate("/");
+    setRefetch(!refetch);
   };
   /* used for logout button */
 
@@ -54,13 +59,23 @@ const Header = () => {
           </Navbar.Brand>
           {!pathFlag && (
             <Nav>
-              <Nav.Item onClick={() => navigate("/")} icon={<HomeIcon />}>
+              <Nav.Item
+                onClick={() => {
+                  navigate("/");
+                  handleScrollToTop();
+                }}
+                icon={<HomeIcon />}
+              >
                 Home
               </Nav.Item>
-              <Nav.Item href="/exchange">Buy Crypto</Nav.Item>
-              <Nav.Item href="/trade" title="Markets">
-                Markets
-              </Nav.Item>
+              {(!currentUser || currentUser.wallet) && (
+                <>
+                  <Nav.Item href="/exchange">Buy Crypto</Nav.Item>
+                  <Nav.Item href="/trade" title="Markets">
+                    Markets
+                  </Nav.Item>
+                </>
+              )}
               <Nav.Menu title="Finance">
                 <Nav.Item>CryptoBeats Loan (N/A)</Nav.Item>
                 <Nav.Item>CryptoBeats Earn (N/A)</Nav.Item>
@@ -74,7 +89,9 @@ const Header = () => {
                 </Nav.Menu>
               </Nav.Menu>
               <Nav.Item href="/news">News</Nav.Item>
-              <Nav.Item href="/nft">NFT</Nav.Item>
+              {(!currentUser || currentUser.wallet) && (
+                <Nav.Item href="/nft">NFT</Nav.Item>
+              )}
             </Nav>
           )}
         </NavbarLeftWrapper>
@@ -86,9 +103,11 @@ const Header = () => {
               {currentUser ? (
                 <>
                   <LogBtn onClick={handleLogOut}>LogOut</LogBtn>
-                  <MyLink to={`/wallet/${currentUser._id}`}>
-                    <TfiWallet /> Wallet
-                  </MyLink>
+                  {currentUser.wallet && (
+                    <MyLink to={`/wallet/${currentUser._id}`}>
+                      <TfiWallet /> Wallet
+                    </MyLink>
+                  )}
                   <UserMenu />
                 </>
               ) : (
@@ -148,6 +167,7 @@ const HeaderWrapper = styled(Navbar)`
   display: flex;
   align-items: center;
   position: fixed;
+  top: 0px;
   width: 100%;
   z-index: 99;
 `;

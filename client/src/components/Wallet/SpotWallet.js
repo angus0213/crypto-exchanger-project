@@ -17,7 +17,7 @@ const SpotWallet = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedCoin, setSelectedCoin] = useState(false);
   const [selectedCoinSrc, setSelectedCoinSrc] = useState(false); //control the panel to switch login method;
-  const [maxAmount, setMaxAmount] = useState(false); //set max value to the form data when turns to true
+  const [maxAmount, setMaxAmount] = useState(false); //set max value to the form data when turns to true;
 
   const handleClick = () => {
     navigate(`/exchange`);
@@ -32,7 +32,10 @@ const SpotWallet = () => {
   const btcPrice = currentPrice.find(
     (item) => item.symbol_id_exchange === "BTCUSDT"
   ).price; //get BTC price(for calculating BTC Equivalent  Value)
-  const data = currentUser.wallet.map((item) => {
+  
+  let data;
+  if (currentUser.wallet) {
+   data = currentUser.wallet.map((item) => {
     let totalCryptoAmount = 0;
     const crypto = cryptos.find(
       (singleCrypto) => item.name === singleCrypto.name
@@ -49,7 +52,7 @@ const SpotWallet = () => {
       Available: item.amount,
       "BTC Equivalent  Value": item.amount / btcPrice,
     };
-  }); // get the right data that need to input in the wallet table
+  })}; // get the right data that need to input in the wallet table
 
   const columns = [
     {

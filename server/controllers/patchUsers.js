@@ -4,16 +4,17 @@ const { getCollections } = require("../configs/MongoDB");
 //set user full info
 const patchUsers = async (req, res) => {
   const { users } = getCollections();//get mongodb collection
-  const { userId, ID, fullName, age, address, country } = req.body;
+  const { userId, ID, fullName, DOB, address, country } = req.body;
+  console.log(req.body);
   try {
-    if (ID && fullName && age && address && country && age >= 18) {
+    if (ID && fullName && address && country) {
       const patchResult = await users.updateOne(
         { _id: userId },
         {
           $set: {
             ID: ID,
             fullName: fullName,
-            age: age,
+            DOB: DOB,
             address: address,
             country: country,
             wallet: wallet,

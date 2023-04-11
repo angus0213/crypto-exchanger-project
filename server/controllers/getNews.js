@@ -1,7 +1,7 @@
 const NewsAPI = require("newsapi");
 //get News from API
 const getNews = (req, res) => {
-  const newsapi = new NewsAPI("48597346c17d47ea8b4524f9bc3c94b2");//for testing reason, put API key here. It should be in .env file
+  const newsapi = new NewsAPI("825ce449f8494dcba0c821eac3f357ce");//for testing reason, put API key here. It should be in .env file
 
   try {//this API can not work with "request" properly, used yarn add
     newsapi.v2

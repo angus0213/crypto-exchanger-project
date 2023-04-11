@@ -62,6 +62,7 @@ const Wrapper = styled.div`
   justify-content: space-evenly;
   background-color: darkgray;
   position: relative;
+  bottom: 0px;
   border-bottom: 100% ${COLORS.green} solid;
   margin-top: 150px;
   background-color: ${COLORS.grey};
