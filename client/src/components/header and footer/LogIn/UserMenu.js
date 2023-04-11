@@ -20,7 +20,7 @@ const UserMenu = () => {
         </ProfileBtn>
         <Display>
           <LinkWrapper>
-            <MyLink>
+            <MyLink to={"/updateuserinfo"}>
               <GrDocumentUser /> Profile
             </MyLink>
             {currentUser.wallet && (

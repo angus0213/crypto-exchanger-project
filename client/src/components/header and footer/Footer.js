@@ -10,11 +10,17 @@ import {
 } from "react-icons/si";
 import { NavLink } from "react-router-dom";
 import { handleScrollToTop } from "../../helper/handleScrollToTop";
+import { useContext } from "react";
+import { CurrentPriceContext } from "../CurrentPricesContext";
+import { CurrentNewsContext } from "../CurrentNewsContext";
 
 const Footer = () => {
+  const { priceStatus } = useContext(CurrentPriceContext);
+  const { newsStatus } = useContext(CurrentNewsContext);// if the content is loading, keep the footer at the bottom of the page
+
   return (
     <>
-      <Wrapper>
+      <Wrapper className={(priceStatus === "loading"||newsStatus==="loading")? "inactive": "active"}>
         {/* Fake Address */}
         <AddressDiv>
           <h2>CryptoBeats</h2>
@@ -68,6 +74,10 @@ const Wrapper = styled.div`
   background-color: ${COLORS.grey};
   padding-bottom: 20px;
   width: 100%;
+  &.inactive{
+    position: fixed;
+    bottom: 0px;
+  }
 `;
 
 const AddressDiv = styled.div`

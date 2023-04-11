@@ -16,6 +16,7 @@ import Footer from "./header and footer/Footer";
 import TradeTable from "./Home/TradeTable";
 import { CurrentPriceContext } from "./CurrentPricesContext";
 import TermDepositWalletHistory from "./Wallet/TermDepositWalletHistory";
+import UpdateUserInfo from "./SignUp/UserVerify/UpdateUserInfo";
 
 const App = () => {
   const { currentUser } = useContext(CurrentUserContext);
@@ -33,6 +34,7 @@ const App = () => {
           <Route path="/wallet/:userId" element={<Wallet />} />
           <Route path="/exchange" element={<Exchange />} />
           <Route path="/nft" element={<NFTHome />} />
+          <Route path="/updateuserinfo" element={<UpdateUserInfo/>} />
           <Route path="/trade" element={currentPrice && <TradeTable />} />
           <Route
             path="/spotwallethistory/:userId"

@@ -3,6 +3,7 @@ import { CurrentUserContext } from "../CurrentUserContext";
 import { useContext } from "react";
 import { COLORS } from "../Constants";
 import { AiTwotoneSound } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 const UserPanel = ({ currentPrice }) => {
   const { currentUser } = useContext(CurrentUserContext);
@@ -65,7 +66,7 @@ const UserPanel = ({ currentPrice }) => {
           Dear{" "}
           <Highlight>{currentUser._id.slice(0, 5).concat("***")}</Highlight>{" "}
           customer: Please Finish <Highlight>KYC </Highlight>{" "}
-          before trade!
+          before trade! <Link to={"/updateuserinfo"}>Update Here</Link>
         </Announce>
       </Panel>
     )
