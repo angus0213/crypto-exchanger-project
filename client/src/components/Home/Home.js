@@ -14,10 +14,11 @@ const Home = () => {
   const { newsStatus } = useContext(CurrentNewsContext);
   const { currentUser, userStatus } = useContext(CurrentUserContext);
   const currentUserId = sessionStorage.getItem("userId");
+
   // setInterval(() => {
   //   setPriceRefetch(!priceRefetch)
   // }, 5000);
-  console.log(currentPrice);
+
   //set fetech new market data every 5 seconds
   return priceStatus === "loading" ||
     newsStatus === "loading" ||
@@ -29,7 +30,8 @@ const Home = () => {
         <div>
           <UserPanel currentPrice={currentPrice} />
           <HomeSwiper />
-          {(!currentUser || currentUser.wallet) && <TradeTable />}//if user skip KYC, they can not trade, but can see some parts of the home page
+          {(!currentUser || currentUser.wallet) && <TradeTable />}//if user skip
+          KYC, they can not trade, but can see some parts of the home page
           <NewsHome />
         </div>
       )}

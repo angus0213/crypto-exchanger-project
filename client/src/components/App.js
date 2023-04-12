@@ -17,6 +17,7 @@ import TradeTable from "./Home/TradeTable";
 import { CurrentPriceContext } from "./CurrentPricesContext";
 import TermDepositWalletHistory from "./Wallet/TermDepositWalletHistory";
 import UpdateUserInfo from "./SignUp/UserVerify/UpdateUserInfo";
+import CustomerService from "./CustomerService/CustomerService";
 
 const App = () => {
   const { currentUser } = useContext(CurrentUserContext);
@@ -46,6 +47,7 @@ const App = () => {
             element={currentUser && <TermDepositWalletHistory />}
           />
         </Routes>
+        <CustomerService/>
         <Footer />
       </BrowserRouter>
     </>

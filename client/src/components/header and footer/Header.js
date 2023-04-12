@@ -19,6 +19,7 @@ import UserMenu from "./LogIn/UserMenu";
 import LanguagePanel from "./LanguagePanel";
 import { TfiWallet } from "react-icons/tfi";
 import { handleScrollToTop } from "../../helper/handleScrollToTop";
+import { QRCode } from "antd";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -120,7 +121,11 @@ const Header = () => {
               )}
               <DownloadBtn>
                 <FiDownload />
-                <BarCode src="../webImages/barcode.jpg" />
+                <BarCode
+                  errorLevel="H"
+                  value="https://cryptobeats.com/"
+                  icon="../favicon/favicon.png"
+                />
               </DownloadBtn>
             </SearchWrapper>
           )}
@@ -142,7 +147,7 @@ const NavbarLeftWrapper = styled.div`
   left: 30px;
 `;
 
-const BarCode = styled.img`
+const BarCode = styled(QRCode)`
   display: none;
   width: 7%;
   position: fixed;
