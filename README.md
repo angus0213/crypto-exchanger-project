@@ -9,7 +9,7 @@
    Each user has 3 wallets: SPOT wallet, NFT wallet and Deposit wallet.  
     - SPOT wallet: different crypto assets will be displayed in the SPOT wallet  
     - NFT wallet: user can manage their NFTs in this wallet  
-    -Deposit wallet: user can deposit their asset to this wallet and earn interest, and redeem the crypto when they need  
+    - Deposit wallet: user can deposit their asset to this wallet and earn interest, and redeem the crypto when they need  
 - Exchange module: user can buy and sell their cryptos based on the real time exchange rate  
 - Customer service bot: use can talk to the bot to get real time price of cryptos  
 
